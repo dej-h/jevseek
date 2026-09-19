@@ -1,0 +1,8 @@
+[
+  { "id": "files", "content": { "method": "GET", "path": "/repos/{owner}/{repo}/pulls/{pull_number}/files", "summary": "List pull request files" } },
+  { "id": "commits", "content": { "method": "GET", "path": "/repos/{owner}/{repo}/pulls/{pull_number}/commits", "summary": "List commits on a pull request" } },
+  { "id": "issue-comments", "content": { "method": "GET", "path": "/repos/{owner}/{repo}/issues/{issue_number}/comments", "summary": "List issue comments" } },
+  { "id": "review-comments", "content": { "method": "GET", "path": "/repos/{owner}/{repo}/pulls/{pull_number}/comments", "summary": "List review comments on a pull request" } },
+  { "id": "artifacts", "content": { "method": "GET", "path": "/repos/{owner}/{repo}/actions/artifacts", "summary": "List artifacts for a repository" } },
+  { "id": "logs", "content": { "method": "GET", "path": "/repos/{owner}/{repo}/actions/runs/{run_id}/logs", "summary": "Download workflow run logs" } }
+]

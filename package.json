@@ -1,0 +1,57 @@
+{
+  "name": "jevseek",
+  "version": "0.0.2",
+  "description": "Discover the API operations an agent needs from an OpenAPI spec, using Jev.",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "bin": {
+    "jevseek": "dist/cli/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "prepack": "npm run build",
+    "release:package": "node scripts/package-release.mjs",
+    "test:package": "node scripts/test-package.mjs",
+    "typecheck": "tsc --noEmit && tsc -p tsconfig.test.json",
+    "test": "node --import tsx --test tests/*.test.ts",
+    "cli": "node --import tsx src/cli/index.ts",
+    "serve": "tsx src/mcp/server.ts",
+    "bench:packing": "tsx evals/run-packing-benchmark.ts"
+  },
+  "keywords": [
+    "openapi",
+    "jev",
+    "typesafe",
+    "mcp",
+    "discovery"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/dej-h/jevseek",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dej-h/jevseek.git"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/client": "^2.0.0",
+    "@modelcontextprotocol/server": "^2.0.0",
+    "@typesafe-ai/sdk": "^0.6.0",
+    "yaml": "^2.9.1",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.2",
+    "tsx": "^4.23.13",
+    "typescript": "^7.0.2"
+  }
+}
