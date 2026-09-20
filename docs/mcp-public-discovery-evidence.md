@@ -6,8 +6,8 @@ JevSeek discovered the expected capability in three public remote MCP servers on
 
 - Command: local TypeScript checkout through `node --import tsx src/cli/index.ts`
 - Node.js: `v24.14.0`
-- Base commit: `8b4f21dece0ed325349a93d347c8ebe1750fadba`
-- Worktree: dirty, including the uncommitted remote MCP discovery implementation under test
+- Parent commit: `8b4f21dece0ed325349a93d347c8ebe1750fadba`
+- Implementation snapshot: the remote MCP changes and this evidence were committed together as `102d72c83e2a59aa4a7a9dd628ae49dbda7f7166` after the runs
 - Ranking model returned by TypeSafe: `jev-1.13.0`
 - Result limit: `--top 1`
 - Transport detected for all three sources: `streamable-http`

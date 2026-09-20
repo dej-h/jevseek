@@ -6,6 +6,14 @@
 </p>
 
 <p align="center">
+  <a href="https://github.com/dej-h/jevseek/actions/workflows/ci.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/dej-h/jevseek/ci.yml?branch=main&amp;label=build" /></a>
+  <a href="https://github.com/dej-h/jevseek/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/dej-h/jevseek" /></a>
+  <a href="https://github.com/dej-h/jevseek/blob/main/package.json"><img alt="Node.js 20 or newer" src="https://img.shields.io/badge/node-%3E%3D20-339933?logo=nodedotjs&amp;logoColor=white" /></a>
+  <a href="#connect-your-agent"><img alt="MCP stdio server" src="https://img.shields.io/badge/MCP-stdio-6f42c1" /></a>
+  <a href="https://github.com/dej-h/jevseek/blob/main/LICENSE"><img alt="MIT license" src="https://img.shields.io/github/license/dej-h/jevseek" /></a>
+</p>
+
+<p align="center">
   <a href="#get-started">Get started</a> ·
   <a href="#connect-your-agent">Connect your agent</a> ·
   <a href="#from-a-need-to-a-request">See an example</a>
@@ -87,9 +95,6 @@ That live run scanned 62 tools and selected `get_institutional_holders` with a s
 JevSeek also discovered `execute` from CoinGecko and `migrate_pages_to_workers_guide` from Cloudflare Docs. Across the three live runs it scanned 66 tools using four Jev requests at a total reported cost of `$0.001599318`. See the [recorded inputs and results](docs/mcp-public-discovery-evidence.md).
 
 MCP results preserve the original tool definition and tell the agent where the capability lives. Your execution client still establishes its own connection and supplies arguments from the returned schema. JevSeek does not call the tool, share its discovery session, or grant access. Only public, unauthenticated Streamable HTTP discovery is supported. OAuth, local stdio sources, resources, and prompts are TODO.
-
-> [!NOTE]
-> The first packaged GitHub release has not been published yet.
 
 ## Connect your agent
 
@@ -191,7 +196,7 @@ const result = await discover(
 | Sources | OpenAPI 3.0/3.1 JSON/YAML from local files or direct HTTPS URLs; public remote MCP tool catalogs over Streamable HTTP |
 | References | Bounded local references; external references produce warnings and are not fetched |
 | Interfaces | CLI, TypeScript, and stdio MCP |
-| Verification | Automated CLI, MCP protocol, and isolated package-install tests on Linux/Node 24; [three live public MCP discovery runs](docs/mcp-public-discovery-evidence.md); live agent execution is not yet verified |
+| Verification | CI and isolated package-install tests on Linux with Node.js 20, 22, and 24; [three live public MCP discovery runs](docs/mcp-public-discovery-evidence.md); live agent execution is not yet verified |
 
 The **need and descriptor content leave your machine and go to TypeSafe**. Use only specifications and catalogs you are authorized to share. By default, the JevSeek MCP server can read files and fetch HTTPS URLs accessible to its process, including internal destinations. For a restricted setup, repeat `--allow-source <file-or-url>` at startup to permit only those exact sources. See [source-access configuration](docs/coding-agents.md#optional-source-restrictions). JevSeek does not execute target operations or grant permission to do so.
 
