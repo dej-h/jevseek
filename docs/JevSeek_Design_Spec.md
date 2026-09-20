@@ -11,8 +11,6 @@
 >
 > Point it at an OpenAPI document and state the capability you need. JevSeek discovers the available operations, uses Jev to judge their relevance, and returns the matching contracts for the agent to work with. No hand-written integration skill or endpoint-by-endpoint MCP wrapper required for discovery.
 
-**Related:** [P0 OpenAPI core research](./p0-openapi-core.md) (library, GitHub snapshot, batching).
-
 ## 0. What changed from the previous spec
 
 The earlier spec drifted toward a generic semantic reranker and a replacement for existing coding-agent tool search. Neither is the product we are building.
@@ -616,7 +614,7 @@ jevseek/
 │       └── server.ts       # exposes the discovery tool
 ├── evals/
 ├── examples/
-│   └── github/             # pinned GitHub OpenAPI snapshot (see docs/p0-openapi-core.md)
+│   └── github/             # fetched GitHub OpenAPI snapshot and committed excerpt
 └── tests/
 ```
 

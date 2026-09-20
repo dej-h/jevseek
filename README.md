@@ -218,4 +218,4 @@ npm run test:package
 
 Tests mock TypeSafe responses; package installation fetches dependencies from npm. These checks make no paid Jev calls.
 
-[Design](docs/JevSeek_Design_Spec.md) · [Next steps](docs/next-steps.md) · [Release guide](docs/releasing.md) · [MIT license](LICENSE)
+[Design spec](docs/JevSeek_Design_Spec.md) · [Coding-agent guide](docs/coding-agents.md) · [Discovery evidence](docs/mcp-public-discovery-evidence.md) · [Releases](https://github.com/dej-h/jevseek/releases) · [MIT license](LICENSE)
