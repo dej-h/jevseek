@@ -18,13 +18,19 @@ export interface JudgeBatchResult {
 
 export function createJudgeClient(): TypeSafeClient {
   loadLocalEnv();
-  return new TypeSafeClient();
+  return new TypeSafeClient({ logger: {
+    debug: (message, ...args) => console.error(message, ...args),
+    info: (message, ...args) => console.error(message, ...args),
+    warn: (message, ...args) => console.error(message, ...args),
+    error: (message, ...args) => console.error(message, ...args),
+  } });
 }
 
 export async function judgeBatch(
   client: TypeSafeClient,
   need: string,
   options: RankOption[],
+  signal?: AbortSignal,
 ): Promise<JudgeBatchResult> {
   if (options.length === 0) {
     throw new Error("judgeBatch requires at least one option");
@@ -40,7 +46,7 @@ export async function judgeBatch(
       state: packingState(need),
       questions,
     },
-    { timeout: 60_000 },
+    { timeout: 60_000, signal },
   );
 
   const perQuestion = Math.ceil(response.usage.input_tokens / options.length);

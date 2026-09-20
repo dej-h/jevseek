@@ -1,10 +1,12 @@
 import type { JsonValue } from "@typesafe-ai/sdk";
 import { rankOptions, validateRankSettings } from "./core/rank.js";
 import type { RankedOption, RankResult } from "./core/rank.js";
-import { loadOpenApiCatalog } from "./sources/openapi.js";
+import { loadCatalog } from "./sources/catalog.js";
+import type { McpCatalog } from "./sources/mcp.js";
 import type { OpenApiCatalog, OpenApiDescriptorInclude } from "./sources/openapi.js";
 
 export interface DiscoverOptions {
+  signal?: AbortSignal;
   topK?: number;
   concurrency?: number;
   include?: Partial<OpenApiDescriptorInclude>;
@@ -18,7 +20,7 @@ export interface DiscoveredOperation extends RankedOption {
 export interface DiscoverResult {
   need: string;
   model: string;
-  source: OpenApiCatalog["source"];
+  source: OpenApiCatalog["source"] | McpCatalog["source"];
   status: RankResult["status"];
   scan: {
     totalOperations: number;
@@ -45,13 +47,18 @@ export async function discover(
   options: DiscoverOptions = {},
 ): Promise<DiscoverResult> {
   validateRankSettings(need, options.topK, options.concurrency);
-  const catalog = await loadOpenApiCatalog(source, options.include);
+  options.signal?.throwIfAborted();
+  const catalog = await loadCatalog(source, options.include, options.signal);
   const started = performance.now();
-  const result = await rankOptions({
+  const result: RankResult = catalog.options.length === 0 ? {
+    need, model: "not_used", status: "no_confident_match", matches: [],
+    usage: { jevRequests: 0, inputTokens: 0, costUsd: 0 },
+  } : await rankOptions({
     need,
     options: catalog.options,
     topK: options.topK,
     concurrency: options.concurrency,
+    signal: options.signal,
   });
   const scoreMs = performance.now() - started;
   const matches = result.matches.map((match): DiscoveredOperation => {

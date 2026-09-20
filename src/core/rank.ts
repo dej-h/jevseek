@@ -10,6 +10,7 @@ const TOKEN_BUDGET = { total: 48_000, statePlusLongest: 24_000 };
 const DEFAULT_CONCURRENCY = 4;
 
 export interface RankRequest {
+  signal?: AbortSignal;
   need: string;
   options: RankOption[];
   topK?: number;
@@ -36,6 +37,7 @@ export interface RankResult {
 }
 
 export async function rankOptions(request: RankRequest): Promise<RankResult> {
+  request.signal?.throwIfAborted();
   validateRankSettings(request.need, request.topK, request.concurrency);
   if (request.options.length === 0) {
     throw new Error("rankOptions requires at least one option");
@@ -57,9 +59,17 @@ export async function rankOptions(request: RankRequest): Promise<RankResult> {
 
   // Each batch is an independent systemOne call. Scores are merged by option
   // id, then sorted so the caller sees one ranking.
-  const batchResults = await mapPool(batches, concurrency, (batch) =>
-    judgeBatch(client, request.need, batch),
-  );
+  const failed = new AbortController();
+  const signal = request.signal ? AbortSignal.any([request.signal, failed.signal]) : failed.signal;
+  const batchResults = await mapPool(batches, concurrency, async (batch) => {
+    signal.throwIfAborted();
+    try {
+      return await judgeBatch(client, request.need, batch, signal);
+    } catch (error) {
+      failed.abort(error);
+      throw error;
+    }
+  });
 
   const judgments: Judgment[] = batchResults.flatMap((result) => result.judgments);
   const byId = new Map(judgments.map((judgment) => [judgment.id, judgment]));

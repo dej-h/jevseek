@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="600" viewBox="0 0 1280 600" role="img" aria-labelledby="title description">
+  <title id="title">JevSeek demo video coming soon</title>
+  <desc id="description">A placeholder for a future demonstration: give a coding agent an OpenAPI source and a capability need, then inspect the selected operation contract. No video is available yet.</desc>
+  <rect width="1280" height="600" rx="20" fill="#11151b"/>
+  <rect x="1" y="1" width="1278" height="598" rx="19" fill="none" stroke="#303944" stroke-width="2"/>
+  <g fill="#a8b5c4" font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="18" letter-spacing="2">
+    <text x="54" y="65">JEVSEEK / DEMO</text>
+    <text x="1226" y="65" text-anchor="end">COMING SOON</text>
+  </g>
+  <line x1="54" y1="94" x2="1226" y2="94" stroke="#303944"/>
+  <circle cx="640" cy="232" r="48" fill="#1d2731" stroke="#536c80" stroke-width="2"/>
+  <path d="M629 212 L658 232 L629 252 Z" fill="#afd4eb"/>
+  <text x="640" y="346" text-anchor="middle" fill="#f1f4f7" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="46" font-weight="600">A new API. A useful next step.</text>
+  <text x="640" y="396" text-anchor="middle" fill="#a8b5c4" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="24">OpenAPI source + capability need → selected operation contract</text>
+  <line x1="54" y1="483" x2="1226" y2="483" stroke="#303944"/>
+  <text x="640" y="540" text-anchor="middle" fill="#a8b5c4" font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="18">VIDEO PLACEHOLDER · RECORDING TO FOLLOW</text>
+</svg>

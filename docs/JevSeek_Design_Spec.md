@@ -163,7 +163,7 @@ No agent framework is needed to prove this path. Keep all initial relevance test
 
 ### v0.1 core release
 
-- OpenAPI 3.0 and 3.1, JSON and YAML, supplied as an approved local file or HTTPS URL.
+- OpenAPI 3.0 and 3.1, JSON and YAML, supplied as a local file or HTTPS URL in each discovery call.
 - Bundled documents with local references; bounded reference traversal and explicit unsupported-reference diagnostics.
 - One common `discover(source, need, options)` implementation, with any future supplementary context carried in options.
 - Ranked operation results with compact contracts and source references.
@@ -174,13 +174,13 @@ No agent framework is needed to prove this path. Keep all initial relevance test
 
 OpenAPI 3.2, Swagger 2.0, remote multi-document resolution, and unusual serialization combinations are not silently accepted. Detect unsupported versions/features and explain them. Add support only through an explicit, tested compatibility change.
 
-### Next build step: MCP as an input source
+### MCP as an input source
 
-Implement a thin adapter that connects to an **explicitly configured, already authorized MCP server**, lists its tools, and sends normalized tool descriptors through the same selector. MCP tool listing is paginated and the protocol provides catalog-change notifications. [S11]
+The adapter accepts a public remote MCP endpoint as the same source string used for OpenAPI files and URLs. Detect the source through document inspection and protocol negotiation, not URL naming or a caller-supplied kind. List all tool pages and send tool descriptors through the same selector. MCP tool listing is paginated and the protocol provides catalog-change notifications. [S11] Each discovery takes a fresh catalog snapshot rather than maintaining a subscription.
 
-Start with one transport: Streamable HTTP. Test it against a local fixture server, then one actual configured server. OAuth onboarding, arbitrary server installation, and generic tool execution are not part of this adapter.
+The first transport is Streamable HTTP, without target-server credentials. Return original tool definitions plus invocation breadcrumbs: endpoint, transport, tool name, and `tools/call`. Discovery never invokes tools, and the eventual execution client establishes its own connection. Authentication-required responses are explicit errors, not empty matches. Preserve bounded collection, cancellation, and failure on incomplete pagination.
 
-This is a planned v0.1 addition **after the OpenAPI path and demo are solid**. If it is not finished by release, mark MCP-source support as planned rather than advertise it as working.
+Public remote tool discovery is implemented. Tests cover controlled protocol responses and installed-client discovery. A live unauthenticated catalog check against Oxford Ledge returned 62 tools on September 20, 2026; this does not establish compatibility with every public server or prove an agent execution workflow. TODO: local stdio source adapters, resources, prompts, and authentication shared with the execution client. Discovery-only OAuth, arbitrary server installation, and generic tool execution are outside this increment.
 
 ### Two different uses of MCP—do not conflate them
 
@@ -712,13 +712,18 @@ These are installation recipes to test after the package exists:
 
 ```bash
 # Claude Code
-claude mcp add --transport stdio jevseek -- npx -y jevseek serve
+claude mcp add --scope user \
+  --env TYPESAFE_API_KEY="$TYPESAFE_API_KEY" \
+  --transport stdio jevseek \
+  -- jevseek serve
 
 # Codex
-codex mcp add jevseek -- npx -y jevseek serve
+codex mcp add jevseek \
+  --env TYPESAFE_API_KEY="$TYPESAFE_API_KEY" \
+  -- jevseek serve
 ```
 
-The command shapes are supported by the respective official MCP setup documentation. [S8, S9] Ensure the server receives `TYPESAFE_API_KEY` through the host’s documented environment configuration. Do not store actual secrets in a committed MCP config or expose them in the recording.
+The command shapes are supported by the respective official MCP setup documentation. [S8, S9] They register the already installed release client without asking users to edit agent configuration files. The shell expands `TYPESAFE_API_KEY` and the agent stores it in its private MCP configuration. Do not commit or share that configuration, and do not expose the key in the recording.
 
 Test installation on a clean environment. The README should identify the exact tested agent version and platform, and distinguish tested from expected compatibility.
 
@@ -889,7 +894,7 @@ Keep the launch centered on the workflow and working artifact. Resolve publicati
 
 API documents can contain private descriptions or sensitive examples. Make it explicit that selected descriptor content is sent to TypeSafe. Do not send API keys, authorization headers, full environment variables, or the entire agent transcript.
 
-The source-fetch layer needs size/time limits, approved local roots, and protection against unintended internal-network or metadata-service fetches. Preserve the ability to use an explicitly approved local/internal source; do not silently crawl it through external references.
+The local stdio server accepts source paths and direct HTTPS URLs per discovery call, using the server process's filesystem and network permissions. Source registration is not required. Operators can opt into exact-source restrictions with repeatable `--allow-source` startup flags. This is not an agent sandbox: unrestricted mode can read accessible local files and fetch internal HTTPS destinations. Keep source size/time limits, reject URL credentials and fragments, and do not follow redirects or fetch external references. The need and enabled descriptor fields are sent to TypeSafe; document that boundary in setup instructions and the tool description.
 
 Source text is untrusted data, not a new system instruction. Selected contracts do not authorize execution. The existing agent’s permission model remains in charge.
 

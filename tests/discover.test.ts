@@ -73,6 +73,28 @@ test("invalid needs and topK fail before any source or provider request", async 
   assert.equal(transport.mock.callCount(), 0);
 });
 
+test("discovery cancellation stops before loading and aborts an in-flight HTTPS source read", async (t) => {
+  const cancelled = AbortSignal.abort(new Error("cancelled before loading"));
+  await assert.rejects(discover("missing.json", need, { signal: cancelled }), /cancelled before loading/);
+
+  const controller = new AbortController();
+  let started!: () => void;
+  const fetching = new Promise<void>((resolve) => { started = resolve; });
+  t.mock.method(globalThis, "fetch", async (_url: Parameters<typeof fetch>[0], init?: RequestInit) => {
+    const signal = init?.signal;
+    assert.ok(signal);
+    started();
+    return new Promise<Response>((_resolve, reject) => {
+      signal.addEventListener("abort", () => reject(signal.reason), { once: true });
+    });
+  });
+  const pending = discover("https://example.test/spec", need, { signal: controller.signal });
+  const rejected = assert.rejects(pending, /cancelled while fetching/);
+  await fetching;
+  controller.abort(new Error("cancelled while fetching"));
+  await rejected;
+});
+
 test("unsupported versions and referenced Path Items cannot report a complete scan", () => {
   assert.throws(() => operationsFromOpenApi({ openapi: "3.2.0", paths: {} }), /3.0 and 3.1/);
   assert.throws(() => operationsFromOpenApi({

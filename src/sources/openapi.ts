@@ -1,7 +1,7 @@
 import { parse as parseYaml } from "yaml";
 import type { JsonValue } from "@typesafe-ai/sdk";
 import type { RankOption } from "../core/candidates.js";
-import { readSourceDocument } from "./document.js";
+import { readSourceDocument, type SourceDocument } from "./document.js";
 
 const HTTP_METHODS = new Set([
   "get",
@@ -82,6 +82,7 @@ export async function loadOpenApiOperations(
 
 export interface OpenApiCatalog {
   source: {
+    kind: "openapi";
     location: string;
     sha256: string;
     bytes: number;
@@ -95,17 +96,40 @@ export interface OpenApiCatalog {
 export async function loadOpenApiCatalog(
   location: string,
   include?: Partial<OpenApiDescriptorInclude>,
+  signal?: AbortSignal,
 ): Promise<OpenApiCatalog> {
   const start = performance.now();
-  const document = await readSourceDocument(location);
+  const document = await readSourceDocument(location, signal);
   const loaded = performance.now();
-  const doc = parseOpenApiDocument(document.text);
+  return openApiCatalogFromDocument(document, include, loaded - start, signal);
+}
+
+export class NotOpenApiError extends Error {}
+
+export function openApiCatalogFromDocument(
+  document: SourceDocument,
+  include?: Partial<OpenApiDescriptorInclude>,
+  loadMs = 0,
+  signal?: AbortSignal,
+): OpenApiCatalog {
+  const started = performance.now();
+  let doc: unknown;
+  try {
+    doc = parseOpenApiDocument(document.text);
+  } catch (cause) {
+    throw new NotOpenApiError("Source is not a valid OpenAPI document", { cause });
+  }
+  if (!isPlainObject(doc) || typeof doc.openapi !== "string") {
+    throw new NotOpenApiError("not an OpenAPI document");
+  }
   const options = operationsFromOpenApi(doc, include, document.location);
+  signal?.throwIfAborted();
   if (!isPlainObject(doc) || typeof doc.openapi !== "string") {
     throw new Error("not an OpenAPI document");
   }
   return {
     source: {
+      kind: "openapi",
       location: document.location,
       sha256: document.sha256,
       bytes: document.bytes,
@@ -113,7 +137,7 @@ export async function loadOpenApiCatalog(
       openapi: doc.openapi,
     },
     options,
-    timings: { loadMs: loaded - start, parseMs: performance.now() - loaded },
+    timings: { loadMs, parseMs: performance.now() - started },
   };
 }
 

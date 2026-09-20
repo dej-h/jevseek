@@ -19,7 +19,7 @@ try {
   // Build above, then pack without lifecycle log output mixed into the JSON manifest.
   const [packed] = JSON.parse(npm(["pack", "--ignore-scripts", "--json", "--pack-destination", staging]));
   const files = new Set(packed.files.map((file) => file.path));
-  for (const required of ["dist/cli/index.js", "dist/index.js", "dist/index.d.ts", "package.json", "README.md", "LICENSE"]) {
+  for (const required of ["dist/cli/index.js", "dist/mcp/server.js", "dist/mcp/sources.js", "dist/version.js", "dist/index.js", "dist/index.d.ts", "docs/coding-agents.md", "package.json", "README.md", "LICENSE"]) {
     assert.ok(files.has(required), `package missing ${required}`);
   }
   for (const file of files) {

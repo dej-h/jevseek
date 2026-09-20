@@ -50,6 +50,11 @@ try {
   const consumer = join(prefix, process.platform === "win32" ? "consumer.mjs" : "lib/consumer.mjs");
   await writeFile(consumer, 'import { discover } from "jevseek";\nif (typeof discover !== "function") throw new Error("missing discover export");\n');
   run(process.execPath, [consumer], { cwd: work, env });
+  const mcpCheck = join(work, "mcp-installed.mjs");
+  await copyFile(join(root, "tests/fixtures/mcp-installed.mjs"), mcpCheck);
+  process.stdout.write(run(process.execPath, [
+    mcpCheck, installed, command, join(work, "discover.json"), join(work, "mock-provider.mjs"),
+  ], { cwd: work, env }));
   console.log(`Installed package smoke test passed: jevseek ${expected.version}, ${process.platform}, ${process.version}`);
 } finally {
   await rm(temp, { recursive: true, force: true });

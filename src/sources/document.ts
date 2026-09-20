@@ -5,6 +5,14 @@ import { createHash } from "node:crypto";
 const MAX_SOURCE_BYTES = 64 * 1024 * 1024;
 const SOURCE_TIMEOUT_MS = 30_000;
 
+export class SourceHttpError extends Error {
+  constructor(readonly status: number) {
+    super(`Source returned HTTP ${status}; supply a direct HTTPS URL (redirects are not followed)`);
+  }
+}
+
+export class StreamingSourceError extends Error {}
+
 export interface SourceDocument {
   location: string;
   sha256: string;
@@ -12,11 +20,13 @@ export interface SourceDocument {
   text: string;
 }
 
-export async function readSourceDocument(source: string): Promise<SourceDocument> {
+export async function readSourceDocument(source: string, cancellation?: AbortSignal): Promise<SourceDocument> {
   if (source.trim() === "") {
     throw new Error("provide an OpenAPI file path or HTTPS URL");
   }
-  const signal = AbortSignal.timeout(SOURCE_TIMEOUT_MS);
+  const timeout = AbortSignal.timeout(SOURCE_TIMEOUT_MS);
+  const signal = cancellation ? AbortSignal.any([timeout, cancellation]) : timeout;
+  signal.throwIfAborted();
   let location: string;
   let chunks: AsyncIterable<Uint8Array>;
   if (/^[a-z][a-z\d+.-]*:\/\//i.test(source)) {
@@ -26,11 +36,13 @@ export async function readSourceDocument(source: string): Promise<SourceDocument
     }
     location = url.href;
     const response = await fetch(url, { signal, redirect: "manual" });
+    if (response.ok && response.headers.get("content-type")?.includes("text/event-stream")) {
+      await response.body?.cancel();
+      throw new StreamingSourceError("Source is an event stream, not an OpenAPI document");
+    }
     if (!response.ok || !response.body) {
       await response.body?.cancel();
-      throw new Error(
-        `OpenAPI source returned HTTP ${String(response.status)}; supply a direct HTTPS document URL (redirects are not followed)`,
-      );
+      throw new SourceHttpError(response.status);
     }
     if (Number(response.headers.get("content-length")) > MAX_SOURCE_BYTES) {
       await response.body.cancel();

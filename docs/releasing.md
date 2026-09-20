@@ -14,7 +14,7 @@ npm install -g ./artifacts/jevseek.tgz
 jevseek --version
 ```
 
-The package script checks required files and excludes environment files, tests, examples, and node_modules. It writes a SHA-256 checksum next to the tarball. The installation test uses a new temporary prefix and working directory, verifies the generated command, imports the installed library, and runs discovery against a fixture with a mocked TypeSafe transport. No TypeSafe key is needed for this check.
+The package script checks required files and excludes environment files, tests, examples, and node_modules. It writes a SHA-256 checksum next to the tarball. The installation test uses a new temporary prefix and working directory, verifies the generated command, imports the installed library, and runs CLI and MCP discovery against a fixture with a mocked TypeSafe transport. The MCP check launches the installed executable and lists its tool before calling it. No TypeSafe key is needed for this check.
 
 ## GitHub release
 

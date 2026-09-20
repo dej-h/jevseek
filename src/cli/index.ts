@@ -4,6 +4,7 @@ import { parseArgs } from "node:util";
 import { normalizeOptions } from "../core/candidates.js";
 import { rankOptions } from "../core/rank.js";
 import { discover } from "../index.js";
+import { readPackageVersion } from "../version.js";
 import {
   loadOpenApiOperations,
   openApiDescriptorIncludeChanged,
@@ -34,15 +35,18 @@ State what capability you need. Jev evaluates that need as supplied.
 
 Usage:
   jevseek --version
+  jevseek serve [--allow-source <file-or-https-url> ...]
   jevseek discover "<need>" <source> [--top 5] [--json]
   jevseek rank "<need>" --file options.json [--top 5]
   jevseek rank "<need>" --openapi spec.json [--top 5]
   jevseek rank "<need>" [--top 5] < options.json
 
-discover accepts a local OpenAPI JSON/YAML file or a direct HTTPS URL.
+discover detects local OpenAPI JSON/YAML, HTTPS OpenAPI documents, and public remote MCP endpoints.
 Results are JSON and include selected source contracts, scan metadata, and usage.
 Descriptor content and the need are sent to TypeSafe. No API operation is executed.
-serve (stdio MCP discovery) is planned and is not implemented yet.
+serve exposes jevseek_discover over stdio MCP and accepts sources per tool call.
+Optional --allow-source flags restrict access to those exact files or URLs.
+--transport stdio is optional; other transports are unsupported.
 
 OpenAPI descriptor fields (on by default; --no-<field> hides that part from Jev):
   --method / --no-method
@@ -126,7 +130,9 @@ async function runSelection(command: "rank" | "discover", args: string[]): Promi
     servers: parsed.values.servers,
   };
   if (command === "discover") {
-    const result = await discover(parsed.positionals[1], need, { topK, include });
+    const result = await discover(parsed.positionals[1], need, {
+      topK, include: openApiDescriptorIncludeChanged(include) ? include : undefined,
+    });
     console.log(JSON.stringify(result, null, 2));
     return;
   }
@@ -160,18 +166,28 @@ async function main(): Promise<void> {
       if (rest.length > 0) {
         throw new Error("usage: jevseek --version");
       }
-      const manifest: { version: string } = JSON.parse(
-        await readFile(new URL("../../package.json", import.meta.url), "utf8"),
-      );
-      console.log(manifest.version);
+      console.log(await readPackageVersion());
       break;
     }
     case "rank":
     case "discover":
       await runSelection(command, rest);
       break;
-    case "serve":
-      throw new Error("serve is planned; use discover \"<need>\" <source> through the CLI for now");
+    case "serve": {
+      const { values } = parseArgs({ args: rest, options: {
+        "allow-source": { type: "string", multiple: true },
+        transport: { type: "string", default: "stdio" },
+        help: { type: "boolean", short: "h" },
+      } });
+      if (values.help) {
+        printHelp();
+        break;
+      }
+      if (values.transport !== "stdio") throw new Error("serve supports only --transport stdio");
+      const { startStdioServer } = await import("../mcp/server.js");
+      await startStdioServer(values["allow-source"] ?? []);
+      break;
+    }
     case "-h":
     case "--help":
     case "help":
