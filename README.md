@@ -32,20 +32,20 @@ You need filenames and change metadata for a pull request. Which operation provi
 ```bash
 jevseek discover \
   "I need filenames and change metadata for a pull request" \
-  ./examples/github/api.github.com.json --top 1
+  ./examples/github/api.github.com.json --top 1 --short
 ```
 
-The relevant GitHub contract, summarized from the example source:
+The result stays short enough to inspect in a terminal:
 
 ```text
-GET /repos/{owner}/{repo}/pulls/{pull_number}/files
-
-Operation:  pulls/list-files
-Required:   owner, repo, pull_number
-Returns:    filename, status, additions, deletions, changes, ...
+Status: matches
+Scanned: 1,239 operations
+Matches:
+  1. [score] GET /repos/{owner}/{repo}/pulls/{pull_number}/files (pulls/list-files): List pull requests files
+Usage: [requests, input tokens, cost]
 ```
 
-The CLI returns JSON with ranked contracts, source pointers, reference warnings, and usage. The summary above shows the operation to look for, not a captured live run.
+Omit `--short` to return JSON with the complete selected contracts, source pointers, reference warnings, and usage. The values above are illustrative, not a captured live run.
 
 **JevSeek finds the contract. Your agent builds and executes the request using its existing tools.**
 
@@ -170,7 +170,7 @@ source + capability need
 
 Descriptors are compact representations sent to Jev. OpenAPI results preserve operation data and resolved local references. MCP results preserve the original tool definition and add an invocation breadcrumb. The full catalog is not returned to the coding agent.
 
-For OpenAPI, `--parameters`, `--request-body`, and `--responses` enable richer scoring descriptors; they are off by default. MCP descriptors use the tool name, title, description, schemas, and annotations. `--top` controls the number of results. Run `jevseek --help` for command options.
+For OpenAPI, `--parameters`, `--request-body`, and `--responses` enable richer scoring descriptors; they are off by default. MCP descriptors use the tool name, title, description, schemas, and annotations. `--top` controls the number of results. `--short` prints a bounded terminal summary and leaves full JSON as the default. Run `jevseek --help` for command options.
 
 <details>
 <summary><strong>Use the TypeScript API</strong></summary>

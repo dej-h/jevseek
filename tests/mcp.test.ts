@@ -148,7 +148,7 @@ test("MCP reports provider failures as tool errors, not no-match results", { tim
   assert.equal((await client.listTools()).tools.length, 1);
 });
 
-test("MCP cancellation aborts provider work and rejects overlapping discoveries", { timeout: 15_000 }, async (t) => {
+test("MCP cancellation aborts only its request while overlapping discoveries complete", { timeout: 15_000 }, async (t) => {
   const { client, transport } = await connect(t);
   function waitForLog(marker: string) {
     return new Promise<void>((resolve) => {
@@ -170,8 +170,12 @@ test("MCP cancellation aborts provider work and rejects overlapping discoveries"
   const rejected = assert.rejects(pending);
   await started;
   const overlapping = await client.callTool({ name: "jevseek_discover", arguments: args });
-  assert.equal(overlapping.isError, true);
-  assert.match(JSON.stringify(overlapping.content), /already running/);
+  assert.ok(!overlapping.isError, JSON.stringify(overlapping));
+  const overlappingContent = overlapping.content[0];
+  assert.ok(overlappingContent?.type === "text");
+  const overlappingResult = JSON.parse(overlappingContent.text);
+  assert.equal(overlappingResult.need, need);
+  assert.equal(overlappingResult.matches[0]?.id, "GET /pulls/{number}/files");
   controller.abort();
   await rejected;
   await aborted;

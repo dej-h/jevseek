@@ -12,7 +12,6 @@ const MAX_RESULT_BYTES = 1024 * 1024;
 
 export function createDiscoveryServer(sources: SourcePolicy, version: string): McpServer {
   const server = new McpServer({ name: "jevseek", version });
-  let busy = false;
   server.registerTool("jevseek_discover", {
     title: "Discover API operations",
     description: "Find API operations or MCP tools that provide your stated capability need. Supply a local OpenAPI file path or direct HTTPS URL to an OpenAPI document or public MCP endpoint; source type is detected automatically. Do not read or paste the whole catalog. Returns ranked original contracts and MCP invocation breadcrumbs. The need and descriptor fields are sent to TypeSafe Jev model. No target operation or tool is executed. A relevance score does not prove authorization or successful execution.",
@@ -29,10 +28,6 @@ export function createDiscoveryServer(sources: SourcePolicy, version: string): M
     }),
     annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: true },
   }, async ({ source, need, top_k, include }, context) => {
-    if (busy) {
-      return toolError("A discovery is already running. Retry after it completes.");
-    }
-    busy = true;
     const signal = AbortSignal.any([context.mcpReq.signal, AbortSignal.timeout(DISCOVERY_TIMEOUT_MS)]);
     try {
       const location = await sources.resolve(source);
@@ -50,8 +45,6 @@ export function createDiscoveryServer(sources: SourcePolicy, version: string): M
       return toolError(signal.aborted
         ? "Discovery was cancelled or exceeded its 120-second deadline. No complete result is available."
         : error instanceof Error ? error.message : "Discovery failed.");
-    } finally {
-      busy = false;
     }
   });
   return server;

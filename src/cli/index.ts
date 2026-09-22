@@ -5,6 +5,7 @@ import { normalizeOptions } from "../core/candidates.js";
 import { rankOptions } from "../core/rank.js";
 import { discover } from "../index.js";
 import { readPackageVersion } from "../version.js";
+import { formatShortResult } from "./format.js";
 import {
   loadOpenApiOperations,
   openApiDescriptorIncludeChanged,
@@ -36,13 +37,14 @@ State what capability you need. Jev evaluates that need as supplied.
 Usage:
   jevseek --version
   jevseek serve [--allow-source <file-or-https-url> ...]
-  jevseek discover "<need>" <source> [--top 5] [--json]
-  jevseek rank "<need>" --file options.json [--top 5]
-  jevseek rank "<need>" --openapi spec.json [--top 5]
-  jevseek rank "<need>" [--top 5] < options.json
+  jevseek discover "<need>" <source> [--top 5] [--short | --json]
+  jevseek rank "<need>" --file options.json [--top 5] [--short | --json]
+  jevseek rank "<need>" --openapi spec.json [--top 5] [--short | --json]
+  jevseek rank "<need>" [--top 5] [--short | --json] < options.json
 
 discover detects local OpenAPI JSON/YAML, HTTPS OpenAPI documents, and public remote MCP endpoints.
 Results are JSON and include selected source contracts, scan metadata, and usage.
+--short prints one bounded line per match instead of complete source contracts.
 Descriptor content and the need are sent to TypeSafe. No API operation is executed.
 serve exposes jevseek_discover over stdio MCP and accepts sources per tool call.
 Optional --allow-source flags restrict access to those exact files or URLs.
@@ -80,6 +82,7 @@ async function runSelection(command: "rank" | "discover", args: string[]): Promi
       openapi: { type: "string" },
       help: { type: "boolean", short: "h" },
       json: { type: "boolean" },
+      short: { type: "boolean" },
       top: { type: "string", default: "5" },
       method: { type: "boolean", default: true },
       path: { type: "boolean", default: true },
@@ -112,6 +115,9 @@ async function runSelection(command: "rank" | "discover", args: string[]): Promi
   if (parsed.values.file && parsed.values.openapi) {
     throw new Error("use --file or --openapi, not both");
   }
+  if (parsed.values.short && parsed.values.json) {
+    throw new Error("use --short or --json, not both");
+  }
   if (command === "discover" && (parsed.values.file || parsed.values.openapi)) {
     throw new Error("discover takes its source after the capability need");
   }
@@ -133,7 +139,7 @@ async function runSelection(command: "rank" | "discover", args: string[]): Promi
     const result = await discover(parsed.positionals[1], need, {
       topK, include: openApiDescriptorIncludeChanged(include) ? include : undefined,
     });
-    console.log(JSON.stringify(result, null, 2));
+    console.log(parsed.values.short ? formatShortResult(result) : JSON.stringify(result, null, 2));
     return;
   }
   if (openApiDescriptorIncludeChanged(include) && !parsed.values.openapi) {
@@ -155,7 +161,7 @@ async function runSelection(command: "rank" | "discover", args: string[]): Promi
     options,
     topK,
   });
-  console.log(JSON.stringify(result, null, 2));
+  console.log(parsed.values.short ? formatShortResult(result) : JSON.stringify(result, null, 2));
 }
 
 async function main(): Promise<void> {
