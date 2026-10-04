@@ -1,9 +1,11 @@
-import type { JsonValue } from "@typesafe-ai/sdk";
 import { rankOptions, validateRankSettings } from "./core/rank.js";
-import type { RankedOption, RankResult } from "./core/rank.js";
+import type { RankResult } from "./core/rank.js";
 import { loadCatalog } from "./sources/catalog.js";
 import type { McpCatalog } from "./sources/mcp.js";
 import type { OpenApiCatalog, OpenApiDescriptorInclude } from "./sources/openapi.js";
+
+export { inspect } from "./inspect.js";
+export type { InspectOptions, InspectResult } from "./inspect.js";
 
 export interface DiscoverOptions {
   signal?: AbortSignal;
@@ -12,9 +14,12 @@ export interface DiscoverOptions {
   include?: Partial<OpenApiDescriptorInclude>;
 }
 
-export interface DiscoveredOperation extends RankedOption {
-  identity: string;
-  contract: JsonValue;
+export interface DiscoveredOperation {
+  rank: number;
+  id: string;
+  score: number;
+  summary?: string;
+  operationId?: string;
 }
 
 export interface DiscoverResult {
@@ -26,7 +31,7 @@ export interface DiscoverResult {
     totalOperations: number;
     examinedOperations: number;
     complete: boolean;
-    warnings: string[];
+    warningCounts: Record<string, number>;
   };
   matches: DiscoveredOperation[];
   usage: RankResult["usage"] & {
@@ -61,25 +66,18 @@ export async function discover(
     signal: options.signal,
   });
   const scoreMs = performance.now() - started;
+  const byId = new Map(catalog.options.map((option) => [option.id, option]));
   const matches = result.matches.map((match): DiscoveredOperation => {
-    if (match.contract === undefined) {
-      throw new Error(`missing source contract for ${match.id}`);
-    }
+    const content = byId.get(match.id)?.content;
+    const summary = typeof content === "object" && !Array.isArray(content)
+      ? content.summary ?? content.description ?? content.title : undefined;
+    const operationId = typeof content === "object" && !Array.isArray(content)
+      ? content.operationId : undefined;
     return {
-      ...match,
-      identity: `sha256:${catalog.source.sha256}:${match.id}`,
-      contract: match.contract,
+      rank: match.rank, id: match.id, score: match.score,
+      ...(typeof summary === "string" ? { summary: summary.slice(0, 240) } : {}),
+      ...(typeof operationId === "string" ? { operationId: operationId.slice(0, 120) } : {}),
     };
-  });
-  const warnings = catalog.options.flatMap((option) => {
-    const contract = option.contract;
-    if (!contract || typeof contract !== "object" || Array.isArray(contract)) {
-      return [];
-    }
-    return Array.isArray(contract.warnings)
-      ? contract.warnings.filter((warning): warning is string => typeof warning === "string")
-        .map((warning) => `${option.id}: ${warning}`)
-      : [];
   });
   return {
     need: result.need,
@@ -90,7 +88,7 @@ export async function discover(
       totalOperations: catalog.options.length,
       examinedOperations: catalog.options.length,
       complete: true,
-      warnings,
+      warningCounts: catalog.warningCounts,
     },
     matches,
     usage: { ...result.usage, timings: { ...catalog.timings, scoreMs } },

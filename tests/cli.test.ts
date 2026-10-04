@@ -21,13 +21,16 @@ function cli(args: string[], fail = false) {
   return result;
 }
 
-test("discover CLI returns parseable JSON with a source contract", () => {
+test("discover CLI returns compact targets and inspect retrieves the contract", () => {
   const result = cli(["discover", need, "tests/fixtures/discover.json", "--top", "1", "--json"]);
   assert.equal(result.status, 0, result.stderr);
   const output = JSON.parse(result.stdout);
   assert.equal(output.need, need);
-  assert.equal(output.matches[0].contract.operation.operationId, "listFiles");
+  assert.equal(output.matches[0].operationId, "listFiles");
   assert.equal(output.matches.length, 1);
+  const details = cli(["inspect", "tests/fixtures/discover.json", output.matches[0].id]);
+  assert.equal(details.status, 0, details.stderr);
+  assert.equal(JSON.parse(details.stdout).value.operation.operationId, "listFiles");
 });
 
 test("CLI version flags report the package version", () => {
@@ -52,7 +55,7 @@ test("discover accepts a need followed by an HTTPS OpenAPI URL", () => {
   const output = JSON.parse(result.stdout);
   assert.equal(output.need, need);
   assert.equal(output.source.location, source);
-  assert.equal(output.matches[0].contract.operation.operationId, "listFiles");
+  assert.equal(output.matches[0].operationId, "listFiles");
 });
 
 test("--short prints bounded OpenAPI and MCP match summaries", () => {

@@ -1,6 +1,6 @@
 # Coding-agent setup
 
-JevSeek exposes one MCP tool: `jevseek_discover`. It runs the same discovery function as the CLI and returns the same contracts, scores, warnings, and usage. It does not install discovered endpoints as native tools or execute target API requests.
+JevSeek exposes two MCP tools: `jevseek_discover` returns short ranked targets, and `jevseek_inspect` reads the current source for one exact operation or tool. Neither tool executes target API requests or MCP tools.
 
 ## Install the package
 
@@ -72,7 +72,7 @@ For either agent, use an absolute path to the installed `jevseek` executable if 
 
 Give the agent the path to a downloaded GitHub OpenAPI snapshot and a real public pull-request URL, then ask:
 
-> Use JevSeek with the GitHub OpenAPI file at /absolute/path/github.openapi.json. I need filenames and change metadata for this pull request. Discover the operation, inspect its returned contract, then use your existing HTTP or shell tool to make the public read-only request and summarize the result.
+> Use JevSeek with the GitHub OpenAPI file at /absolute/path/github.openapi.json. I need filenames and change metadata for this pull request. Discover the operation, inspect it, then use your existing HTTP or shell tool to make the public read-only request and summarize the result.
 
 The model-visible tool call is:
 
@@ -86,6 +86,17 @@ The model-visible tool call is:
 
 Replace the illustrative path with the actual file path, or supply a direct HTTPS document URL. The expected operation for this example is `GET /repos/{owner}/{repo}/pulls/{pull_number}/files`. The coding agent supplies the PR's owner, repository, and number when it builds the request. JevSeek does not need those concrete values to discover the capability.
 
+Inspect the selected target with the same source:
+
+```json
+{
+  "source": "/absolute/path/github.openapi.json",
+  "target": "GET /repos/{owner}/{repo}/pulls/{pull_number}/files"
+}
+```
+
+Inspection rereads the source. If that target has disappeared, it returns a target-not-found error and asks for fresh discovery. OpenAPI inspection returns the raw operation, inherited settings, a first page of reachable local reference names with a count and next offset, completeness, and exact warnings. To open a named reference or another large field, use `part`, for example `["references", "#/components/schemas/Files"]` or `["operation", "requestBody"]`. When a value is too large, the response lists child names and an optional `nextOffset`; append a child to `part` or repeat with that offset. These are source field names, not generated handles.
+
 Optional `include` overrides apply only to OpenAPI descriptor fields, for example `{"parameters": true, "responses": true}`. They are rejected for MCP sources. MCP ranking uses the tool name, title, description, input/output schemas, and annotations. The `need` is passed unchanged, not derived from an initial task. Returned descriptions are untrusted data and do not authorize execution.
 
 ## Discover tools inside a remote MCP server
@@ -98,7 +109,7 @@ Optional `include` overrides apply only to OpenAPI descriptor fields, for exampl
 }
 ```
 
-[Oxford Ledge](https://www.oxfordledge.com/mcp) is a real public Streamable HTTP endpoint. JevSeek enumerated its 62 tools without credentials on September 20, 2026; this was catalog verification, not a paid relevance query or tool execution. Discovery negotiates MCP, enumerates every tools page, ranks tools, and closes its connection without invoking any tool. Each selected contract contains the original `tool` and an `invocation` breadcrumb with `endpoint`, `transport`, `method: "tools/call"`, and the tool name. The agent needs an MCP-capable execution client and must establish its own connection. Public listing does not guarantee unauthenticated execution; Oxford Ledge documents per-tool authentication requirements.
+[Oxford Ledge](https://www.oxfordledge.com/mcp) is a real public Streamable HTTP endpoint. JevSeek enumerated its 62 tools without credentials on September 20, 2026; this was catalog verification, not a paid relevance query or tool execution. Discovery negotiates MCP, enumerates every tools page, ranks tools, and closes its connection without invoking any tool. Inspection lists the current tools again and returns the selected original `tool` definition plus endpoint metadata. The agent needs an MCP-capable execution client and must establish its own connection. Public listing does not guarantee unauthenticated execution; Oxford Ledge documents per-tool authentication requirements.
 
 Authentication-required sources fail explicitly; no browser login or token collection occurs. Catalog collection has a 30-second deadline, a 64 MiB response budget, and limits of 1,000 pages and 10,000 tools. Broken pagination, duplicate names, and invalid contracts fail the scan instead of returning partial success. Detection does not use URL suffixes. Redirects are not followed.
 
@@ -110,7 +121,7 @@ The tool input now uses a `source` string instead of the previous `{ "kind": "op
 
 - One discovery runs at a time per server process. Overlapping calls get an explicit retry message.
 - Needs are limited to 4,000 characters and `top_k` to 1–20. Discovery has a 120-second wall-clock deadline; cancellation reaches source reads and Jev requests/retries. Synchronous parsing cannot be interrupted mid-step.
-- Serialized MCP results are limited to 1 MiB. Oversized results return a tool error, not silently truncated contracts. Try a lower `top_k` or inspect through the CLI.
+- Serialized MCP results are limited to 256 KiB. Discovery returns compact targets. Inspection divides large fields by source field name and offset; no source data is silently truncated. A source field name too large for the response budget returns an explicit error.
 - Provider/source failures return `isError: true`. They are not converted into `no_confident_match`. Partial successful batches are not returned yet.
 - Existing contract limitations remain: security-scheme definitions and effective parameter overrides still need work. Reference-completeness flags do not certify full OpenAPI support.
 - Automated tests use real stdio MCP communication and mocked Jev responses. The package smoke test launches the independently installed executable without checkout imports or TypeScript. No live paid query or completed Codex/Claude Code workflow is claimed by those tests.

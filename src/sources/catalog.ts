@@ -9,7 +9,7 @@ export async function loadCatalog(source: string, include?: Partial<OpenApiDescr
   let documentError: unknown;
   try {
     const document = await readSourceDocument(source, signal);
-    return openApiCatalogFromDocument(document, include, performance.now() - started, signal);
+    return openApiCatalogFromDocument(document, include, performance.now() - started, signal, false);
   } catch (error) {
     if (error instanceof SourceHttpError && [401, 403].includes(error.status)) {
       throw new AuthenticationRequiredError();
@@ -22,7 +22,7 @@ export async function loadCatalog(source: string, include?: Partial<OpenApiDescr
   }
   signal.throwIfAborted();
   try {
-    const catalog = await loadMcpCatalog(source, signal);
+    const catalog = await loadMcpCatalog(source, signal, false);
     if (include && Object.keys(include).length) {
       throw new Error("OpenAPI descriptor overrides cannot be used with an MCP source");
     }

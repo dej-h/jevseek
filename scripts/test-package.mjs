@@ -43,12 +43,12 @@ try {
   ], { cwd: work, env }));
   assert.equal(result.need, need);
   assert.equal(result.matches[0].id, "GET /pulls/{number}/files");
-  assert.equal(result.matches[0].contract.operation.operationId, "listFiles");
+  assert.equal(result.matches[0].operationId, "listFiles");
   assert.equal(result.scan.examinedOperations, 2);
 
   // Import the installed library from an external consumer, with no tsx or checkout imports.
   const consumer = join(prefix, process.platform === "win32" ? "consumer.mjs" : "lib/consumer.mjs");
-  await writeFile(consumer, 'import { discover } from "jevseek";\nif (typeof discover !== "function") throw new Error("missing discover export");\n');
+  await writeFile(consumer, 'import { discover, inspect } from "jevseek";\nif (typeof discover !== "function" || typeof inspect !== "function") throw new Error("missing public export");\n');
   run(process.execPath, [consumer], { cwd: work, env });
   const mcpCheck = join(work, "mcp-installed.mjs");
   await copyFile(join(root, "tests/fixtures/mcp-installed.mjs"), mcpCheck);

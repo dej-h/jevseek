@@ -11,7 +11,7 @@ import type { SystemOneRequestPayload } from "@typesafe-ai/sdk";
 const fixture = fileURLToPath(new URL("./fixtures/discover.json", import.meta.url));
 const need = "I need filenames and change metadata for a pull request";
 
-test("discovery sends the exact need, ranks all operations, and returns the selected contract", async (t) => {
+test("discovery sends the exact need, ranks all operations, and returns compact source targets", async (t) => {
   const oldKey = process.env.TYPESAFE_API_KEY;
   process.env.TYPESAFE_API_KEY = "fixture-key";
   t.after(() => {
@@ -42,14 +42,10 @@ test("discovery sends the exact need, ranks all operations, and returns the sele
   const bytes = await readFile(fixture);
   const digest = createHash("sha256").update(bytes).digest("hex");
   assert.equal(result.source.sha256, digest);
-  assert.equal(result.matches[0]?.identity, `sha256:${digest}:GET /pulls/{number}/files`);
-  const contract = result.matches[0]?.contract;
-  assert.ok(contract && typeof contract === "object" && !Array.isArray(contract));
-  assert.equal(contract.sourcePointer, "#/paths/~1pulls~1{number}~1files/get");
-  assert.equal(contract.contractComplete, true);
-  assert.deepEqual(contract.operation, JSON.parse(bytes.toString()).paths["/pulls/{number}/files"].get);
-  assert.ok(JSON.stringify(contract.references).includes("filename"));
-  assert.deepEqual(result.scan, { totalOperations: 2, examinedOperations: 2, complete: true, warnings: [] });
+  assert.equal(result.matches[0]?.operationId, "listFiles");
+  assert.equal(result.matches[0]?.summary, "List changed files");
+  assert.ok(!JSON.stringify(result.matches).includes("references"));
+  assert.deepEqual(result.scan, { totalOperations: 2, examinedOperations: 2, complete: true, warningCounts: {} });
   assert.equal(result.usage.inputTokens, 100);
   assert.equal(result.contextAccounting.returnedMatches, Buffer.byteLength(JSON.stringify(result.matches)));
 

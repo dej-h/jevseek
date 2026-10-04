@@ -24,11 +24,12 @@ export interface McpCatalog {
     server: { name: string; version: string };
   };
   options: RankOption[];
+  warningCounts: Record<string, number>;
   timings: { loadMs: number; parseMs: number };
 }
 
 /** Enumerate metadata only. Never register handlers for sampling or call target tools. */
-export async function loadMcpCatalog(location: string, signal: AbortSignal): Promise<McpCatalog> {
+export async function loadMcpCatalog(location: string, signal: AbortSignal, contracts: boolean | string = true): Promise<McpCatalog> {
   const started = performance.now();
   const url = new URL(location);
   if (url.protocol !== "https:" || url.username || url.password || url.hash) {
@@ -106,11 +107,12 @@ export async function loadMcpCatalog(location: string, signal: AbortSignal): Pro
         id: tool.name,
         content: JSON.parse(JSON.stringify({ name: tool.name, title: tool.title, description: tool.description,
           inputSchema: tool.inputSchema, outputSchema: tool.outputSchema, annotations: tool.annotations })) as Record<string, JsonValue>,
-        contract: JSON.parse(JSON.stringify({ tool, invocation: {
+        ...(contracts === true || contracts === tool.name ? { contract: JSON.parse(JSON.stringify({ tool, invocation: {
           endpoint: url.href, transport: "streamable-http", method: "tools/call", tool: tool.name,
           instructions: "Connect with an MCP client and construct arguments from inputSchema. Establish your own connection; discovery does not grant execution access or share a session. Execution may require authentication.",
-        } })) as JsonValue,
+        } })) as JsonValue } : {}),
       })),
+      warningCounts: {},
       timings: { loadMs: loaded - started, parseMs: performance.now() - loaded },
     };
   } catch (error) {

@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { loadCatalog } from "../src/sources/catalog.js";
 import { AuthenticationRequiredError } from "../src/sources/mcp.js";
-import { discover } from "../src/index.js";
+import { discover, inspect } from "../src/index.js";
 
 const endpoint = "https://public.test/catalog.json";
 const tool = { name: "search_issues", description: "Search project issues", inputSchema: {
@@ -44,13 +44,15 @@ function server(options: { repeat?: boolean; duplicate?: boolean; invalid?: bool
   return { fetcher, methods, cursors };
 }
 
-test("detects MCP despite a .json suffix, reads all pages, and preserves invocation contracts", async (t) => {
+test("detects MCP despite a .json suffix, reads all pages, and inspects the current tool", async (t) => {
   const fixture = server();
   t.mock.method(globalThis, "fetch", fixture.fetcher);
   const catalog = await loadCatalog(endpoint);
   assert.deepEqual(catalog.options.map((option) => option.id), ["search_issues", "list_projects"]);
   assert.deepEqual(fixture.cursors, [undefined, "next"]);
-  const contract = catalog.options[0]?.contract;
+  assert.equal(catalog.options[0]?.contract, undefined);
+  const details = await inspect(endpoint, "search_issues");
+  const contract = details.value;
   assert.ok(contract && typeof contract === "object" && !Array.isArray(contract));
   assert.deepEqual(contract.tool, tool);
   assert.ok(JSON.stringify(contract.invocation).includes(endpoint));

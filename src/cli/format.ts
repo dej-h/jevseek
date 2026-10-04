@@ -1,6 +1,6 @@
 import type { JsonValue } from "@typesafe-ai/sdk";
 import type { RankResult, RankedOption } from "../core/rank.js";
-import type { DiscoverResult } from "../index.js";
+import type { DiscoverResult, DiscoveredOperation } from "../index.js";
 
 const IDENTITY_LIMIT = 240;
 const DESCRIPTION_LIMIT = 120;
@@ -30,8 +30,8 @@ function boundedText(value: string | undefined, limit: number): string | undefin
     : `${singleLine.slice(0, limit - 1)}…`;
 }
 
-function formatMatch(match: RankedOption): string {
-  const contract = asObject(match.contract);
+function formatMatch(match: RankedOption | DiscoveredOperation, kind?: "openapi" | "mcp"): string {
+  const contract = asObject("contract" in match ? match.contract : undefined);
   const operation = asObject(contract?.operation);
   const method = asString(contract?.method);
   const path = asString(contract?.path);
@@ -39,7 +39,11 @@ function formatMatch(match: RankedOption): string {
 
   let identity = match.id;
   let description: string | undefined;
-  if (method !== undefined && path !== undefined) {
+  if ("summary" in match) {
+    description = match.summary;
+    if (kind === "mcp") identity = `MCP tool ${match.id}`;
+    else if (match.operationId) identity = `${match.id} (${match.operationId})`;
+  } else if (method !== undefined && path !== undefined) {
     const operationId = asString(operation?.operationId);
     identity = `${method} ${path}${operationId === undefined ? "" : ` (${operationId})`}`;
     description = asString(operation?.summary);
@@ -82,7 +86,7 @@ export function formatShortResult(result: RankResult | DiscoverResult): string {
   } else {
     lines.push("Matches:");
     for (const match of result.matches) {
-      lines.push(`  ${match.rank}. ${formatMatch(match)}`);
+      lines.push(`  ${match.rank}. ${formatMatch(match, isDiscoverResult(result) ? result.source.kind : undefined)}`);
     }
   }
 
