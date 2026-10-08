@@ -16,7 +16,6 @@ const HTTP_METHODS = new Set([
 
 const DESCRIPTION_MAX = 400;
 const SCHEMA_DEPTH = 2;
-const CONTRACT_REFERENCE_LIMIT = 128;
 
 export const OPENAPI_DESCRIPTOR_FIELDS = [
   "method",
@@ -90,6 +89,7 @@ export interface OpenApiCatalog {
     openapi: string;
   };
   options: RankOption[];
+  warningCounts: Record<string, number>;
   timings: { loadMs: number; parseMs: number };
 }
 
@@ -111,6 +111,7 @@ export function openApiCatalogFromDocument(
   include?: Partial<OpenApiDescriptorInclude>,
   loadMs = 0,
   signal?: AbortSignal,
+  withContracts = true,
 ): OpenApiCatalog {
   const started = performance.now();
   let doc: unknown;
@@ -122,7 +123,8 @@ export function openApiCatalogFromDocument(
   if (!isPlainObject(doc) || typeof doc.openapi !== "string") {
     throw new NotOpenApiError("not an OpenAPI document");
   }
-  const options = operationsFromOpenApi(doc, include, document.location);
+  const options = operationsFromOpenApi(doc, include, document.location, withContracts);
+  const warningCounts = countDocumentReferenceWarnings(doc);
   signal?.throwIfAborted();
   if (!isPlainObject(doc) || typeof doc.openapi !== "string") {
     throw new Error("not an OpenAPI document");
@@ -137,8 +139,32 @@ export function openApiCatalogFromDocument(
       openapi: doc.openapi,
     },
     options,
+    warningCounts,
     timings: { loadMs, parseMs: performance.now() - started },
   };
+}
+
+function countDocumentReferenceWarnings(doc: unknown): Record<string, number> {
+  const refs = new Set<string>();
+  const seen = new WeakSet<object>();
+  const pending: unknown[] = [doc];
+  while (pending.length > 0) {
+    const value = pending.pop();
+    if (typeof value !== "object" || value === null || seen.has(value)) continue;
+    seen.add(value);
+    if (Array.isArray(value)) pending.push(...value);
+    else if (isPlainObject(value)) {
+      if (typeof value.$ref === "string") refs.add(value.$ref);
+      pending.push(...Object.values(value));
+    }
+  }
+  const counts: Record<string, number> = {};
+  for (const ref of refs) {
+    const kind = !ref.startsWith("#/") ? "external_reference"
+      : getJsonPointer(doc, ref) === undefined ? "unresolved_local_reference" : undefined;
+    if (kind) counts[kind] = (counts[kind] ?? 0) + 1;
+  }
+  return counts;
 }
 
 function parseOpenApiDocument(raw: string): unknown {
@@ -154,6 +180,7 @@ export function operationsFromOpenApi(
   doc: unknown,
   include?: Partial<OpenApiDescriptorInclude>,
   source = "inline",
+  withContracts = true,
 ): RankOption[] {
   if (!isPlainObject(doc) || !isPlainObject(doc.paths)) {
     throw new Error("not an OpenAPI document with paths");
@@ -244,7 +271,7 @@ export function operationsFromOpenApi(
       options.push({
         id: `${methodUpper} ${path}`,
         content,
-        contract: buildOperationContract(doc, source, path, method, item, operation),
+        ...(withContracts ? { contract: buildOperationContract(doc, source, path, method, item, operation) } : {}),
       });
     }
   }
@@ -254,6 +281,38 @@ export function operationsFromOpenApi(
   return options;
 }
 
+/** Resolve one source operation from a newly read document. */
+export function inspectOpenApiDocument(document: SourceDocument, target: string, part: string[] = []): JsonValue {
+  let doc: unknown;
+  try {
+    doc = parseOpenApiDocument(document.text);
+  } catch (cause) {
+    throw new NotOpenApiError("Source is not a valid OpenAPI document", { cause });
+  }
+  if (!isPlainObject(doc) || typeof doc.openapi !== "string") {
+    throw new NotOpenApiError("not an OpenAPI document");
+  }
+  if (!/^3\.[01]\.\d+$/.test(doc.openapi) || !isPlainObject(doc.paths)) {
+    throw new Error("not a supported OpenAPI document with paths");
+  }
+  const match = /^(GET|PUT|POST|DELETE|OPTIONS|HEAD|PATCH|TRACE) (\/.*)$/.exec(target);
+  if (!match) throw new Error("OpenAPI target must be METHOD /path, for example POST /v1/invoices/create_preview");
+  const [, methodUpper, path] = match;
+  const item = doc.paths[path];
+  const method = methodUpper.toLowerCase();
+  if (!isPlainObject(item) || !isPlainObject(item[method])) {
+    throw new Error(`target not found in current source: ${target}; rediscover the source`);
+  }
+  const contract = buildOperationContract(doc, document.location, path, method, item, item[method], false);
+  if (part[0] === "references" && part.length > 1 && isPlainObject(contract.references)) {
+    const ref = part[1];
+    if (Object.hasOwn(contract.references, ref)) {
+      contract.references[ref] = toJsonValue(getJsonPointer(doc, ref));
+    }
+  }
+  return contract;
+}
+
 function buildOperationContract(
   doc: { [key: string]: unknown },
   source: string,
@@ -261,7 +320,8 @@ function buildOperationContract(
   method: string,
   pathItem: { [key: string]: unknown },
   operation: { [key: string]: unknown },
-): JsonValue {
+  includeReferenceValues = true,
+): { [key: string]: JsonValue } {
   const inherited: { [key: string]: JsonValue } = {};
   const referenceRoots: unknown[] = [operation];
 
@@ -281,7 +341,7 @@ function buildOperationContract(
     }
   }
 
-  const closure = collectLocalReferenceClosure(doc, referenceRoots);
+  const closure = collectLocalReferenceClosure(doc, referenceRoots, includeReferenceValues);
   const contract: { [key: string]: JsonValue } = {
     source,
     sourcePointer: `#/paths/${escapeJsonPointer(path)}/${method}`,
@@ -303,6 +363,7 @@ function buildOperationContract(
 function collectLocalReferenceClosure(
   doc: unknown,
   roots: unknown[],
+  includeValues: boolean,
 ): {
   references: { [key: string]: JsonValue };
   warnings: string[];
@@ -311,22 +372,21 @@ function collectLocalReferenceClosure(
   const warnings: string[] = [];
   const seenRefs = new Set<string>();
   const seenObjects = new WeakSet<object>();
-  let limitReported = false;
 
-  const visit = (value: unknown): void => {
+  const pending = [...roots];
+  while (pending.length > 0) {
+    const value = pending.pop();
     if (typeof value !== "object" || value === null) {
-      return;
+      continue;
     }
     if (seenObjects.has(value)) {
-      return;
+      continue;
     }
     seenObjects.add(value);
 
     if (Array.isArray(value)) {
-      for (const item of value) {
-        visit(item);
-      }
-      return;
+      pending.push(...value);
+      continue;
     }
 
     if (isPlainObject(value) && typeof value.$ref === "string") {
@@ -334,33 +394,18 @@ function collectLocalReferenceClosure(
       if (!ref.startsWith("#/")) {
         warnings.push(`external reference is not resolved: ${ref}`);
       } else if (!seenRefs.has(ref)) {
-        if (seenRefs.size >= CONTRACT_REFERENCE_LIMIT) {
-          if (!limitReported) {
-            warnings.push(
-              `local reference closure exceeds ${String(CONTRACT_REFERENCE_LIMIT)} entries`,
-            );
-            limitReported = true;
-          }
+        seenRefs.add(ref);
+        const resolved = getJsonPointer(doc, ref);
+        if (resolved === undefined) {
+          warnings.push(`local reference could not be resolved: ${ref}`);
         } else {
-          seenRefs.add(ref);
-          const resolved = getJsonPointer(doc, ref);
-          if (resolved === undefined) {
-            warnings.push(`local reference could not be resolved: ${ref}`);
-          } else {
-            references[ref] = toJsonValue(resolved);
-            visit(resolved);
-          }
+          references[ref] = includeValues ? toJsonValue(resolved) : true;
+          pending.push(resolved);
         }
       }
     }
 
-    for (const child of Object.values(value)) {
-      visit(child);
-    }
-  };
-
-  for (const root of roots) {
-    visit(root);
+    pending.push(...Object.values(value));
   }
   return { references, warnings: [...new Set(warnings)] };
 }

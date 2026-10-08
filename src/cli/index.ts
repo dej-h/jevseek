@@ -4,6 +4,7 @@ import { parseArgs } from "node:util";
 import { normalizeOptions } from "../core/candidates.js";
 import { rankOptions } from "../core/rank.js";
 import { discover } from "../index.js";
+import { inspect } from "../inspect.js";
 import { readPackageVersion } from "../version.js";
 import { formatShortResult } from "./format.js";
 import {
@@ -38,15 +39,18 @@ Usage:
   jevseek --version
   jevseek serve [--allow-source <file-or-https-url> ...]
   jevseek discover "<need>" <source> [--top 5] [--short | --json]
+  jevseek inspect <source> "<METHOD /path-or-tool-name>" [--part <field> ...] [--offset <n>]
   jevseek rank "<need>" --file options.json [--top 5] [--short | --json]
   jevseek rank "<need>" --openapi spec.json [--top 5] [--short | --json]
   jevseek rank "<need>" [--top 5] [--short | --json] < options.json
 
 discover detects local OpenAPI JSON/YAML, HTTPS OpenAPI documents, and public remote MCP endpoints.
-Results are JSON and include selected source contracts, scan metadata, and usage.
---short prints one bounded line per match instead of complete source contracts.
+Discovery returns compact ranked targets, scan metadata, and usage.
+Inspect rereads the source and returns the selected operation or MCP tool.
+--part selects nested source fields when a value is too large for one response.
+--short prints one bounded line per match.
 Descriptor content and the need are sent to TypeSafe. No API operation is executed.
-serve exposes jevseek_discover over stdio MCP and accepts sources per tool call.
+serve exposes jevseek_discover and jevseek_inspect over stdio MCP.
 Optional --allow-source flags restrict access to those exact files or URLs.
 --transport stdio is optional; other transports are unsupported.
 
@@ -179,6 +183,17 @@ async function main(): Promise<void> {
     case "discover":
       await runSelection(command, rest);
       break;
+    case "inspect": {
+      const { values, positionals } = parseArgs({ args: rest, allowPositionals: true,
+        options: { part: { type: "string", multiple: true }, offset: { type: "string", default: "0" } } });
+      if (positionals.length !== 2) throw new Error('usage: jevseek inspect <source> "<METHOD /path-or-tool-name>"');
+      const offset = Number(values.offset);
+      if (!Number.isSafeInteger(offset) || offset < 0) throw new Error("--offset must be a non-negative integer");
+      console.log(JSON.stringify(await inspect(positionals[0], positionals[1], {
+        part: values.part, offset,
+      }), null, 2));
+      break;
+    }
     case "serve": {
       const { values } = parseArgs({ args: rest, options: {
         "allow-source": { type: "string", multiple: true },

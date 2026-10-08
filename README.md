@@ -21,7 +21,7 @@
 
 ![Demo video coming soon: a capability need, a source, and the selected native contract.](docs/assets/hero-video-placeholder.svg)
 
-JevSeek helps coding agents find their way around unfamiliar APIs and MCP servers. Give it an OpenAPI file, an HTTPS document URL, or a public remote MCP endpoint and describe what you need. It detects the source type, enumerates capabilities, uses [TypeSafe Jev](https://docs.typesafe.ai) to score their relevance, and returns selected native contracts.
+JevSeek helps coding agents find their way around unfamiliar APIs and MCP servers. Give it an OpenAPI file, an HTTPS document URL, or a public remote MCP endpoint and describe what you need. It detects the source type, enumerates capabilities, and uses [TypeSafe Jev](https://docs.typesafe.ai) to score their relevance. Discovery returns short ranked targets. Inspection reads the current source for the selected operation or tool.
 
 Use it through the CLI, a TypeScript function, or an MCP discovery tool. No per-API wrapper or embedding index is required for discovery.
 
@@ -45,7 +45,14 @@ Matches:
 Usage: [requests, input tokens, cost]
 ```
 
-Omit `--short` to return JSON with the complete selected contracts, source pointers, reference warnings, and usage. The values above are illustrative, not a captured live run.
+Omit `--short` to return JSON with target names, scores, scan warning counts, and usage. To read the selected operation:
+
+```bash
+jevseek inspect ./examples/github/api.github.com.json \
+  "GET /repos/{owner}/{repo}/pulls/{pull_number}/files"
+```
+
+The values above are illustrative, not a captured live run.
 
 **JevSeek finds the contract. Your agent builds and executes the request using its existing tools.**
 
@@ -81,7 +88,7 @@ jevseek discover \
   --top 1
 ```
 
-That live run scanned 62 tools and selected `get_institutional_holders` with a score of `0.94`. The returned contract included the original input schema and this invocation breadcrumb:
+That live run scanned 62 tools and selected `get_institutional_holders` with a score of `0.94`. Inspecting that tool returns its current definition and endpoint metadata, including:
 
 ```json
 {
@@ -94,11 +101,11 @@ That live run scanned 62 tools and selected `get_institutional_holders` with a s
 
 JevSeek also discovered `execute` from CoinGecko and `migrate_pages_to_workers_guide` from Cloudflare Docs. Across the three live runs it scanned 66 tools using four Jev requests at a total reported cost of `$0.001599318`. See the [recorded inputs and results](docs/mcp-public-discovery-evidence.md).
 
-MCP results preserve the original tool definition and tell the agent where the capability lives. Your execution client still establishes its own connection and supplies arguments from the returned schema. JevSeek does not call the tool, share its discovery session, or grant access. Only public, unauthenticated Streamable HTTP discovery is supported. OAuth, local stdio sources, resources, and prompts are TODO.
+Inspection returns the original MCP tool definition. Your execution client establishes its own connection and supplies arguments from that schema. JevSeek does not call the tool, share its discovery session, or grant access. Only public, unauthenticated Streamable HTTP catalogs are supported. OAuth, local stdio sources, resources, and prompts are TODO.
 
 ## Connect your agent
 
-JevSeek exposes one MCP tool: **`jevseek_discover`**. Your coding agent starts the local stdio server automatically and supplies a local OpenAPI path, HTTPS OpenAPI URL, or public remote MCP endpoint with each call. No source registration, source kind, or server restart is needed.
+JevSeek exposes two MCP tools: **`jevseek_discover`** and **`jevseek_inspect`**. Your coding agent starts the local stdio server automatically and supplies a local OpenAPI path, HTTPS OpenAPI URL, or public remote MCP endpoint with each call. No source registration, source kind, or server restart is needed.
 
 After installing the client, choose your agent:
 
@@ -165,12 +172,13 @@ source + capability need
   → detect OpenAPI or remote MCP
   → enumerate operations or tools
   → Jev scores structured descriptors
-  → return selected native contracts
+  → return compact ranked targets
+  → inspect one target against the current source
 ```
 
-Descriptors are compact representations sent to Jev. OpenAPI results preserve operation data and resolved local references. MCP results preserve the original tool definition and add an invocation breadcrumb. The full catalog is not returned to the coding agent.
+Descriptors are compact representations sent to Jev. Discovery returns source-derived target names such as `POST /v1/invoices/create_preview` or an exact MCP tool name. Inspection returns the selected OpenAPI operation with inherited settings and a paged list of reachable local reference names, or the selected MCP tool definition. A large field can be opened using its returned child names. The full catalog is not returned to the coding agent.
 
-For OpenAPI, `--parameters`, `--request-body`, and `--responses` enable richer scoring descriptors; they are off by default. MCP descriptors use the tool name, title, description, schemas, and annotations. `--top` controls the number of results. `--short` prints a bounded terminal summary and leaves full JSON as the default. Run `jevseek --help` for command options.
+For OpenAPI, `--parameters`, `--request-body`, and `--responses` enable richer scoring descriptors; they are off by default. MCP descriptors use the tool name, title, description, schemas, and annotations. `--top` controls the number of results. `--short` prints a bounded terminal summary. `jevseek inspect` accepts repeated `--part` fields for large values. Run `jevseek --help` for command options.
 
 <details>
 <summary><strong>Use the TypeScript API</strong></summary>
@@ -194,13 +202,13 @@ const result = await discover(
 | Area | Current support |
 | --- | --- |
 | Sources | OpenAPI 3.0/3.1 JSON/YAML from local files or direct HTTPS URLs; public remote MCP tool catalogs over Streamable HTTP |
-| References | Bounded local references; external references produce warnings and are not fetched |
+| References | Reachable local references are available through inspection; external references produce warnings and are not fetched |
 | Interfaces | CLI, TypeScript, and stdio MCP |
 | Verification | CI and isolated package-install tests on Linux with Node.js 20, 22, and 24; [three live public MCP discovery runs](docs/mcp-public-discovery-evidence.md); live agent execution is not yet verified |
 
 The **need and descriptor content leave your machine and go to TypeSafe**. Use only specifications and catalogs you are authorized to share. By default, the JevSeek MCP server can read files and fetch HTTPS URLs accessible to its process, including internal destinations. For a restricted setup, repeat `--allow-source <file-or-url>` at startup to permit only those exact sources. See [source-access configuration](docs/coding-agents.md#optional-source-restrictions). JevSeek does not execute target operations or grant permission to do so.
 
-Unsupported documents and provider failures produce errors. Incomplete reference closures carry warnings. Security-scheme definitions and effective parameter overrides still need work; a completeness flag is not proof that a request will succeed. MCP rejects results larger than 1 MiB rather than silently truncating contracts. [Detailed limits](docs/coding-agents.md#limits-and-verification).
+Unsupported documents and provider failures produce errors. Unresolved references carry warnings and mark the inspected contract incomplete. Security-scheme definitions and effective parameter overrides still need work; a completeness flag is not proof that a request will succeed. MCP responses have a 256 KiB cap, and inspection opens large values by field. [Detailed limits](docs/coding-agents.md#limits-and-verification).
 
 ## Contributing
 

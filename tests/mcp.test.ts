@@ -38,10 +38,10 @@ async function connect(t: TestContext, options: { failure?: boolean; modern?: bo
   return { client, transport, stderr: () => stderr };
 }
 
-test("MCP lists one discovery tool and serves local/HTTPS contracts through the shared engine", { timeout: 15_000 }, async (t) => {
+test("MCP discovers compact targets and inspects current local/HTTPS operations", { timeout: 15_000 }, async (t) => {
   const { client, stderr } = await connect(t);
   const { tools } = await client.listTools();
-  assert.deepEqual(tools.map((tool) => tool.name), ["jevseek_discover"]);
+  assert.deepEqual(tools.map((tool) => tool.name), ["jevseek_discover", "jevseek_inspect"]);
   assert.doesNotMatch(JSON.stringify(tools[0]?.inputSchema.properties?.source), /"enum"/);
   assert.equal(tools[0]?.annotations?.readOnlyHint, true);
   for (const location of [fixture, "https://catalog.test/openapi.json"]) {
@@ -55,8 +55,16 @@ test("MCP lists one discovery tool and serves local/HTTPS contracts through the 
     assert.deepEqual(result.structuredContent, data);
     assert.equal(data.need, need);
     assert.equal(data.matches[0].id, "GET /pulls/{number}/files");
-    assert.equal(data.matches[0].contract.operation.operationId, "listFiles");
+    assert.equal(data.matches[0].operationId, "listFiles");
+    assert.ok(!JSON.stringify(data.matches).includes("contract"));
     assert.equal(data.scan.examinedOperations, 2);
+    const details = await client.callTool({ name: "jevseek_inspect", arguments: {
+      source: location, target: data.matches[0].id,
+    } });
+    assert.ok(!details.isError, JSON.stringify(details));
+    const inspected = details.structuredContent as { value: { operation: { operationId: string }; references: { names: string[] } } };
+    assert.equal(inspected.value.operation.operationId, "listFiles");
+    assert.ok(inspected.value.references.names.includes("#/components/schemas/Files"));
   }
   assert.match(stderr(), /200/, "provider info logs must be on stderr");
   const noMatch = await client.callTool({ name: "jevseek_discover", arguments: {
@@ -114,7 +122,7 @@ test("optional source restrictions reject other files and URLs but allow configu
 
 test("MCP also serves clients using the modern protocol", { timeout: 15_000 }, async (t) => {
   const { client } = await connect(t, { modern: true });
-  assert.equal((await client.listTools()).tools[0]?.name, "jevseek_discover");
+  assert.deepEqual((await client.listTools()).tools.map((tool) => tool.name), ["jevseek_discover", "jevseek_inspect"]);
   const result = await client.callTool({ name: "jevseek_discover", arguments: args });
   assert.ok(!result.isError, JSON.stringify(result));
 });
@@ -126,7 +134,13 @@ test("MCP discovery automatically detects a remote MCP source", { timeout: 15_00
   } });
   assert.ok(!result.isError, JSON.stringify(result));
   assert.match(JSON.stringify(result.structuredContent), /list_files/);
-  assert.match(JSON.stringify(result.structuredContent), /tools\/call/);
+  const details = await client.callTool({ name: "jevseek_inspect", arguments: {
+    source: "https://catalog.test/mcp", target: "list_files",
+  } });
+  assert.ok(!details.isError, JSON.stringify(details));
+  const inspected = details.structuredContent as { value: { tool: { name: string }; invocation: { method: string } } };
+  assert.equal(inspected.value.tool.name, "list_files");
+  assert.equal(inspected.value.invocation.method, "tools/call");
 });
 
 test("CLI discovers a remote MCP source without a source-type flag", () => {
@@ -136,7 +150,7 @@ test("CLI discovers a remote MCP source without a source-type flag", () => {
   assert.equal(result.status, 0, result.stderr);
   const data = JSON.parse(result.stdout);
   assert.equal(data.source.kind, "mcp");
-  assert.equal(data.matches[0].contract.tool.name, "list_files");
+  assert.equal(data.matches[0].id, "list_files");
 });
 
 test("MCP reports provider failures as tool errors, not no-match results", { timeout: 15_000 }, async (t) => {
@@ -145,7 +159,7 @@ test("MCP reports provider failures as tool errors, not no-match results", { tim
   assert.equal(result.isError, true);
   assert.match(JSON.stringify(result.content), /fixture authentication failure/);
   assert.equal(result.structuredContent, undefined);
-  assert.equal((await client.listTools()).tools.length, 1);
+  assert.equal((await client.listTools()).tools.length, 2);
 });
 
 test("MCP cancellation aborts only its request while overlapping discoveries complete", { timeout: 15_000 }, async (t) => {
@@ -183,7 +197,7 @@ test("MCP cancellation aborts only its request while overlapping discoveries com
   assert.ok(!(await client.callTool({ name: "jevseek_discover", arguments: args })).isError);
 });
 
-test("MCP refuses oversized results instead of silently truncating contracts", { timeout: 15_000 }, async (t) => {
+test("MCP keeps discovery and inspection bounded for a large source field", { timeout: 15_000 }, async (t) => {
   const temp = await mkdtemp(join(tmpdir(), "jevseek-large-result-"));
   t.after(() => rm(temp, { recursive: true, force: true }));
   const doc = JSON.parse(await readFile(fixture, "utf8"));
@@ -194,9 +208,20 @@ test("MCP refuses oversized results instead of silently truncating contracts", {
   const result = await client.callTool({ name: "jevseek_discover", arguments: {
     ...args, source: path,
   } });
-  assert.equal(result.isError, true);
-  assert.match(JSON.stringify(result.content), /1 MiB/);
-  assert.equal(result.structuredContent, undefined);
+  assert.ok(!result.isError, JSON.stringify(result));
+  assert.ok(Buffer.byteLength(JSON.stringify(result)) < 256 * 1024);
+  const details = await client.callTool({ name: "jevseek_inspect", arguments: {
+    source: path, target: "GET /pulls/{number}/files",
+  } });
+  assert.ok(!details.isError, JSON.stringify(details));
+  assert.ok(Buffer.byteLength(JSON.stringify(details)) < 256 * 1024);
+  const description = await client.callTool({ name: "jevseek_inspect", arguments: {
+    source: path, target: "GET /pulls/{number}/files", part: ["operation", "description"],
+  } });
+  assert.ok(!description.isError, JSON.stringify(description));
+  const inspected = description.structuredContent as { textLength: number; nextOffset: number };
+  assert.equal(inspected.textLength, 600_000);
+  assert.ok(inspected.nextOffset > 0);
 });
 
 test("source grants canonicalize files and reject symlink retargeting, directories, and unsafe URLs", async (t) => {

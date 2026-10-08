@@ -24,7 +24,7 @@ let diagnostics = "";
 transport.stderr.on("data", (chunk) => { diagnostics += chunk.toString(); });
 try {
   await client.connect(transport);
-  assert.deepEqual((await client.listTools()).tools.map((tool) => tool.name), ["jevseek_discover"]);
+  assert.deepEqual((await client.listTools()).tools.map((tool) => tool.name), ["jevseek_discover", "jevseek_inspect"]);
   const result = await client.callTool({
     name: "jevseek_discover",
     arguments: {
@@ -35,13 +35,18 @@ try {
   });
   assert.ok(!result.isError, JSON.stringify(result));
   assert.equal(result.structuredContent.matches[0].id, "GET /pulls/{number}/files");
-  assert.equal(result.structuredContent.matches[0].contract.operation.operationId, "listFiles");
+  assert.equal(result.structuredContent.matches[0].operationId, "listFiles");
+  const details = await client.callTool({ name: "jevseek_inspect", arguments: {
+    source: fixture, target: result.structuredContent.matches[0].id,
+  } });
+  assert.ok(!details.isError, JSON.stringify(details));
+  assert.equal(details.structuredContent.value.operation.operationId, "listFiles");
   assert.equal(result.structuredContent.scan.examinedOperations, 2);
   const remote = await client.callTool({ name: "jevseek_discover", arguments: {
     source: "https://catalog.test/mcp", need: "I need filenames and change metadata for a pull request", top_k: 1,
   } });
   assert.ok(!remote.isError, JSON.stringify(remote));
-  assert.equal(remote.structuredContent.matches[0].contract.tool.name, "list_files");
+  assert.equal(remote.structuredContent.matches[0].id, "list_files");
   assert.match(diagnostics, /200/);
   assert.deepEqual(errors, []);
   console.log("Installed MCP server: tool listing and discovery passed");
