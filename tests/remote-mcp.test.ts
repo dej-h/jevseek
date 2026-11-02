@@ -3,6 +3,7 @@ import test from "node:test";
 import { loadCatalog } from "../src/sources/catalog.js";
 import { AuthenticationRequiredError } from "../src/sources/mcp.js";
 import { discover, inspect } from "../src/index.js";
+import { previewTarget } from "../src/sources/preview.js";
 
 const endpoint = "https://public.test/catalog.json";
 const tool = { name: "search_issues", description: "Search project issues", inputSchema: {
@@ -58,6 +59,20 @@ test("detects MCP despite a .json suffix, reads all pages, and inspects the curr
   assert.ok(JSON.stringify(contract.invocation).includes(endpoint));
   assert.ok(!fixture.methods.includes("tools/call"));
   assert.ok("kind" in catalog.source && catalog.source.kind === "mcp");
+});
+
+test("builds an MCP preview from the ranked catalog without another connection", async (t) => {
+  const fixture = server();
+  t.mock.method(globalThis, "fetch", fixture.fetcher);
+  const catalog = await loadCatalog(endpoint);
+  const requestsAfterLoad = fixture.methods.length;
+
+  const preview = previewTarget(catalog, "search_issues");
+
+  assert.equal(fixture.methods.length, requestsAfterLoad);
+  assert.ok(preview && typeof preview === "object" && !Array.isArray(preview));
+  assert.equal(preview.name, "search_issues");
+  assert.deepEqual(preview.inputSchema, tool.inputSchema);
 });
 
 test("an empty MCP catalog makes no ranking request and closes its remote session", async (t) => {

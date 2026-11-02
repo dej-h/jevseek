@@ -12,7 +12,8 @@
   "files": [
     "dist",
     "docs/coding-agents.md",
-    "docs/assets/hero-video-placeholder.svg"
+    "docs/assets/hero-video-placeholder.svg",
+    "skills/jevseek-discovery/SKILL.md"
   ],
   "exports": {
     ".": {

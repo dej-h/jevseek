@@ -1,0 +1,1207 @@
+[
+  {
+    "id": "existing-pr-files",
+    "source": "github",
+    "need": "I need an endpoint that lists the files changed by a pull request",
+    "expectedId": "GET /repos/{owner}/{repo}/pulls/{pull_number}/files",
+    "tier": "curated"
+  },
+  {
+    "id": "existing-pr-create",
+    "source": "github",
+    "need": "I need an endpoint that opens a new pull request against a repository",
+    "expectedId": "POST /repos/{owner}/{repo}/pulls",
+    "tier": "curated"
+  },
+  {
+    "id": "existing-pr-merge",
+    "source": "github",
+    "need": "I need an endpoint that merges an open pull request",
+    "expectedId": "PUT /repos/{owner}/{repo}/pulls/{pull_number}/merge",
+    "tier": "curated"
+  },
+  {
+    "id": "existing-pr-commits",
+    "source": "github",
+    "need": "I need an endpoint that lists the commits that belong to a pull request",
+    "expectedId": "GET /repos/{owner}/{repo}/pulls/{pull_number}/commits",
+    "tier": "curated"
+  },
+  {
+    "id": "existing-pr-list",
+    "source": "github",
+    "need": "I need an endpoint that lists pull requests in a repository",
+    "expectedId": "GET /repos/{owner}/{repo}/pulls",
+    "tier": "curated"
+  },
+  {
+    "id": "existing-pr-reviews",
+    "source": "github",
+    "need": "I need an endpoint that lists reviews on a pull request",
+    "expectedId": "GET /repos/{owner}/{repo}/pulls/{pull_number}/reviews",
+    "tier": "curated"
+  },
+  {
+    "id": "existing-pr-request-reviewers",
+    "source": "github",
+    "need": "I need an endpoint that requests reviewers on a pull request",
+    "expectedId": "POST /repos/{owner}/{repo}/pulls/{pull_number}/requested_reviewers",
+    "tier": "curated"
+  },
+  {
+    "id": "existing-issue-create",
+    "source": "github",
+    "need": "I need an endpoint that creates a new issue in a repository",
+    "expectedId": "POST /repos/{owner}/{repo}/issues",
+    "tier": "curated"
+  },
+  {
+    "id": "existing-issue-list",
+    "source": "github",
+    "need": "I need an endpoint that lists issues in a repository",
+    "expectedId": "GET /repos/{owner}/{repo}/issues",
+    "tier": "curated"
+  },
+  {
+    "id": "existing-issue-comment",
+    "source": "github",
+    "need": "I need an endpoint that posts a comment on an issue",
+    "expectedId": "POST /repos/{owner}/{repo}/issues/{issue_number}/comments",
+    "tier": "curated"
+  },
+  {
+    "id": "existing-actions-runs",
+    "source": "github",
+    "need": "I need an endpoint that lists GitHub Actions workflow runs for a repository",
+    "expectedId": "GET /repos/{owner}/{repo}/actions/runs",
+    "tier": "curated"
+  },
+  {
+    "id": "existing-actions-logs",
+    "source": "github",
+    "need": "I need an endpoint that downloads the logs for a workflow run",
+    "expectedId": "GET /repos/{owner}/{repo}/actions/runs/{run_id}/logs",
+    "tier": "curated"
+  },
+  {
+    "id": "existing-actions-cancel",
+    "source": "github",
+    "need": "I need an endpoint that cancels a running GitHub Actions workflow run",
+    "expectedId": "POST /repos/{owner}/{repo}/actions/runs/{run_id}/cancel",
+    "tier": "curated"
+  },
+  {
+    "id": "existing-actions-artifacts",
+    "source": "github",
+    "need": "I need an endpoint that lists workflow artifacts for a repository",
+    "expectedId": "GET /repos/{owner}/{repo}/actions/artifacts",
+    "tier": "curated"
+  },
+  {
+    "id": "existing-gist-create",
+    "source": "github",
+    "need": "I need an endpoint that creates a new gist",
+    "expectedId": "POST /gists",
+    "tier": "curated"
+  },
+  {
+    "id": "existing-search-repos",
+    "source": "github",
+    "need": "I need an endpoint that searches GitHub repositories by a query string",
+    "expectedId": "GET /search/repositories",
+    "tier": "curated"
+  },
+  {
+    "id": "existing-search-code",
+    "source": "github",
+    "need": "I need an endpoint that searches file contents across GitHub",
+    "expectedId": "GET /search/code",
+    "tier": "curated"
+  },
+  {
+    "id": "existing-search-users",
+    "source": "github",
+    "need": "I need an endpoint that searches for GitHub users",
+    "expectedId": "GET /search/users",
+    "tier": "curated"
+  },
+  {
+    "id": "existing-user-me",
+    "source": "github",
+    "need": "I need an endpoint that returns the currently authenticated GitHub user",
+    "expectedId": "GET /user",
+    "tier": "curated"
+  },
+  {
+    "id": "existing-user-emails",
+    "source": "github",
+    "need": "I need an endpoint that lists email addresses for the authenticated user",
+    "expectedId": "GET /user/emails",
+    "tier": "curated"
+  },
+  {
+    "id": "existing-star-repo",
+    "source": "github",
+    "need": "I need an endpoint that stars a repository for the authenticated user",
+    "expectedId": "PUT /user/starred/{owner}/{repo}",
+    "tier": "curated"
+  },
+  {
+    "id": "existing-collaborators-list",
+    "source": "github",
+    "need": "I need an endpoint that lists collaborators on a repository",
+    "expectedId": "GET /repos/{owner}/{repo}/collaborators",
+    "tier": "curated"
+  },
+  {
+    "id": "existing-collaborators-add",
+    "source": "github",
+    "need": "I need an endpoint that invites a user as a collaborator on a repository",
+    "expectedId": "PUT /repos/{owner}/{repo}/collaborators/{username}",
+    "tier": "curated"
+  },
+  {
+    "id": "existing-repo-create",
+    "source": "github",
+    "need": "I need an endpoint that creates a new repository for the authenticated user",
+    "expectedId": "POST /user/repos",
+    "tier": "curated"
+  },
+  {
+    "id": "existing-repo-fork",
+    "source": "github",
+    "need": "I need an endpoint that forks a repository",
+    "expectedId": "POST /repos/{owner}/{repo}/forks",
+    "tier": "curated"
+  },
+  {
+    "id": "existing-releases-list",
+    "source": "github",
+    "need": "I need an endpoint that lists releases for a repository",
+    "expectedId": "GET /repos/{owner}/{repo}/releases",
+    "tier": "curated"
+  },
+  {
+    "id": "existing-releases-create",
+    "source": "github",
+    "need": "I need an endpoint that creates a GitHub release",
+    "expectedId": "POST /repos/{owner}/{repo}/releases",
+    "tier": "curated"
+  },
+  {
+    "id": "existing-git-tree",
+    "source": "github",
+    "need": "I need an endpoint that fetches a git tree by SHA",
+    "expectedId": "GET /repos/{owner}/{repo}/git/trees/{tree_sha}",
+    "tier": "curated"
+  },
+  {
+    "id": "existing-git-blob-create",
+    "source": "github",
+    "need": "I need an endpoint that creates a git blob in a repository",
+    "expectedId": "POST /repos/{owner}/{repo}/git/blobs",
+    "tier": "curated"
+  },
+  {
+    "id": "existing-branches-list",
+    "source": "github",
+    "need": "I need an endpoint that lists branches in a repository",
+    "expectedId": "GET /repos/{owner}/{repo}/branches",
+    "tier": "curated"
+  },
+  {
+    "id": "existing-teams-list",
+    "source": "github",
+    "need": "I need an endpoint that lists teams in an organization",
+    "expectedId": "GET /orgs/{org}/teams",
+    "tier": "curated"
+  },
+  {
+    "id": "existing-teams-create",
+    "source": "github",
+    "need": "I need an endpoint that creates a team in an organization",
+    "expectedId": "POST /orgs/{org}/teams",
+    "tier": "curated"
+  },
+  {
+    "id": "existing-notifications-list",
+    "source": "github",
+    "need": "I need an endpoint that lists notifications for the authenticated user",
+    "expectedId": "GET /notifications",
+    "tier": "curated"
+  },
+  {
+    "id": "existing-notifications-mark-read",
+    "source": "github",
+    "need": "I need an endpoint that marks all notifications as read",
+    "expectedId": "PUT /notifications",
+    "tier": "curated"
+  },
+  {
+    "id": "existing-org-repos",
+    "source": "github",
+    "need": "I need an endpoint that lists repositories in an organization",
+    "expectedId": "GET /orgs/{org}/repos",
+    "tier": "curated"
+  },
+  {
+    "id": "existing-repo-languages",
+    "source": "github",
+    "need": "I need an endpoint that reports which programming languages a repository uses",
+    "expectedId": "GET /repos/{owner}/{repo}/languages",
+    "tier": "curated"
+  },
+  {
+    "id": "existing-repo-commits",
+    "source": "github",
+    "need": "I need an endpoint that lists commits on a repository",
+    "expectedId": "GET /repos/{owner}/{repo}/commits",
+    "tier": "curated"
+  },
+  {
+    "id": "existing-compare-commits",
+    "source": "github",
+    "need": "I need an endpoint that compares two commits or branches and returns the diff",
+    "expectedId": "GET /repos/{owner}/{repo}/compare/{basehead}",
+    "tier": "curated"
+  },
+  {
+    "id": "existing-labels-list",
+    "source": "github",
+    "need": "I need an endpoint that lists labels in a repository",
+    "expectedId": "GET /repos/{owner}/{repo}/labels",
+    "tier": "curated"
+  },
+  {
+    "id": "existing-labels-create",
+    "source": "github",
+    "need": "I need an endpoint that creates a label in a repository",
+    "expectedId": "POST /repos/{owner}/{repo}/labels",
+    "tier": "curated"
+  },
+  {
+    "id": "existing-hooks-list",
+    "source": "github",
+    "need": "I need an endpoint that lists webhooks on a repository",
+    "expectedId": "GET /repos/{owner}/{repo}/hooks",
+    "tier": "curated"
+  },
+  {
+    "id": "existing-hooks-create",
+    "source": "github",
+    "need": "I need an endpoint that creates a webhook on a repository",
+    "expectedId": "POST /repos/{owner}/{repo}/hooks",
+    "tier": "curated"
+  },
+  {
+    "id": "existing-file-get",
+    "source": "github",
+    "need": "I need an endpoint that reads a file from a repository by path",
+    "expectedId": "GET /repos/{owner}/{repo}/contents/{path}",
+    "tier": "curated"
+  },
+  {
+    "id": "existing-file-put",
+    "source": "github",
+    "need": "I need an endpoint that creates or updates a file in a repository by path",
+    "expectedId": "PUT /repos/{owner}/{repo}/contents/{path}",
+    "tier": "curated"
+  },
+  {
+    "id": "existing-packages-org",
+    "source": "github",
+    "need": "I need an endpoint that lists packages owned by an organization",
+    "expectedId": "GET /orgs/{org}/packages",
+    "tier": "curated"
+  },
+  {
+    "id": "existing-sbom",
+    "source": "github",
+    "need": "I need an endpoint that exports a software bill of materials for a repository",
+    "expectedId": "GET /repos/{owner}/{repo}/dependency-graph/sbom",
+    "tier": "curated"
+  },
+  {
+    "id": "existing-advisories-repo",
+    "source": "github",
+    "need": "I need an endpoint that lists security advisories for a repository",
+    "expectedId": "GET /repos/{owner}/{repo}/security-advisories",
+    "tier": "curated"
+  },
+  {
+    "id": "existing-gists-user",
+    "source": "github",
+    "need": "I need an endpoint that lists public gists for a given username",
+    "expectedId": "GET /users/{username}/gists",
+    "tier": "curated"
+  },
+  {
+    "id": "existing-check-run-get",
+    "source": "github",
+    "need": "I need an endpoint that fetches a check run by id",
+    "expectedId": "GET /repos/{owner}/{repo}/check-runs/{check_run_id}",
+    "tier": "curated"
+  },
+  {
+    "id": "existing-codespaces-user",
+    "source": "github",
+    "need": "I need an endpoint that lists codespaces for the authenticated user",
+    "expectedId": "GET /user/codespaces",
+    "tier": "curated"
+  },
+  {
+    "id": "github-sbom-generate",
+    "source": "github",
+    "need": "Ask GitHub to generate a machine-readable dependency inventory for a repository and return a report identifier rather than the document itself.",
+    "expectedId": "GET /repos/{owner}/{repo}/dependency-graph/sbom/generate-report",
+    "tier": "curated"
+  },
+  {
+    "id": "github-sbom-fetch",
+    "source": "github",
+    "need": "Given an already generated dependency inventory report UUID, fetch that specific report.",
+    "expectedId": "GET /repos/{owner}/{repo}/dependency-graph/sbom/fetch-report/{sbom_uuid}",
+    "tier": "curated"
+  },
+  {
+    "id": "github-run-reviews",
+    "source": "github",
+    "need": "Show the approval review history for a particular GitHub Actions workflow run.",
+    "expectedId": "GET /repos/{owner}/{repo}/actions/runs/{run_id}/approvals",
+    "tier": "curated"
+  },
+  {
+    "id": "github-code-search",
+    "source": "github",
+    "need": "Search hosted source code across GitHub for files matching a query expression.",
+    "expectedId": "GET /search/code",
+    "tier": "curated"
+  },
+  {
+    "id": "github-head-branches",
+    "source": "github",
+    "need": "List the branches whose head currently points at a given commit SHA.",
+    "expectedId": "GET /repos/{owner}/{repo}/commits/{commit_sha}/branches-where-head",
+    "tier": "curated"
+  },
+  {
+    "id": "github-comment-reactions",
+    "source": "github",
+    "need": "List emoji reactions left on one issue comment.",
+    "expectedId": "GET /repos/{owner}/{repo}/issues/comments/{comment_id}/reactions",
+    "tier": "curated"
+  },
+  {
+    "id": "digitalocean-volume-snapshot-create",
+    "source": "digitalocean",
+    "need": "Take a new snapshot of one existing block storage volume.",
+    "expectedId": "POST /v2/volumes/{volume_id}/snapshots",
+    "tier": "curated"
+  },
+  {
+    "id": "digitalocean-volume-snapshot-list",
+    "source": "digitalocean",
+    "need": "List the existing snapshots for a particular block storage volume.",
+    "expectedId": "GET /v2/volumes/{volume_id}/snapshots",
+    "tier": "curated"
+  },
+  {
+    "id": "digitalocean-metrics-credentials",
+    "source": "digitalocean",
+    "need": "Read the credentials used by a client that scrapes metrics from managed database clusters.",
+    "expectedId": "GET /v2/databases/metrics/credentials",
+    "tier": "curated"
+  },
+  {
+    "id": "digitalocean-forwarding-rules",
+    "source": "digitalocean",
+    "need": "Attach new traffic forwarding rules to an existing load balancer.",
+    "expectedId": "POST /v2/load_balancers/{lb_id}/forwarding_rules",
+    "tier": "curated"
+  },
+  {
+    "id": "stripe-preview-change",
+    "source": "stripe",
+    "need": "Preview what would be billed if an active subscription switched from a monthly to an annual price today, including prorations, without applying the change.",
+    "expectedId": "POST /v1/invoices/create_preview",
+    "tier": "curated"
+  },
+  {
+    "id": "stripe-update-change",
+    "source": "stripe",
+    "need": "Actually switch an existing subscription to a different recurring price now.",
+    "expectedId": "POST /v1/subscriptions/{subscription_exposed_id}",
+    "acceptableIds": ["POST /v1/customers/{customer}/subscriptions/{subscription_exposed_id}"],
+    "tier": "curated"
+  },
+  {
+    "id": "github-no-direct-operation",
+    "source": "github",
+    "need": "Remove one changed file from an existing pull request without making a commit or changing either branch.",
+    "expectedId": null,
+    "tier": "curated"
+  },
+  {
+    "id": "digitalocean-no-direct-operation",
+    "source": "digitalocean",
+    "need": "Restore just one SQL table from a managed database backup without replacing the database cluster.",
+    "expectedId": null,
+    "tier": "curated"
+  },
+  {
+    "id": "stripe-no-direct-operation",
+    "source": "stripe",
+    "need": "Capture live network packets from a customer's subscription using a Stripe API operation.",
+    "expectedId": null,
+    "tier": "curated"
+  },
+  {
+    "id": "expanded-00",
+    "source": "github",
+    "expectedId": "GET /gists/{gist_id}/{sha}",
+    "need": "Fetch a particular historical version of a gist by its revision SHA, rather than its latest contents.",
+    "tier": "curated"
+  },
+  {
+    "id": "expanded-01",
+    "source": "github",
+    "expectedId": "POST /repos/{owner}/{repo}/stacks/{stack_number}/add",
+    "need": "Append several pull requests in order to the top of an existing pull request stack.",
+    "tier": "curated"
+  },
+  {
+    "id": "expanded-02",
+    "source": "github",
+    "expectedId": "POST /orgs/{org}/private-registries",
+    "need": "Create a new organization private registry configuration using an encrypted secret.",
+    "tier": "curated"
+  },
+  {
+    "id": "expanded-03",
+    "source": "github",
+    "expectedId": "POST /agents/repos/{owner}/{repo}/automations/{automation_id}/tasks",
+    "need": "Manually start an existing repository automation with optional context for its prompt.",
+    "tier": "curated"
+  },
+  {
+    "id": "expanded-04",
+    "source": "github",
+    "expectedId": "DELETE /repos/{owner}/{repo}/issues/{issue_number}/lock",
+    "need": "Reopen the conversation on an issue whose comments were locked.",
+    "tier": "curated"
+  },
+  {
+    "id": "expanded-05",
+    "source": "github",
+    "expectedId": "GET /repos/{owner}/{repo}/actions/jobs/{job_id}/logs",
+    "need": "Download the plain text log for one workflow job, rather than logs for the entire run.",
+    "tier": "curated"
+  },
+  {
+    "id": "expanded-06",
+    "source": "github",
+    "expectedId": "GET /repos/{owner}/{repo}/deployments/{deployment_id}/statuses/{status_id}",
+    "need": "Read one specific status record associated with an existing deployment.",
+    "tier": "curated"
+  },
+  {
+    "id": "expanded-07",
+    "source": "github",
+    "expectedId": "PATCH /repos/{owner}/{repo}/dependabot/alerts/{alert_number}",
+    "need": "Change the state or dismissal details of one existing Dependabot security alert.",
+    "tier": "curated"
+  },
+  {
+    "id": "expanded-08",
+    "source": "github",
+    "expectedId": "POST /repos/{owner}/{repo}/check-runs",
+    "need": "Create a new check run for a commit as a GitHub App.",
+    "tier": "curated"
+  },
+  {
+    "id": "expanded-09",
+    "source": "github",
+    "expectedId": "DELETE /orgs/{org}/actions/oidc/customization/properties/repo/{custom_property_name}",
+    "need": "Stop including one repository custom property in the OIDC tokens issued for an organization's Actions jobs.",
+    "tier": "curated"
+  },
+  {
+    "id": "expanded-10",
+    "source": "github",
+    "expectedId": "PATCH /organizations/{org}/settings/billing/budgets/{budget_id}",
+    "need": "Change an existing spending budget for an organization as its billing manager.",
+    "tier": "curated"
+  },
+  {
+    "id": "expanded-11",
+    "source": "github",
+    "expectedId": "POST /users/{username}/packages/{package_type}/{package_name}/versions/{package_version_id}/restore",
+    "need": "Recover one recently deleted version of a package owned by a specified user, rather than a package owned by the authenticated user.",
+    "tier": "curated"
+  },
+  {
+    "id": "expanded-12",
+    "source": "digitalocean",
+    "expectedId": "POST /v2/insights/query/{region}/traces/search",
+    "need": "Search distributed traces in a region over a time window, optionally filtering spans and paginating results.",
+    "tier": "curated"
+  },
+  {
+    "id": "expanded-13",
+    "source": "digitalocean",
+    "expectedId": "POST /v1/signals/exports",
+    "need": "Start an export of a team's Signals conversation data, with optional filters by signal type or session.",
+    "tier": "curated"
+  },
+  {
+    "id": "expanded-14",
+    "source": "digitalocean",
+    "expectedId": "GET /v2/monitoring/metrics/load_balancer/frontend_tls_connections_exceeding_rate_limit",
+    "need": "Read the load balancer metric for frontend TLS connections closed because the rate limit was exceeded.",
+    "tier": "curated"
+  },
+  {
+    "id": "expanded-15",
+    "source": "digitalocean",
+    "expectedId": "DELETE /v2/kubernetes/clusters/{cluster_id}/destroy_with_associated_resources/selective",
+    "need": "Delete a Kubernetes cluster and only the selected associated load balancers, volumes, or snapshots.",
+    "tier": "curated"
+  },
+  {
+    "id": "expanded-16",
+    "source": "digitalocean",
+    "expectedId": "POST /v2/apps/{app_id}/rollback/revert",
+    "need": "Undo an active app rollback and resume deployments from the app spec that was current before it.",
+    "tier": "curated"
+  },
+  {
+    "id": "expanded-17",
+    "source": "digitalocean",
+    "expectedId": "POST /v2/reserved_ips",
+    "need": "Allocate a new reserved IP assigned either to a Droplet or to a region.",
+    "tier": "curated"
+  },
+  {
+    "id": "expanded-18",
+    "source": "digitalocean",
+    "expectedId": "PUT /v2/gen-ai/agents/{agent_uuid}/api_keys/{api_key_uuid}",
+    "need": "Update one existing API key belonging to a GenAI agent.",
+    "tier": "curated"
+  },
+  {
+    "id": "expanded-19",
+    "source": "digitalocean",
+    "expectedId": "POST /v2/nfs/{nfs_id}/actions",
+    "need": "Trigger an action such as resize or snapshot on an existing NFS share.",
+    "tier": "curated"
+  },
+  {
+    "id": "expanded-20",
+    "source": "digitalocean",
+    "expectedId": "GET /v2/uptime/checks/{check_id}/state",
+    "need": "Read the current state of a specific uptime check.",
+    "tier": "curated"
+  },
+  {
+    "id": "expanded-21",
+    "source": "digitalocean",
+    "expectedId": "POST /v2/projects/{project_id}/resources",
+    "need": "Assign existing resources such as Droplets to a particular project.",
+    "tier": "curated"
+  },
+  {
+    "id": "expanded-22",
+    "source": "digitalocean",
+    "expectedId": "DELETE /v2/cdn/endpoints/{cdn_id}/cache",
+    "need": "Purge selected cached file paths, possibly with a wildcard, from a CDN endpoint.",
+    "tier": "curated"
+  },
+  {
+    "id": "expanded-23",
+    "source": "digitalocean",
+    "expectedId": "DELETE /v2/droplets/{droplet_id}/destroy_with_associated_resources/selective",
+    "need": "Destroy a Droplet together with only selected associated reserved IPs, snapshots, or volumes.",
+    "tier": "curated"
+  },
+  {
+    "id": "expanded-24",
+    "source": "stripe",
+    "expectedId": "GET /v1/invoice_payments",
+    "need": "Retrieve the full paginated collection of payments attached to an invoice, beyond the few embedded in the invoice response.",
+    "tier": "curated"
+  },
+  {
+    "id": "expanded-25",
+    "source": "stripe",
+    "expectedId": "POST /v1/test_helpers/issuing/personalization_designs/{personalization_design}/reject",
+    "need": "In test mode, mark one card personalization design as rejected.",
+    "tier": "curated"
+  },
+  {
+    "id": "expanded-26",
+    "source": "stripe",
+    "expectedId": "POST /v1/payment_records/{id}/report_payment_attempt_failed",
+    "need": "Record that the latest attempt on a Payment Record failed or errored.",
+    "tier": "curated"
+  },
+  {
+    "id": "expanded-27",
+    "source": "stripe",
+    "expectedId": "POST /v1/sigma/saved_queries/{id}",
+    "need": "Modify an existing saved Sigma query.",
+    "tier": "curated"
+  },
+  {
+    "id": "expanded-28",
+    "source": "stripe",
+    "expectedId": "POST /v1/payouts/{payout}/reverse",
+    "need": "Reverse a completed connected-account payout by debiting its destination bank account, rather than cancelling a pending payout.",
+    "tier": "curated"
+  },
+  {
+    "id": "expanded-29",
+    "source": "stripe",
+    "expectedId": "POST /v2/commerce/product_catalog/imports",
+    "need": "Create a new product catalog import in the Commerce API.",
+    "tier": "curated"
+  },
+  {
+    "id": "expanded-30",
+    "source": "stripe",
+    "expectedId": "POST /v1/customers/{customer}/balance_transactions",
+    "need": "Add an immutable transaction that changes a customer's credit balance.",
+    "tier": "curated"
+  },
+  {
+    "id": "expanded-31",
+    "source": "stripe",
+    "expectedId": "DELETE /v1/subscription_items/{item}",
+    "need": "Remove one price item from a subscription while leaving the subscription itself active.",
+    "tier": "curated"
+  },
+  {
+    "id": "expanded-32",
+    "source": "stripe",
+    "expectedId": "POST /v1/subscription_schedules/{schedule}",
+    "need": "Change an existing subscription schedule's phases or other settings.",
+    "tier": "curated"
+  },
+  {
+    "id": "expanded-33",
+    "source": "stripe",
+    "expectedId": "GET /v1/forwarding/requests/{id}",
+    "need": "Retrieve one existing ForwardingRequest by its identifier.",
+    "tier": "curated"
+  },
+  {
+    "id": "expanded-34",
+    "source": "stripe",
+    "expectedId": "POST /v1/payment_intents/{intent}/verify_microdeposits",
+    "need": "Confirm the small bank deposits used to verify a PaymentIntent.",
+    "tier": "curated"
+  },
+  {
+    "id": "expanded-35",
+    "source": "stripe",
+    "expectedId": "POST /v1/account_sessions",
+    "need": "Create a short-lived account session token so a platform frontend can access connected-account functionality.",
+    "tier": "curated"
+  },
+  {
+    "id": "summary-00",
+    "source": "github",
+    "need": "Find the github API operation in the agents area to: Update an organization variable",
+    "expectedId": "PATCH /orgs/{org}/agents/variables/{name}",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-01",
+    "source": "github",
+    "need": "Find the github API operation in the campaigns area to: Delete a campaign for an organization",
+    "expectedId": "DELETE /orgs/{org}/campaigns/{campaign_number}",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-02",
+    "source": "github",
+    "need": "Find the github API operation in the meta area to: Get the Zen of GitHub",
+    "expectedId": "GET /zen",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-03",
+    "source": "github",
+    "need": "Find the github API operation in the markdown area to: Render a Markdown document",
+    "expectedId": "POST /markdown",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-04",
+    "source": "github",
+    "need": "Find the github API operation in the teams area to: Add or update team membership for a user",
+    "expectedId": "PUT /orgs/{org}/teams/{team_slug}/memberships/{username}",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-05",
+    "source": "github",
+    "need": "Find the github API operation in the credentials area to: Revoke a list of credentials",
+    "expectedId": "POST /credentials/revoke",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-06",
+    "source": "github",
+    "need": "Find the github API operation in the rate-limit area to: Get rate limit status for the authenticated user",
+    "expectedId": "GET /rate_limit",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-07",
+    "source": "github",
+    "need": "Find the github API operation in the apps area to: Get a subscription plan for an account",
+    "expectedId": "GET /marketplace_listing/accounts/{account_id}",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-08",
+    "source": "github",
+    "need": "Find the github API operation in the projects area to: Create draft item for user owned project",
+    "expectedId": "POST /user/{user_id}/projectsV2/{project_number}/drafts",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-09",
+    "source": "github",
+    "need": "Find the github API operation in the agent-merge area to: Get Agent Merge configuration for a pull request",
+    "expectedId": "GET /agents/repos/{owner}/{repo}/pulls/{pull_number}/agent-merge",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-10",
+    "source": "github",
+    "need": "Find the github API operation in the gitignore area to: Get all gitignore templates",
+    "expectedId": "GET /gitignore/templates",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-11",
+    "source": "github",
+    "need": "Find the github API operation in the licenses area to: Get all commonly used licenses",
+    "expectedId": "GET /licenses",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-12",
+    "source": "github",
+    "need": "Find the github API operation in the copilot-spaces area to: Set an organization Copilot Space",
+    "expectedId": "PUT /orgs/{org}/copilot-spaces/{space_number}",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-13",
+    "source": "github",
+    "need": "Find the github API operation in the code-security area to: Update a code security configuration",
+    "expectedId": "PATCH /orgs/{org}/code-security/configurations/{configuration_id}",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-14",
+    "source": "github",
+    "need": "Find the github API operation in the codes-of-conduct area to: Get all codes of conduct",
+    "expectedId": "GET /codes_of_conduct",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-15",
+    "source": "github",
+    "need": "Find the github API operation in the emojis area to: Get emojis",
+    "expectedId": "GET /emojis",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-16",
+    "source": "github",
+    "need": "Find the github API operation in the migrations area to: Get a user migration status",
+    "expectedId": "GET /user/migrations/{migration_id}",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-17",
+    "source": "github",
+    "need": "Find the github API operation in the copilot area to: Remove teams from the Copilot subscription for an organization",
+    "expectedId": "DELETE /orgs/{org}/copilot/billing/selected_teams",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-18",
+    "source": "github",
+    "need": "Find the github API operation in the search area to: Search issues and pull requests",
+    "expectedId": "GET /search/issues",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-19",
+    "source": "github",
+    "need": "Find the github API operation in the codespaces area to: Create or update a repository secret",
+    "expectedId": "PUT /repos/{owner}/{repo}/codespaces/secrets/{secret_name}",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-20",
+    "source": "github",
+    "need": "Find the github API operation in the git area to: Create a commit",
+    "expectedId": "POST /repos/{owner}/{repo}/git/commits",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-21",
+    "source": "github",
+    "need": "Find the github API operation in the security-advisories area to: Get a global security advisory",
+    "expectedId": "GET /advisories/{ghsa_id}",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-22",
+    "source": "github",
+    "need": "Find the github API operation in the code-quality area to: Update a code quality setup configuration",
+    "expectedId": "PATCH /repos/{owner}/{repo}/code-quality/setup",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-23",
+    "source": "digitalocean",
+    "need": "Find the digitalocean API operation in the VPCs area to: Partially Update a VPC",
+    "expectedId": "PATCH /v2/vpcs/{vpc_id}",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-24",
+    "source": "digitalocean",
+    "need": "Find the digitalocean API operation in the Snapshots area to: List All Snapshots",
+    "expectedId": "GET /v2/snapshots",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-25",
+    "source": "digitalocean",
+    "need": "Find the digitalocean API operation in the Functions area to: Delete Namespace",
+    "expectedId": "DELETE /v2/functions/namespaces/{namespace_id}",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-26",
+    "source": "digitalocean",
+    "need": "Find the digitalocean API operation in the Floating IP Actions area to: Retrieve an Existing Floating IP Action",
+    "expectedId": "GET /v2/floating_ips/{floating_ip}/actions/{action_id}",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-27",
+    "source": "digitalocean",
+    "need": "Find the digitalocean API operation in the Container Registries area to: Delete Container Registry By Name",
+    "expectedId": "DELETE /v2/registries/{registry_name}",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-28",
+    "source": "digitalocean",
+    "need": "Find the digitalocean API operation in the Action Gateway Data Plane area to: Invoke Session Tools",
+    "expectedId": "POST /tools/invoke",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-29",
+    "source": "digitalocean",
+    "need": "Find the digitalocean API operation in the Regions area to: List All Data Center Regions",
+    "expectedId": "GET /v2/regions",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-30",
+    "source": "digitalocean",
+    "need": "Find the digitalocean API operation in the Floating IPs area to: List All Floating IPs",
+    "expectedId": "GET /v2/floating_ips",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-31",
+    "source": "digitalocean",
+    "need": "Find the digitalocean API operation in the Serverless Inference area to: Create a model response for the given chat conversation",
+    "expectedId": "POST /v1/chat/completions",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-32",
+    "source": "digitalocean",
+    "need": "Find the digitalocean API operation in the Projects area to: Update the Default Project",
+    "expectedId": "PUT /v2/projects/default",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-33",
+    "source": "digitalocean",
+    "need": "Find the digitalocean API operation in the SSH Keys area to: Create a New SSH Key",
+    "expectedId": "POST /v2/account/keys",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-34",
+    "source": "digitalocean",
+    "need": "Find the digitalocean API operation in the 1-Click Applications area to: List 1-Click Applications",
+    "expectedId": "GET /v2/1-clicks",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-35",
+    "source": "digitalocean",
+    "need": "Find the digitalocean API operation in the Domains area to: Create a New Domain",
+    "expectedId": "POST /v2/domains",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-36",
+    "source": "digitalocean",
+    "need": "Find the digitalocean API operation in the Reserved IP Actions area to: Retrieve an Existing Reserved IP Action",
+    "expectedId": "GET /v2/reserved_ips/{reserved_ip}/actions/{action_id}",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-37",
+    "source": "digitalocean",
+    "need": "Find the digitalocean API operation in the Actions area to: Retrieve an Existing Action",
+    "expectedId": "GET /v2/actions/{action_id}",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-38",
+    "source": "digitalocean",
+    "need": "Find the digitalocean API operation in the VPC NAT Gateways area to: Update VPC NAT Gateway",
+    "expectedId": "PUT /v2/vpc_nat_gateways/{id}",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-39",
+    "source": "digitalocean",
+    "need": "Find the digitalocean API operation in the Load Balancers area to: Delete a Global Load Balancer CDN Cache",
+    "expectedId": "DELETE /v2/load_balancers/{lb_id}/cache",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-40",
+    "source": "digitalocean",
+    "need": "Find the digitalocean API operation in the BYOIP Prefixes area to: Delete a BYOIP Prefix",
+    "expectedId": "DELETE /v2/byoip_prefixes/{byoip_prefix_uuid}",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-41",
+    "source": "digitalocean",
+    "need": "Find the digitalocean API operation in the NFS area to: Delete an NFS access point",
+    "expectedId": "DELETE /v2/nfs/access_points/{access_point_id}",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-42",
+    "source": "digitalocean",
+    "need": "Find the digitalocean API operation in the Action Gateway area to: Create a Toolbelt",
+    "expectedId": "POST /v2/action-gateway/toolbelts",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-43",
+    "source": "digitalocean",
+    "need": "Find the digitalocean API operation in the Agent Inference area to: Create a model response for the given chat conversation",
+    "expectedId": "POST /api/v1/chat/completions",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-44",
+    "source": "digitalocean",
+    "need": "Find the digitalocean API operation in the Image Actions area to: Initiate an Image Action",
+    "expectedId": "POST /v2/images/{image_id}/actions",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-45",
+    "source": "digitalocean",
+    "need": "Find the digitalocean API operation in the Partner Network Connect area to: Retrieve an existing partner attachment",
+    "expectedId": "GET /v2/partner_network_connect/attachments/{pa_id}",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-46",
+    "source": "digitalocean",
+    "need": "Find the digitalocean API operation in the Droplet Actions area to: List Actions for a Droplet",
+    "expectedId": "GET /v2/droplets/{droplet_id}/actions",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-47",
+    "source": "stripe",
+    "need": "Find the stripe API operation in the checkout area to: Create a Checkout Session",
+    "expectedId": "POST /v1/checkout/sessions",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-48",
+    "source": "stripe",
+    "need": "Find the stripe API operation in the files area to: Create a file",
+    "expectedId": "POST /v1/files",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-49",
+    "source": "stripe",
+    "need": "Find the stripe API operation in the radar area to: Delete a value list",
+    "expectedId": "DELETE /v1/radar/value_lists/{value_list}",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-50",
+    "source": "stripe",
+    "need": "Find the stripe API operation in the accounts area to: Delete an external account",
+    "expectedId": "DELETE /v1/accounts/{account}/external_accounts/{id}",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-51",
+    "source": "stripe",
+    "need": "Find the stripe API operation in the file_links area to: List all file links",
+    "expectedId": "GET /v1/file_links",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-52",
+    "source": "stripe",
+    "need": "Find the stripe API operation in the entitlements area to: Retrieve a feature",
+    "expectedId": "GET /v1/entitlements/features/{id}",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-53",
+    "source": "stripe",
+    "need": "Find the stripe API operation in the application_fees area to: Retrieve an application fee refund",
+    "expectedId": "GET /v1/application_fees/{fee}/refunds/{id}",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-54",
+    "source": "stripe",
+    "need": "Find the stripe API operation in the shipping_rates area to: Retrieve a shipping rate",
+    "expectedId": "GET /v1/shipping_rates/{shipping_rate_token}",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-55",
+    "source": "stripe",
+    "need": "Find the stripe API operation in the link_account_sessions area to: Create a Session",
+    "expectedId": "POST /v1/link_account_sessions",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-56",
+    "source": "stripe",
+    "need": "Find the stripe API operation in the tax_codes area to: Retrieve a tax code",
+    "expectedId": "GET /v1/tax_codes/{id}",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-57",
+    "source": "stripe",
+    "need": "Find the stripe API operation in the tax_rates area to: Retrieve a tax rate",
+    "expectedId": "GET /v1/tax_rates/{tax_rate}",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-58",
+    "source": "stripe",
+    "need": "Find the stripe API operation in the webhook_endpoints area to: Retrieve a webhook endpoint",
+    "expectedId": "GET /v1/webhook_endpoints/{webhook_endpoint}",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-59",
+    "source": "stripe",
+    "need": "Find the stripe API operation in the refunds area to: Retrieve a refund",
+    "expectedId": "GET /v1/refunds/{refund}",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-60",
+    "source": "stripe",
+    "need": "Find the stripe API operation in the reporting area to: List all Report Runs",
+    "expectedId": "GET /v1/reporting/report_runs",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-61",
+    "source": "stripe",
+    "need": "Find the stripe API operation in the invoiceitems area to: Retrieve an invoice item",
+    "expectedId": "GET /v1/invoiceitems/{invoiceitem}",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-62",
+    "source": "stripe",
+    "need": "Find the stripe API operation in the core area to: Create an account",
+    "expectedId": "POST /v2/core/accounts",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-63",
+    "source": "stripe",
+    "need": "Find the stripe API operation in the customer_sessions area to: Create a Customer Session",
+    "expectedId": "POST /v1/customer_sessions",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-64",
+    "source": "stripe",
+    "need": "Find the stripe API operation in the quotes area to: Create a quote",
+    "expectedId": "POST /v1/quotes",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-65",
+    "source": "stripe",
+    "need": "Find the stripe API operation in the topups area to: Update a top-up",
+    "expectedId": "POST /v1/topups/{topup}",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-66",
+    "source": "stripe",
+    "need": "Find the stripe API operation in the country_specs area to: List Country Specs",
+    "expectedId": "GET /v1/country_specs",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-67",
+    "source": "stripe",
+    "need": "Find the stripe API operation in the reviews area to: Approve a review",
+    "expectedId": "POST /v1/reviews/{review}/approve",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-68",
+    "source": "stripe",
+    "need": "Find the stripe API operation in the terminal area to: Retrieve a Location",
+    "expectedId": "GET /v1/terminal/locations/{location}",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-69",
+    "source": "stripe",
+    "need": "Find the stripe API operation in the tax_ids area to: Delete a tax ID",
+    "expectedId": "DELETE /v1/tax_ids/{id}",
+    "tier": "summary-derived"
+  },
+  {
+    "id": "summary-70",
+    "source": "stripe",
+    "need": "Find the stripe API operation in the mandates area to: Retrieve a Mandate",
+    "expectedId": "GET /v1/mandates/{mandate}",
+    "tier": "summary-derived"
+  }
+]

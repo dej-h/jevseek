@@ -12,15 +12,15 @@ const DISCOVERY_TIMEOUT_MS = 120_000;
 const MAX_RESULT_BYTES = 256 * 1024;
 const SERVER_INSTRUCTIONS = [
   "Use jevseek_discover when an OpenAPI document or public remote MCP endpoint is known and you need to find which operation or tool supports a capability.",
-  "It ranks the catalog and returns compact source-derived targets.",
-  "Use jevseek_inspect with the same source and target to read the current contract.",
+  "It ranks the catalog and returns compact source-derived targets with a compact contract preview for the top match.",
+  "Use jevseek_inspect with the same source and target when the preview lacks details needed for the task.",
   "Use normal tools or web search to locate sources and check current guidance.",
   "JevSeek does not execute target operations; discovery sends the need and descriptors to TypeSafe Jev.",
 ].join(" ");
 const DISCOVER_DESCRIPTION = [
   "Use when you have a local or HTTPS OpenAPI document or public remote MCP endpoint and need to find which operation or tool supports a capability, especially in a large or unfamiliar catalog where names may not match the user's wording.",
-  "Semantically ranks the source and returns compact, source-derived targets.",
-  "Use jevseek_inspect for the current contract.",
+  "Semantically ranks the source and returns compact, source-derived targets plus a current contract preview for the top match.",
+  "Use jevseek_inspect when the preview lacks details needed for the task.",
   "Discovery sends the need and descriptor fields to TypeSafe Jev; it does not execute the target.",
 ].join(" ");
 const INSPECT_DESCRIPTION = [

@@ -21,7 +21,7 @@
 
 ![Demo video coming soon: a capability need, a source, and the selected native contract.](docs/assets/hero-video-placeholder.svg)
 
-JevSeek helps coding agents find their way around unfamiliar APIs and MCP servers. Give it an OpenAPI file, an HTTPS document URL, or a public remote MCP endpoint and describe what you need. It detects the source type, enumerates capabilities, and uses [TypeSafe Jev](https://docs.typesafe.ai) to score their relevance. Discovery returns short ranked targets. Inspection reads the current source for the selected operation or tool.
+JevSeek helps coding agents find their way around unfamiliar APIs and MCP servers. Give it an OpenAPI file, an HTTPS document URL, or a public remote MCP endpoint and describe what you need. It detects the source type, enumerates capabilities, and uses [TypeSafe Jev](https://docs.typesafe.ai) to score their relevance. Discovery returns short ranked targets and a compact source-backed preview for a confident top match. Inspection reads the current source when the preview lacks details for the selected operation or tool.
 
 Use it through the CLI, a TypeScript function, or an MCP discovery tool. No per-API wrapper or embedding index is required for discovery.
 
@@ -45,7 +45,7 @@ Matches:
 Usage: [requests, input tokens, cost]
 ```
 
-Omit `--short` to return JSON with target names, scores, scan warning counts, and usage. To read the selected operation:
+Omit `--short` to return JSON with target names, scores, a compact preview of the top match when confident, scan warning counts, and usage. To read more of the selected operation:
 
 ```bash
 jevseek inspect ./examples/github/api.github.com.json \
@@ -122,6 +122,8 @@ codex mcp add jevseek \
 
 Restart Codex, then run `codex mcp list` or check `/mcp` in a CLI session.
 
+The optional [Codex discovery skill](docs/coding-agents.md#optional-codex-discovery-skill) helps the agent recognize capability-search tasks and use JevSeek when an OpenAPI document or public MCP catalog is available.
+
 </details>
 
 <details>
@@ -142,7 +144,7 @@ Restart Claude Code, then check `/mcp`.
 
 Then give your agent a real public PR URL and ask:
 
-> Use JevSeek with the GitHub OpenAPI file at /absolute/path/github.openapi.json. I need filenames and change metadata for this pull request. Find the operation, inspect its contract, and make the public read-only request.
+> Use JevSeek with the GitHub OpenAPI file at /absolute/path/github.openapi.json. I need filenames and change metadata for this pull request. Find the operation, check its required inputs, and make the public read-only request.
 
 For an MCP catalog, the source is just the endpoint string:
 
@@ -171,12 +173,14 @@ If you already know the endpoint, or an installed tool already handles the task,
 source + capability need
   → detect OpenAPI or remote MCP
   → enumerate operations or tools
-  → Jev scores structured descriptors
-  → return compact ranked targets
-  → inspect one target against the current source
+  → select candidates for large catalogs, then Jev scores descriptors
+  → return ranked targets and a compact preview of the top match
+  → inspect the current source when more detail is needed
 ```
 
-Descriptors are compact representations sent to Jev. Discovery returns source-derived target names such as `POST /v1/invoices/create_preview` or an exact MCP tool name. Inspection returns the selected OpenAPI operation with inherited settings and a paged list of reachable local reference names, or the selected MCP tool definition. A large field can be opened using its returned child names. The full catalog is not returned to the coding agent.
+Descriptors are compact representations sent to Jev. For large catalogs, Jev ranks a source-derived shortlist first and retries the full catalog when the result is weak. `scan.examinedOperations` and `scan.complete` show how many operations Jev ranked; source enumeration still covers the full catalog. Discovery returns source-derived target names such as `POST /v1/invoices/create_preview` or an exact MCP tool name. A confident top match also includes a bounded preview of its method, path, parameters, and request body, or an MCP tool's input schema. Inspection returns the selected OpenAPI operation with inherited settings and a paged list of reachable local reference names, or the selected MCP tool definition. A large field can be opened using its returned child names. The full catalog is not returned to the coding agent.
+
+The [discovery evaluation](docs/discovery-evaluation.md) records accuracy, ranking cost, and agent workflow results against frozen OpenAPI snapshots.
 
 For OpenAPI, `--parameters`, `--request-body`, and `--responses` enable richer scoring descriptors; they are off by default. MCP descriptors use the tool name, title, description, schemas, and annotations. `--top` controls the number of results. `--short` prints a bounded terminal summary. `jevseek inspect` accepts repeated `--part` fields for large values. Run `jevseek --help` for command options.
 
