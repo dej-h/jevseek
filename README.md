@@ -36,14 +36,14 @@ JevSeek returns a source-backed target and compact contract preview without send
 
 The size and response figures come from the 36 agent tasks; the example targets come from the [curated discovery cases](docs/discovery-evaluation.md). The response sizes include duplicate text and structured content. A coding agent without JevSeek can search a local file directly, so the table does not count the entire source as tokens saved. In matched tasks, Codex could choose its normal tools in both conditions. The next table reports average uncached Codex input tokens per task:
 
-| Catalog | Tasks | Without JevSeek | With JevSeek | Input change | Median paired time |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| Oxford Ledge public MCP, 62 tools | 3 needs × 3 runs | 32.4k | 17.3k | 47% less | 1.2 s faster |
-| Stripe local OpenAPI | 12 needs | 19.4k | 13.3k | 32% less | 5.7 s slower |
-| DigitalOcean local OpenAPI | 12 needs | 18.4k | 15.7k | 15% less | 3.8 s slower |
-| GitHub local OpenAPI | 12 needs | 13.0k | 14.7k | 13% more | 0.1 s faster |
+| Catalog | Tasks | Without JevSeek | With JevSeek | Input change |
+| --- | ---: | ---: | ---: | ---: |
+| Oxford Ledge public MCP, 62 tools | 3 needs × 3 runs | 32.4k | 17.3k | 47% less |
+| Stripe local OpenAPI | 12 needs | 19.4k | 13.3k | 32% less |
+| DigitalOcean local OpenAPI | 12 needs | 18.4k | 15.7k | 15% less |
+| GitHub local OpenAPI | 12 needs | 13.0k | 14.7k | 13% more |
 
-Both setups found the checked target and inputs in every task. Across the 36 OpenAPI tasks, enabling JevSeek reduced uncached Codex input by 14% but added 3.7 seconds to the median paired task. Its successful ranking calls processed another 806,194 input tokens at a reported cost of $0.0339; nine discovery calls failed with a connection error and the agent used its other tools to finish. The Oxford comparison used an earlier installed client; its three needs were repeated, while the OpenAPI tasks were distinct. The [full breakdown](docs/agent-product-comparison-detail.md) shows means, medians, and every task alongside the [flat CSV](evals/agent-product-comparison-20261103.csv) and [raw results](evals/agent-product-comparison-20261103.json).
+Both setups found the checked target and inputs in every task. Across the 36 OpenAPI tasks, enabling JevSeek reduced uncached Codex input by 14%. Its successful ranking calls processed another 806,194 input tokens at a reported cost of $0.0339; nine discovery calls failed with a connection error and the agent used its other tools to finish. The Oxford comparison used an earlier installed client; its three needs were repeated, while the OpenAPI tasks were distinct. The [full breakdown](docs/agent-product-comparison-detail.md) shows token and elapsed-time means, medians, and every task alongside the [flat CSV](evals/agent-product-comparison-20261103.csv) and [raw results](evals/agent-product-comparison-20261103.json).
 
 ## From a need to a request
 
