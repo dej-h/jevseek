@@ -65,7 +65,8 @@
             "target_check": true,
             "operationIdCheck": true,
             "requiredBodyFieldsCheck": true,
-            "discoveryResultBytes": 17873
+            "discoveryResultBytes": 17873,
+            "discoveryStatus": "matches"
           }
         },
         "expectedOperationId": "private-registries/create-org-private-registry",
@@ -128,7 +129,8 @@
             "target_check": true,
             "operationIdCheck": true,
             "requiredBodyFieldsCheck": true,
-            "discoveryResultBytes": 25129
+            "discoveryResultBytes": 25129,
+            "discoveryStatus": "matches"
           }
         },
         "expectedOperationId": "PostSubscriptionSchedulesSchedule",
@@ -188,7 +190,8 @@
             "target_check": true,
             "operationIdCheck": true,
             "requiredBodyFieldsCheck": true,
-            "discoveryResultBytes": 4359
+            "discoveryResultBytes": 4359,
+            "discoveryStatus": "matches"
           }
         },
         "expectedOperationId": "packages/restore-package-version-for-user",
@@ -247,7 +250,8 @@
             "target_check": true,
             "operationIdCheck": true,
             "requiredBodyFieldsCheck": true,
-            "discoveryResultBytes": 19521
+            "discoveryResultBytes": 19521,
+            "discoveryStatus": "matches"
           }
         },
         "expectedOperationId": "PostAccountSessions",
@@ -309,7 +313,9 @@
             "target_check": true,
             "operationIdCheck": true,
             "requiredBodyFieldsCheck": true,
-            "discoveryResultBytes": 95
+            "discoveryResultBytes": 95,
+            "discoveryStatus": "connection_error",
+            "discoveryError": "Connection error: fetch failed"
           }
         },
         "expectedOperationId": "PostSigmaSavedQueriesId",
@@ -371,7 +377,8 @@
             "target_check": true,
             "operationIdCheck": true,
             "requiredBodyFieldsCheck": true,
-            "discoveryResultBytes": 3655
+            "discoveryResultBytes": 3655,
+            "discoveryStatus": "matches"
           }
         },
         "expectedOperationId": "droplets_destroy_withAssociatedResourcesSelective",
@@ -432,7 +439,8 @@
             "target_check": true,
             "operationIdCheck": true,
             "requiredBodyFieldsCheck": true,
-            "discoveryResultBytes": 3799
+            "discoveryResultBytes": 3799,
+            "discoveryStatus": "matches"
           }
         },
         "expectedOperationId": "kubernetes_destroy_associatedResourcesSelective",
@@ -492,7 +500,8 @@
             "target_check": true,
             "operationIdCheck": true,
             "requiredBodyFieldsCheck": true,
-            "discoveryResultBytes": 6425
+            "discoveryResultBytes": 6425,
+            "discoveryStatus": "matches"
           }
         },
         "expectedOperationId": "PostCustomersCustomerBalanceTransactions",
@@ -554,7 +563,9 @@
             "target_check": true,
             "operationIdCheck": true,
             "requiredBodyFieldsCheck": true,
-            "discoveryResultBytes": 95
+            "discoveryResultBytes": 95,
+            "discoveryStatus": "connection_error",
+            "discoveryError": "Connection error: fetch failed"
           }
         },
         "expectedOperationId": "gists/get-revision",
@@ -613,7 +624,8 @@
             "target_check": true,
             "operationIdCheck": true,
             "requiredBodyFieldsCheck": true,
-            "discoveryResultBytes": 2853
+            "discoveryResultBytes": 2853,
+            "discoveryStatus": "matches"
           }
         },
         "expectedOperationId": "GetForwardingRequestsId",
@@ -672,7 +684,8 @@
             "target_check": true,
             "operationIdCheck": true,
             "requiredBodyFieldsCheck": true,
-            "discoveryResultBytes": 19092
+            "discoveryResultBytes": 19092,
+            "discoveryStatus": "matches"
           }
         },
         "expectedOperationId": "checks/create",
@@ -734,7 +747,8 @@
             "target_check": true,
             "operationIdCheck": true,
             "requiredBodyFieldsCheck": true,
-            "discoveryResultBytes": 4979
+            "discoveryResultBytes": 4979,
+            "discoveryStatus": "matches"
           }
         },
         "expectedOperationId": "agent-automations/create-repo-automation-task",
@@ -795,7 +809,8 @@
             "target_check": true,
             "operationIdCheck": true,
             "requiredBodyFieldsCheck": true,
-            "discoveryResultBytes": 5695
+            "discoveryResultBytes": 5695,
+            "discoveryStatus": "matches"
           }
         },
         "expectedOperationId": "PostTestHelpersIssuingPersonalizationDesignsPersonalizationDesignReject",
@@ -858,7 +873,8 @@
             "target_check": true,
             "operationIdCheck": true,
             "requiredBodyFieldsCheck": true,
-            "discoveryResultBytes": 3509
+            "discoveryResultBytes": 3509,
+            "discoveryStatus": "matches"
           }
         },
         "expectedOperationId": "genai_update_agent_api_key",
@@ -917,7 +933,9 @@
             "target_check": true,
             "operationIdCheck": true,
             "requiredBodyFieldsCheck": true,
-            "discoveryResultBytes": 95
+            "discoveryResultBytes": 95,
+            "discoveryStatus": "connection_error",
+            "discoveryError": "Connection error: fetch failed"
           }
         },
         "expectedOperationId": "oidc/delete-oidc-custom-property-inclusion-for-org",
@@ -979,7 +997,8 @@
             "target_check": true,
             "operationIdCheck": true,
             "requiredBodyFieldsCheck": true,
-            "discoveryResultBytes": 3565
+            "discoveryResultBytes": 3565,
+            "discoveryStatus": "matches"
           }
         },
         "expectedOperationId": "projects_assign_resources",
@@ -1040,7 +1059,8 @@
             "target_check": true,
             "operationIdCheck": true,
             "requiredBodyFieldsCheck": true,
-            "discoveryResultBytes": 3781
+            "discoveryResultBytes": 3781,
+            "discoveryStatus": "matches"
           }
         },
         "expectedOperationId": "signals_create_export",
@@ -1099,7 +1119,9 @@
             "target_check": true,
             "operationIdCheck": true,
             "requiredBodyFieldsCheck": true,
-            "discoveryResultBytes": 95
+            "discoveryResultBytes": 95,
+            "discoveryStatus": "connection_error",
+            "discoveryError": "Connection error: fetch failed"
           }
         },
         "expectedOperationId": "reservedIPs_create",
@@ -1159,7 +1181,8 @@
             "target_check": true,
             "operationIdCheck": true,
             "requiredBodyFieldsCheck": true,
-            "discoveryResultBytes": 3665
+            "discoveryResultBytes": 3665,
+            "discoveryStatus": "matches"
           }
         },
         "expectedOperationId": "actions/download-job-logs-for-workflow-run",
@@ -1220,7 +1243,8 @@
             "target_check": true,
             "operationIdCheck": true,
             "requiredBodyFieldsCheck": true,
-            "discoveryResultBytes": 2719
+            "discoveryResultBytes": 2719,
+            "discoveryStatus": "matches"
           }
         },
         "expectedOperationId": "cdn_purge_cache",
@@ -1282,7 +1306,8 @@
             "target_check": true,
             "operationIdCheck": true,
             "requiredBodyFieldsCheck": true,
-            "discoveryResultBytes": 4729
+            "discoveryResultBytes": 4729,
+            "discoveryStatus": "matches"
           }
         },
         "expectedOperationId": "PostPayoutsPayoutReverse",
@@ -1342,7 +1367,8 @@
             "target_check": true,
             "operationIdCheck": true,
             "requiredBodyFieldsCheck": true,
-            "discoveryResultBytes": 4253
+            "discoveryResultBytes": 4253,
+            "discoveryStatus": "matches"
           }
         },
         "expectedOperationId": "monitoring_get_lb_frontend_tls_connections_exceeding_rate_limit",
@@ -1410,7 +1436,8 @@
             "target_check": true,
             "operationIdCheck": true,
             "requiredBodyFieldsCheck": true,
-            "discoveryResultBytes": 4916
+            "discoveryResultBytes": 4916,
+            "discoveryStatus": "matches"
           }
         },
         "expectedOperationId": "nfs_create_action",
@@ -1469,7 +1496,9 @@
             "target_check": true,
             "operationIdCheck": true,
             "requiredBodyFieldsCheck": true,
-            "discoveryResultBytes": 95
+            "discoveryResultBytes": 95,
+            "discoveryStatus": "connection_error",
+            "discoveryError": "Connection error: fetch failed"
           }
         },
         "expectedOperationId": "apps_revert_rollback",
@@ -1533,7 +1562,8 @@
             "target_check": true,
             "operationIdCheck": true,
             "requiredBodyFieldsCheck": true,
-            "discoveryResultBytes": 6193
+            "discoveryResultBytes": 6193,
+            "discoveryStatus": "matches"
           }
         },
         "expectedOperationId": "insights_post_tracesSearch",
@@ -1595,7 +1625,8 @@
             "target_check": true,
             "operationIdCheck": true,
             "requiredBodyFieldsCheck": true,
-            "discoveryResultBytes": 3869
+            "discoveryResultBytes": 3869,
+            "discoveryStatus": "matches"
           }
         },
         "expectedOperationId": "PostV2CommerceProductCatalogImports",
@@ -1659,7 +1690,8 @@
             "target_check": true,
             "operationIdCheck": true,
             "requiredBodyFieldsCheck": true,
-            "discoveryResultBytes": 3821
+            "discoveryResultBytes": 3821,
+            "discoveryStatus": "matches"
           }
         },
         "expectedOperationId": "repos/get-deployment-status",
@@ -1719,7 +1751,8 @@
             "target_check": true,
             "operationIdCheck": true,
             "requiredBodyFieldsCheck": true,
-            "discoveryResultBytes": 3075
+            "discoveryResultBytes": 3075,
+            "discoveryStatus": "matches"
           }
         },
         "expectedOperationId": "uptime_get_checkState",
@@ -1778,7 +1811,8 @@
             "target_check": true,
             "operationIdCheck": true,
             "requiredBodyFieldsCheck": true,
-            "discoveryResultBytes": 5911
+            "discoveryResultBytes": 5911,
+            "discoveryStatus": "matches"
           }
         },
         "expectedOperationId": "DeleteSubscriptionItemsItem",
@@ -1837,7 +1871,9 @@
             "target_check": true,
             "operationIdCheck": true,
             "requiredBodyFieldsCheck": true,
-            "discoveryResultBytes": 95
+            "discoveryResultBytes": 95,
+            "discoveryStatus": "connection_error",
+            "discoveryError": "Connection error: fetch failed"
           }
         },
         "expectedOperationId": "PostPaymentIntentsIntentVerifyMicrodeposits",
@@ -1896,7 +1932,9 @@
             "target_check": true,
             "operationIdCheck": true,
             "requiredBodyFieldsCheck": true,
-            "discoveryResultBytes": 95
+            "discoveryResultBytes": 95,
+            "discoveryStatus": "connection_error",
+            "discoveryError": "Connection error: fetch failed"
           }
         },
         "expectedOperationId": "pull-request-stacks/add",
@@ -1957,7 +1995,9 @@
             "target_check": true,
             "operationIdCheck": true,
             "requiredBodyFieldsCheck": true,
-            "discoveryResultBytes": 95
+            "discoveryResultBytes": 95,
+            "discoveryStatus": "connection_error",
+            "discoveryError": "Connection error: fetch failed"
           }
         },
         "expectedOperationId": "PostPaymentRecordsIdReportPaymentAttemptFailed",
@@ -2018,7 +2058,8 @@
             "target_check": true,
             "operationIdCheck": true,
             "requiredBodyFieldsCheck": true,
-            "discoveryResultBytes": 6320
+            "discoveryResultBytes": 6320,
+            "discoveryStatus": "matches"
           }
         },
         "expectedOperationId": "dependabot/update-alert",
@@ -2078,7 +2119,8 @@
             "target_check": true,
             "operationIdCheck": true,
             "requiredBodyFieldsCheck": true,
-            "discoveryResultBytes": 6404
+            "discoveryResultBytes": 6404,
+            "discoveryStatus": "matches"
           }
         },
         "expectedOperationId": "billing/update-budget-org",
@@ -2138,7 +2180,8 @@
             "target_check": true,
             "operationIdCheck": true,
             "requiredBodyFieldsCheck": true,
-            "discoveryResultBytes": 4349
+            "discoveryResultBytes": 4349,
+            "discoveryStatus": "matches"
           }
         },
         "expectedOperationId": "GetInvoicePayments",
@@ -2197,7 +2240,9 @@
             "target_check": true,
             "operationIdCheck": true,
             "requiredBodyFieldsCheck": true,
-            "discoveryResultBytes": 95
+            "discoveryResultBytes": 95,
+            "discoveryStatus": "connection_error",
+            "discoveryError": "Connection error: fetch failed"
           }
         },
         "expectedOperationId": "issues/unlock",

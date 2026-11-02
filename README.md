@@ -43,7 +43,7 @@ The size and response figures come from the 36 agent tasks; the example targets 
 | DigitalOcean local OpenAPI | 12 needs | 18.4k | 15.7k | 15% less | 3.8 s slower |
 | GitHub local OpenAPI | 12 needs | 13.0k | 14.7k | 13% more | 0.1 s faster |
 
-Both setups found the checked target and inputs in every task. Across the 36 OpenAPI tasks, JevSeek reduced uncached Codex input by 14% but added 3.7 seconds to the median paired task. Its Jev ranking calls processed another 806,194 input tokens at a reported cost of $0.0339 across those tasks. The Oxford comparison used an earlier installed client; its three needs were repeated, while the OpenAPI tasks were distinct. See the [method and per-run results](docs/discovery-evaluation.md#product-level-agent-comparison) before extrapolating these numbers.
+Both setups found the checked target and inputs in every task. Across the 36 OpenAPI tasks, enabling JevSeek reduced uncached Codex input by 14% but added 3.7 seconds to the median paired task. Its successful ranking calls processed another 806,194 input tokens at a reported cost of $0.0339; nine discovery calls failed with a connection error and the agent used its other tools to finish. The Oxford comparison used an earlier installed client; its three needs were repeated, while the OpenAPI tasks were distinct. The [full breakdown](docs/agent-product-comparison-detail.md) shows means, medians, and every task alongside the [flat CSV](evals/agent-product-comparison-20261103.csv) and [raw results](evals/agent-product-comparison-20261103.json).
 
 ## From a need to a request
 
