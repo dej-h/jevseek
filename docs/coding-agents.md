@@ -1,6 +1,6 @@
 # Coding-agent setup
 
-JevSeek exposes two MCP tools: `jevseek_discover` returns short ranked targets, and `jevseek_inspect` reads the current source for one exact operation or tool. Neither tool executes target API requests or MCP tools.
+JevSeek exposes two MCP tools: `jevseek_discover` returns short ranked targets with a compact contract preview for a confident top match, and `jevseek_inspect` reads the current source for one exact operation or tool when more detail is needed. Neither tool executes target API requests or MCP tools.
 
 ## Install the package
 
@@ -39,6 +39,28 @@ Each flag permits one file or one exact URL, not a directory or an entire host. 
 
 In this restricted mode, the agent sees the allowed locations in the tool's input schema. To add another source, update the server registration and restart it. Tool arguments cannot change these restrictions. Without any `--allow-source` flags, sources remain unrestricted.
 
+## Optional discovery skill
+
+The package includes one [discovery skill](../skills/jevseek-discovery/SKILL.md) for coding agents that support the Agent Skills `SKILL.md` format. Its description helps the agent recognize requests to find a capability in an unfamiliar OpenAPI document or public MCP catalog. The instructions use the same JevSeek MCP tool names in Codex and Claude Code: locate a real source, discover its matching target, use the source-backed preview when sufficient, and inspect the current source when more detail is needed. For known operations, the agent inspects only when it needs contract details; other work stays with its normal tools.
+
+Install the bundled file into either or both local skill directories:
+
+| Agent | Personal skill path |
+| --- | --- |
+| Codex | `~/.agents/skills/jevseek-discovery/SKILL.md` |
+| Claude Code | `~/.claude/skills/jevseek-discovery/SKILL.md` |
+
+For a global npm installation, copy the same file to each agent you use:
+
+```bash
+skill_source="$(npm root -g)/jevseek/skills/jevseek-discovery/SKILL.md"
+mkdir -p "$HOME/.agents/skills/jevseek-discovery" "$HOME/.claude/skills/jevseek-discovery"
+cp "$skill_source" "$HOME/.agents/skills/jevseek-discovery/SKILL.md"
+cp "$skill_source" "$HOME/.claude/skills/jevseek-discovery/SKILL.md"
+```
+
+From a source checkout, use `skills/jevseek-discovery/SKILL.md` as `skill_source` instead. You can copy to just one directory if you use only that agent. Start a new agent session after installation. The skill does not register the MCP server or sources; complete the agent's MCP setup below as well. The source path or URL must be real, though the agent may locate it with ordinary tools. See [Codex skills](https://learn.chatgpt.com/docs/build-skills) and [Claude Code skills](https://code.claude.com/docs/en/skills) for their skill loading rules. These personal paths apply to local sessions; Claude cloud sessions use different skill distribution.
+
 ## Codex
 
 Register the installed command, passing the key already exported in your shell:
@@ -72,21 +94,21 @@ For either agent, use an absolute path to the installed `jevseek` executable if 
 
 Give the agent the path to a downloaded GitHub OpenAPI snapshot and a real public pull-request URL, then ask:
 
-> Use JevSeek with the GitHub OpenAPI file at /absolute/path/github.openapi.json. I need filenames and change metadata for this pull request. Discover the operation, inspect it, then use your existing HTTP or shell tool to make the public read-only request and summarize the result.
+> Use JevSeek with the GitHub OpenAPI file at /absolute/path/github.openapi.json. I need the files changed by this pull request. Find the operation and its required inputs, then use your existing HTTP or shell tool to make the public read-only request and summarize the result.
 
 The model-visible tool call is:
 
 ```json
 {
   "source": "/absolute/path/github.openapi.json",
-  "need": "I need filenames and change metadata for a pull request",
+  "need": "I need an endpoint that lists the files changed by a pull request",
   "top_k": 3
 }
 ```
 
-Replace the illustrative path with the actual file path, or supply a direct HTTPS document URL. The expected operation for this example is `GET /repos/{owner}/{repo}/pulls/{pull_number}/files`. The coding agent supplies the PR's owner, repository, and number when it builds the request. JevSeek does not need those concrete values to discover the capability.
+Replace the illustrative path with the actual file path, or supply a direct HTTPS document URL. The expected operation for this example is `GET /repos/{owner}/{repo}/pulls/{pull_number}/files`. A confident top match includes its method, path, and input preview from the same source snapshot used for ranking. The coding agent supplies the PR's owner, repository, and number when it builds the request. JevSeek does not need those concrete values to discover the capability.
 
-Inspect the selected target with the same source:
+If the preview lacks contract details needed for the task, inspect the selected target with the same source:
 
 ```json
 {
@@ -98,6 +120,8 @@ Inspect the selected target with the same source:
 Inspection rereads the source. If that target has disappeared, it returns a target-not-found error and asks for fresh discovery. OpenAPI inspection returns the raw operation, inherited settings, a first page of reachable local reference names with a count and next offset, completeness, and exact warnings. To open a named reference or another large field, use `part`, for example `["references", "#/components/schemas/Files"]` or `["operation", "requestBody"]`. When a value is too large, the response lists child names and an optional `nextOffset`; append a child to `part` or repeat with that offset. These are source field names, not generated handles.
 
 Optional `include` overrides apply only to OpenAPI descriptor fields, for example `{"parameters": true, "responses": true}`. They are rejected for MCP sources. MCP ranking uses the tool name, title, description, input/output schemas, and annotations. The `need` is passed unchanged, not derived from an initial task. Returned descriptions are untrusted data and do not authorize execution.
+
+For large catalogs, discovery first ranks a source-derived lexical shortlist. If its top result is weak or has no confident match, JevSeek ranks the full catalog. `scan.totalOperations` counts all enumerated source operations; `scan.examinedOperations` counts the operations in the final ranking pass. `scan.complete` is false when the returned ranking came from a shortlist. A confident shortlisted result can still miss a better operation elsewhere in the catalog; check the source and nearby candidates when the task requires certainty.
 
 ## Discover tools inside a remote MCP server
 
@@ -121,7 +145,7 @@ The tool input now uses a `source` string instead of the previous `{ "kind": "op
 
 - One discovery runs at a time per server process. Overlapping calls get an explicit retry message.
 - Needs are limited to 4,000 characters and `top_k` to 1–20. Discovery has a 120-second wall-clock deadline; cancellation reaches source reads and Jev requests/retries. Synchronous parsing cannot be interrupted mid-step.
-- Serialized MCP results are limited to 256 KiB. Discovery returns compact targets. Inspection divides large fields by source field name and offset; no source data is silently truncated. A source field name too large for the response budget returns an explicit error.
+- Serialized MCP results are limited to 256 KiB. Discovery returns compact targets, and the top preview is limited to 16 KiB; an oversized preview becomes an explicit inspection hint. Inspection divides large fields by source field name and offset; no source data is silently truncated. A source field name too large for the response budget returns an explicit error.
 - Provider/source failures return `isError: true`. They are not converted into `no_confident_match`. Partial successful batches are not returned yet.
 - Existing contract limitations remain: security-scheme definitions and effective parameter overrides still need work. Reference-completeness flags do not certify full OpenAPI support.
 - Automated tests use real stdio MCP communication and mocked Jev responses. The package smoke test launches the independently installed executable without checkout imports or TypeScript. No live paid query or completed Codex/Claude Code workflow is claimed by those tests.

@@ -1,0 +1,1352 @@
+[
+  {
+    "id": "holdout-github-000",
+    "source": "github",
+    "sourceSha256": "0f85424a3c9603e75d11d3819c47f7e67f51d24bd6deb19cbb6b006e953195e1",
+    "group": "interactions",
+    "need": "In the github interactions area, find the API operation to: Remove interaction restrictions from your public repositories",
+    "expectedId": "DELETE /user/interaction-limits",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-github-001",
+    "source": "github",
+    "sourceSha256": "0f85424a3c9603e75d11d3819c47f7e67f51d24bd6deb19cbb6b006e953195e1",
+    "group": "dependabot",
+    "need": "In the github dependabot area, find the API operation to: Updates Dependabot's repository access list for an organization",
+    "expectedId": "PATCH /orgs/{org}/dependabot/repository-access",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-github-002",
+    "source": "github",
+    "sourceSha256": "0f85424a3c9603e75d11d3819c47f7e67f51d24bd6deb19cbb6b006e953195e1",
+    "group": "markdown",
+    "need": "In the github markdown area, find the API operation to: Render a Markdown document in raw mode",
+    "expectedId": "POST /markdown/raw",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-github-003",
+    "source": "github",
+    "sourceSha256": "0f85424a3c9603e75d11d3819c47f7e67f51d24bd6deb19cbb6b006e953195e1",
+    "group": "agent-automations",
+    "need": "In the github agent-automations area, find the API operation to: List available automation tools for a repository",
+    "expectedId": "GET /agents/repos/{owner}/{repo}/automations/available-tools",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-github-004",
+    "source": "github",
+    "sourceSha256": "0f85424a3c9603e75d11d3819c47f7e67f51d24bd6deb19cbb6b006e953195e1",
+    "group": "pulls",
+    "need": "In the github pulls area, find the API operation to: List pull request stacks",
+    "expectedId": "GET /repos/{owner}/{repo}/stacks",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-github-005",
+    "source": "github",
+    "sourceSha256": "0f85424a3c9603e75d11d3819c47f7e67f51d24bd6deb19cbb6b006e953195e1",
+    "group": "git",
+    "need": "In the github git area, find the API operation to: Update a reference",
+    "expectedId": "PATCH /repos/{owner}/{repo}/git/refs/{ref}",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-github-006",
+    "source": "github",
+    "sourceSha256": "0f85424a3c9603e75d11d3819c47f7e67f51d24bd6deb19cbb6b006e953195e1",
+    "group": "reactions",
+    "need": "In the github reactions area, find the API operation to: Create reaction for a commit comment",
+    "expectedId": "POST /repos/{owner}/{repo}/comments/{comment_id}/reactions",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-github-007",
+    "source": "github",
+    "sourceSha256": "0f85424a3c9603e75d11d3819c47f7e67f51d24bd6deb19cbb6b006e953195e1",
+    "group": "users",
+    "need": "In the github users area, find the API operation to: Delete a public SSH key for the authenticated user",
+    "expectedId": "DELETE /user/keys/{key_id}",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-github-008",
+    "source": "github",
+    "sourceSha256": "0f85424a3c9603e75d11d3819c47f7e67f51d24bd6deb19cbb6b006e953195e1",
+    "group": "gists",
+    "need": "In the github gists area, find the API operation to: List public gists",
+    "expectedId": "GET /gists/public",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-github-009",
+    "source": "github",
+    "sourceSha256": "0f85424a3c9603e75d11d3819c47f7e67f51d24bd6deb19cbb6b006e953195e1",
+    "group": "security-advisories",
+    "need": "In the github security-advisories area, find the API operation to: Create a repository security advisory",
+    "expectedId": "POST /repos/{owner}/{repo}/security-advisories",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-github-010",
+    "source": "github",
+    "sourceSha256": "0f85424a3c9603e75d11d3819c47f7e67f51d24bd6deb19cbb6b006e953195e1",
+    "group": "gitignore",
+    "need": "In the github gitignore area, find the API operation to: Get a gitignore template",
+    "expectedId": "GET /gitignore/templates/{name}",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-github-011",
+    "source": "github",
+    "sourceSha256": "0f85424a3c9603e75d11d3819c47f7e67f51d24bd6deb19cbb6b006e953195e1",
+    "group": "dependency-graph",
+    "need": "In the github dependency-graph area, find the API operation to: Create a snapshot of dependencies for a repository",
+    "expectedId": "POST /repos/{owner}/{repo}/dependency-graph/snapshots",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-github-012",
+    "source": "github",
+    "sourceSha256": "0f85424a3c9603e75d11d3819c47f7e67f51d24bd6deb19cbb6b006e953195e1",
+    "group": "meta",
+    "need": "In the github meta area, find the API operation to: GitHub API Root",
+    "expectedId": "GET /",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-github-013",
+    "source": "github",
+    "sourceSha256": "0f85424a3c9603e75d11d3819c47f7e67f51d24bd6deb19cbb6b006e953195e1",
+    "group": "private-registries",
+    "need": "In the github private-registries area, find the API operation to: Update a private registry for an organization",
+    "expectedId": "PATCH /orgs/{org}/private-registries/{secret_name}",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-github-014",
+    "source": "github",
+    "sourceSha256": "0f85424a3c9603e75d11d3819c47f7e67f51d24bd6deb19cbb6b006e953195e1",
+    "group": "orgs",
+    "need": "In the github orgs area, find the API operation to: Delete attestations by subject digest",
+    "expectedId": "DELETE /orgs/{org}/attestations/digest/{subject_digest}",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-github-015",
+    "source": "github",
+    "sourceSha256": "0f85424a3c9603e75d11d3819c47f7e67f51d24bd6deb19cbb6b006e953195e1",
+    "group": "agents",
+    "need": "In the github agents area, find the API operation to: Get an organization public key",
+    "expectedId": "GET /orgs/{org}/agents/secrets/public-key",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-github-016",
+    "source": "github",
+    "sourceSha256": "0f85424a3c9603e75d11d3819c47f7e67f51d24bd6deb19cbb6b006e953195e1",
+    "group": "apps",
+    "need": "In the github apps area, find the API operation to: Create a GitHub App from a manifest",
+    "expectedId": "POST /app-manifests/{code}/conversions",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-github-017",
+    "source": "github",
+    "sourceSha256": "0f85424a3c9603e75d11d3819c47f7e67f51d24bd6deb19cbb6b006e953195e1",
+    "group": "projects",
+    "need": "In the github projects area, find the API operation to: List project fields for organization",
+    "expectedId": "GET /orgs/{org}/projectsV2/{project_number}/fields",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-github-018",
+    "source": "github",
+    "sourceSha256": "0f85424a3c9603e75d11d3819c47f7e67f51d24bd6deb19cbb6b006e953195e1",
+    "group": "campaigns",
+    "need": "In the github campaigns area, find the API operation to: List campaigns for an organization",
+    "expectedId": "GET /orgs/{org}/campaigns",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-github-019",
+    "source": "github",
+    "sourceSha256": "0f85424a3c9603e75d11d3819c47f7e67f51d24bd6deb19cbb6b006e953195e1",
+    "group": "licenses",
+    "need": "In the github licenses area, find the API operation to: Get a license",
+    "expectedId": "GET /licenses/{license}",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-github-020",
+    "source": "github",
+    "sourceSha256": "0f85424a3c9603e75d11d3819c47f7e67f51d24bd6deb19cbb6b006e953195e1",
+    "group": "teams",
+    "need": "In the github teams area, find the API operation to: Remove a repository from a team",
+    "expectedId": "DELETE /orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-github-021",
+    "source": "github",
+    "sourceSha256": "0f85424a3c9603e75d11d3819c47f7e67f51d24bd6deb19cbb6b006e953195e1",
+    "group": "billing",
+    "need": "In the github billing area, find the API operation to: Get a budget by ID for an organization",
+    "expectedId": "GET /organizations/{org}/settings/billing/budgets/{budget_id}",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-github-022",
+    "source": "github",
+    "sourceSha256": "0f85424a3c9603e75d11d3819c47f7e67f51d24bd6deb19cbb6b006e953195e1",
+    "group": "code-quality",
+    "need": "In the github code-quality area, find the API operation to: Get a code quality setup configuration",
+    "expectedId": "GET /repos/{owner}/{repo}/code-quality/setup",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-github-023",
+    "source": "github",
+    "sourceSha256": "0f85424a3c9603e75d11d3819c47f7e67f51d24bd6deb19cbb6b006e953195e1",
+    "group": "code-scanning",
+    "need": "In the github code-scanning area, find the API operation to: Get the AI Scan setting for an organization",
+    "expectedId": "GET /orgs/{org}/code-scanning/ai-scan",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-github-024",
+    "source": "github",
+    "sourceSha256": "0f85424a3c9603e75d11d3819c47f7e67f51d24bd6deb19cbb6b006e953195e1",
+    "group": "copilot-spaces",
+    "need": "In the github copilot-spaces area, find the API operation to: Remove a collaborator from a Copilot Space for a user",
+    "expectedId": "DELETE /users/{username}/copilot-spaces/{space_number}/collaborators/{actor_type}/{actor_identifier}",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-github-025",
+    "source": "github",
+    "sourceSha256": "0f85424a3c9603e75d11d3819c47f7e67f51d24bd6deb19cbb6b006e953195e1",
+    "group": "activity",
+    "need": "In the github activity area, find the API operation to: Unstar a repository for the authenticated user",
+    "expectedId": "DELETE /user/starred/{owner}/{repo}",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-github-026",
+    "source": "github",
+    "sourceSha256": "0f85424a3c9603e75d11d3819c47f7e67f51d24bd6deb19cbb6b006e953195e1",
+    "group": "agent-tasks",
+    "need": "In the github agent-tasks area, find the API operation to: List tasks",
+    "expectedId": "GET /agents/tasks",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-github-027",
+    "source": "github",
+    "sourceSha256": "0f85424a3c9603e75d11d3819c47f7e67f51d24bd6deb19cbb6b006e953195e1",
+    "group": "oidc",
+    "need": "In the github oidc area, find the API operation to: Get the customization template for an OIDC subject claim for an organization",
+    "expectedId": "GET /orgs/{org}/actions/oidc/customization/sub",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-github-028",
+    "source": "github",
+    "sourceSha256": "0f85424a3c9603e75d11d3819c47f7e67f51d24bd6deb19cbb6b006e953195e1",
+    "group": "search",
+    "need": "In the github search area, find the API operation to: Search labels",
+    "expectedId": "GET /search/labels",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-github-029",
+    "source": "github",
+    "sourceSha256": "0f85424a3c9603e75d11d3819c47f7e67f51d24bd6deb19cbb6b006e953195e1",
+    "group": "packages",
+    "need": "In the github packages area, find the API operation to: Get list of conflicting packages during Docker migration for user",
+    "expectedId": "GET /users/{username}/docker/conflicts",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-github-030",
+    "source": "github",
+    "sourceSha256": "0f85424a3c9603e75d11d3819c47f7e67f51d24bd6deb19cbb6b006e953195e1",
+    "group": "migrations",
+    "need": "In the github migrations area, find the API operation to: Get an organization migration status",
+    "expectedId": "GET /orgs/{org}/migrations/{migration_id}",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-github-031",
+    "source": "github",
+    "sourceSha256": "0f85424a3c9603e75d11d3819c47f7e67f51d24bd6deb19cbb6b006e953195e1",
+    "group": "repos",
+    "need": "In the github repos area, find the API operation to: Add status check contexts",
+    "expectedId": "POST /repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks/contexts",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-github-032",
+    "source": "github",
+    "sourceSha256": "0f85424a3c9603e75d11d3819c47f7e67f51d24bd6deb19cbb6b006e953195e1",
+    "group": "agent-merge",
+    "need": "In the github agent-merge area, find the API operation to: Disable Agent Merge for a pull request",
+    "expectedId": "DELETE /agents/repos/{owner}/{repo}/pulls/{pull_number}/agent-merge",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-github-033",
+    "source": "github",
+    "sourceSha256": "0f85424a3c9603e75d11d3819c47f7e67f51d24bd6deb19cbb6b006e953195e1",
+    "group": "actions",
+    "need": "In the github actions area, find the API operation to: Set GitHub Actions permissions for an organization",
+    "expectedId": "PUT /orgs/{org}/actions/permissions",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-github-034",
+    "source": "github",
+    "sourceSha256": "0f85424a3c9603e75d11d3819c47f7e67f51d24bd6deb19cbb6b006e953195e1",
+    "group": "codes-of-conduct",
+    "need": "In the github codes-of-conduct area, find the API operation to: Get a code of conduct",
+    "expectedId": "GET /codes_of_conduct/{key}",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-github-035",
+    "source": "github",
+    "sourceSha256": "0f85424a3c9603e75d11d3819c47f7e67f51d24bd6deb19cbb6b006e953195e1",
+    "group": "codespaces",
+    "need": "In the github codespaces area, find the API operation to: Get an organization public key",
+    "expectedId": "GET /orgs/{org}/codespaces/secrets/public-key",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-github-036",
+    "source": "github",
+    "sourceSha256": "0f85424a3c9603e75d11d3819c47f7e67f51d24bd6deb19cbb6b006e953195e1",
+    "group": "copilot",
+    "need": "In the github copilot area, find the API operation to: Set Copilot content exclusion rules for an organization",
+    "expectedId": "PUT /orgs/{org}/copilot/content_exclusion",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-github-037",
+    "source": "github",
+    "sourceSha256": "0f85424a3c9603e75d11d3819c47f7e67f51d24bd6deb19cbb6b006e953195e1",
+    "group": "hosted-compute",
+    "need": "In the github hosted-compute area, find the API operation to: List hosted compute network configurations for an organization",
+    "expectedId": "GET /orgs/{org}/settings/network-configurations",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-github-038",
+    "source": "github",
+    "sourceSha256": "0f85424a3c9603e75d11d3819c47f7e67f51d24bd6deb19cbb6b006e953195e1",
+    "group": "code-security",
+    "need": "In the github code-security area, find the API operation to: Get default code security configurations",
+    "expectedId": "GET /orgs/{org}/code-security/configurations/defaults",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-github-039",
+    "source": "github",
+    "sourceSha256": "0f85424a3c9603e75d11d3819c47f7e67f51d24bd6deb19cbb6b006e953195e1",
+    "group": "issues",
+    "need": "In the github issues area, find the API operation to: List organization issues assigned to the authenticated user",
+    "expectedId": "GET /orgs/{org}/issues",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-github-040",
+    "source": "github",
+    "sourceSha256": "0f85424a3c9603e75d11d3819c47f7e67f51d24bd6deb19cbb6b006e953195e1",
+    "group": "checks",
+    "need": "In the github checks area, find the API operation to: Update a check run",
+    "expectedId": "PATCH /repos/{owner}/{repo}/check-runs/{check_run_id}",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-github-041",
+    "source": "github",
+    "sourceSha256": "0f85424a3c9603e75d11d3819c47f7e67f51d24bd6deb19cbb6b006e953195e1",
+    "group": "secret-scanning",
+    "need": "In the github secret-scanning area, find the API operation to: List secret scanning alerts for an organization",
+    "expectedId": "GET /orgs/{org}/secret-scanning/alerts",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-github-042",
+    "source": "github",
+    "sourceSha256": "0f85424a3c9603e75d11d3819c47f7e67f51d24bd6deb19cbb6b006e953195e1",
+    "group": "campaigns",
+    "need": "In the github campaigns area, find the API operation to: Get a campaign for an organization",
+    "expectedId": "GET /orgs/{org}/campaigns/{campaign_number}",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-github-043",
+    "source": "github",
+    "sourceSha256": "0f85424a3c9603e75d11d3819c47f7e67f51d24bd6deb19cbb6b006e953195e1",
+    "group": "interactions",
+    "need": "In the github interactions area, find the API operation to: Get pull request creation cap bypass list for a repository",
+    "expectedId": "GET /repos/{owner}/{repo}/interaction-limits/pulls/bypass-list",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-github-044",
+    "source": "github",
+    "sourceSha256": "0f85424a3c9603e75d11d3819c47f7e67f51d24bd6deb19cbb6b006e953195e1",
+    "group": "oidc",
+    "need": "In the github oidc area, find the API operation to: List OIDC custom property inclusions for an enterprise",
+    "expectedId": "GET /enterprises/{enterprise}/actions/oidc/customization/properties/repo",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-github-045",
+    "source": "github",
+    "sourceSha256": "0f85424a3c9603e75d11d3819c47f7e67f51d24bd6deb19cbb6b006e953195e1",
+    "group": "agent-automations",
+    "need": "In the github agent-automations area, find the API operation to: Get an automation",
+    "expectedId": "GET /agents/repos/{owner}/{repo}/automations/{automation_id}",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-github-046",
+    "source": "github",
+    "sourceSha256": "0f85424a3c9603e75d11d3819c47f7e67f51d24bd6deb19cbb6b006e953195e1",
+    "group": "gists",
+    "need": "In the github gists area, find the API operation to: List gists for the authenticated user",
+    "expectedId": "GET /gists",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-github-047",
+    "source": "github",
+    "sourceSha256": "0f85424a3c9603e75d11d3819c47f7e67f51d24bd6deb19cbb6b006e953195e1",
+    "group": "users",
+    "need": "In the github users area, find the API operation to: List followers of the authenticated user",
+    "expectedId": "GET /user/followers",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-github-048",
+    "source": "github",
+    "sourceSha256": "0f85424a3c9603e75d11d3819c47f7e67f51d24bd6deb19cbb6b006e953195e1",
+    "group": "checks",
+    "need": "In the github checks area, find the API operation to: Rerequest a check run",
+    "expectedId": "POST /repos/{owner}/{repo}/check-runs/{check_run_id}/rerequest",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-github-049",
+    "source": "github",
+    "sourceSha256": "0f85424a3c9603e75d11d3819c47f7e67f51d24bd6deb19cbb6b006e953195e1",
+    "group": "search",
+    "need": "In the github search area, find the API operation to: Search topics",
+    "expectedId": "GET /search/topics",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-digitalocean-050",
+    "source": "digitalocean",
+    "sourceSha256": "5f1156a780a769db54abb39183c8b5f1c39a8ba7bf111726f408110965bcaf6f",
+    "group": "Images",
+    "need": "In the digitalocean Images area, find the API operation to: Retrieve an Existing Image",
+    "expectedId": "GET /v2/images/{image_id}",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-digitalocean-051",
+    "source": "digitalocean",
+    "sourceSha256": "5f1156a780a769db54abb39183c8b5f1c39a8ba7bf111726f408110965bcaf6f",
+    "group": "Harness Runtime",
+    "need": "In the digitalocean Harness Runtime area, find the API operation to: GetSession returns the current snapshot of a session",
+    "expectedId": "GET /v2/agents/sessions/{session_id}",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-digitalocean-052",
+    "source": "digitalocean",
+    "sourceSha256": "5f1156a780a769db54abb39183c8b5f1c39a8ba7bf111726f408110965bcaf6f",
+    "group": "Tags",
+    "need": "In the digitalocean Tags area, find the API operation to: Retrieve a Tag",
+    "expectedId": "GET /v2/tags/{tag_id}",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-digitalocean-053",
+    "source": "digitalocean",
+    "sourceSha256": "5f1156a780a769db54abb39183c8b5f1c39a8ba7bf111726f408110965bcaf6f",
+    "group": "VPC NAT Gateways",
+    "need": "In the digitalocean VPC NAT Gateways area, find the API operation to: Delete VPC NAT Gateway",
+    "expectedId": "DELETE /v2/vpc_nat_gateways/{id}",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-digitalocean-054",
+    "source": "digitalocean",
+    "sourceSha256": "5f1156a780a769db54abb39183c8b5f1c39a8ba7bf111726f408110965bcaf6f",
+    "group": "VPC Subnets [Public Preview]",
+    "need": "In the digitalocean VPC Subnets [Public Preview] area, find the API operation to: List VPC Subnets",
+    "expectedId": "GET /v2/vpcs/{vpc_uuid}/subnets",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-digitalocean-055",
+    "source": "digitalocean",
+    "sourceSha256": "5f1156a780a769db54abb39183c8b5f1c39a8ba7bf111726f408110965bcaf6f",
+    "group": "Security",
+    "need": "In the digitalocean Security area, find the API operation to: Get Secret",
+    "expectedId": "GET /v2/security/secrets/{secret}",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-digitalocean-056",
+    "source": "digitalocean",
+    "sourceSha256": "5f1156a780a769db54abb39183c8b5f1c39a8ba7bf111726f408110965bcaf6f",
+    "group": "Spaces Keys",
+    "need": "In the digitalocean Spaces Keys area, find the API operation to: Get a Spaces Access Key",
+    "expectedId": "GET /v2/spaces/keys/{access_key}",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-digitalocean-057",
+    "source": "digitalocean",
+    "sourceSha256": "5f1156a780a769db54abb39183c8b5f1c39a8ba7bf111726f408110965bcaf6f",
+    "group": "Kubernetes",
+    "need": "In the digitalocean Kubernetes area, find the API operation to: Update a Node Pool in a Kubernetes Cluster",
+    "expectedId": "PUT /v2/kubernetes/clusters/{cluster_id}/node_pools/{node_pool_id}",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-digitalocean-058",
+    "source": "digitalocean",
+    "sourceSha256": "5f1156a780a769db54abb39183c8b5f1c39a8ba7bf111726f408110965bcaf6f",
+    "group": "Block Storage Actions",
+    "need": "In the digitalocean Block Storage Actions area, find the API operation to: Initiate A Block Storage Action By Volume Name",
+    "expectedId": "POST /v2/volumes/actions",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-digitalocean-059",
+    "source": "digitalocean",
+    "sourceSha256": "5f1156a780a769db54abb39183c8b5f1c39a8ba7bf111726f408110965bcaf6f",
+    "group": "Projects",
+    "need": "In the digitalocean Projects area, find the API operation to: Update a Project",
+    "expectedId": "PUT /v2/projects/{project_id}",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-digitalocean-060",
+    "source": "digitalocean",
+    "sourceSha256": "5f1156a780a769db54abb39183c8b5f1c39a8ba7bf111726f408110965bcaf6f",
+    "group": "Droplet Actions",
+    "need": "In the digitalocean Droplet Actions area, find the API operation to: Acting on Tagged Droplets",
+    "expectedId": "POST /v2/droplets/actions",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-digitalocean-061",
+    "source": "digitalocean",
+    "sourceSha256": "5f1156a780a769db54abb39183c8b5f1c39a8ba7bf111726f408110965bcaf6f",
+    "group": "Uptime",
+    "need": "In the digitalocean Uptime area, find the API operation to: Delete an Alert",
+    "expectedId": "DELETE /v2/uptime/checks/{check_id}/alerts/{alert_id}",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-digitalocean-062",
+    "source": "digitalocean",
+    "sourceSha256": "5f1156a780a769db54abb39183c8b5f1c39a8ba7bf111726f408110965bcaf6f",
+    "group": "1-Click Applications",
+    "need": "In the digitalocean 1-Click Applications area, find the API operation to: Install Kubernetes 1-Click Applications",
+    "expectedId": "POST /v2/1-clicks/kubernetes",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-digitalocean-063",
+    "source": "digitalocean",
+    "sourceSha256": "5f1156a780a769db54abb39183c8b5f1c39a8ba7bf111726f408110965bcaf6f",
+    "group": "Block Storage",
+    "need": "In the digitalocean Block Storage area, find the API operation to: Delete a Block Storage Volume by Name",
+    "expectedId": "DELETE /v2/volumes",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-digitalocean-064",
+    "source": "digitalocean",
+    "sourceSha256": "5f1156a780a769db54abb39183c8b5f1c39a8ba7bf111726f408110965bcaf6f",
+    "group": "Domain Records",
+    "need": "In the digitalocean Domain Records area, find the API operation to: Delete a Domain Record",
+    "expectedId": "DELETE /v2/domains/{domain_name}/records/{domain_record_id}",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-digitalocean-065",
+    "source": "digitalocean",
+    "sourceSha256": "5f1156a780a769db54abb39183c8b5f1c39a8ba7bf111726f408110965bcaf6f",
+    "group": "Databases",
+    "need": "In the digitalocean Databases area, find the API operation to: Create Topic for a Kafka Cluster",
+    "expectedId": "POST /v2/databases/{database_cluster_uuid}/topics",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-digitalocean-066",
+    "source": "digitalocean",
+    "sourceSha256": "5f1156a780a769db54abb39183c8b5f1c39a8ba7bf111726f408110965bcaf6f",
+    "group": "Partner Network Connect",
+    "need": "In the digitalocean Partner Network Connect area, find the API operation to: List remote routes for a partner attachment",
+    "expectedId": "GET /v2/partner_network_connect/attachments/{pa_id}/remote_routes",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-digitalocean-067",
+    "source": "digitalocean",
+    "sourceSha256": "5f1156a780a769db54abb39183c8b5f1c39a8ba7bf111726f408110965bcaf6f",
+    "group": "Serverless Inference",
+    "need": "In the digitalocean Serverless Inference area, find the API operation to: Retrieve a video generation job",
+    "expectedId": "GET /v1/videos/{video_id}",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-digitalocean-068",
+    "source": "digitalocean",
+    "sourceSha256": "5f1156a780a769db54abb39183c8b5f1c39a8ba7bf111726f408110965bcaf6f",
+    "group": "Batch Inference",
+    "need": "In the digitalocean Batch Inference area, find the API operation to: Create a Batch Inference Job",
+    "expectedId": "POST /v1/batches",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-digitalocean-069",
+    "source": "digitalocean",
+    "sourceSha256": "5f1156a780a769db54abb39183c8b5f1c39a8ba7bf111726f408110965bcaf6f",
+    "group": "Floating IP Actions",
+    "need": "In the digitalocean Floating IP Actions area, find the API operation to: List All Actions for a Floating IP",
+    "expectedId": "GET /v2/floating_ips/{floating_ip}/actions",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-digitalocean-070",
+    "source": "digitalocean",
+    "sourceSha256": "5f1156a780a769db54abb39183c8b5f1c39a8ba7bf111726f408110965bcaf6f",
+    "group": "VPC Routes [Public Preview]",
+    "need": "In the digitalocean VPC Routes [Public Preview] area, find the API operation to: List VPC Subnet Routes",
+    "expectedId": "GET /v2/vpcs/{vpc_uuid}/subnets/{subnet_uuid}/routes",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-digitalocean-071",
+    "source": "digitalocean",
+    "sourceSha256": "5f1156a780a769db54abb39183c8b5f1c39a8ba7bf111726f408110965bcaf6f",
+    "group": "MicroVMs [Public Preview]",
+    "need": "In the digitalocean MicroVMs [Public Preview] area, find the API operation to: Upload a file to a MicroVM",
+    "expectedId": "PUT /v2/microvms/{microvm_id}/files",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-digitalocean-072",
+    "source": "digitalocean",
+    "sourceSha256": "5f1156a780a769db54abb39183c8b5f1c39a8ba7bf111726f408110965bcaf6f",
+    "group": "Project Resources",
+    "need": "In the digitalocean Project Resources area, find the API operation to: List Project Resources",
+    "expectedId": "GET /v2/projects/{project_id}/resources",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-digitalocean-073",
+    "source": "digitalocean",
+    "sourceSha256": "5f1156a780a769db54abb39183c8b5f1c39a8ba7bf111726f408110965bcaf6f",
+    "group": "NFS",
+    "need": "In the digitalocean NFS area, find the API operation to: List NFS snapshots per region",
+    "expectedId": "GET /v2/nfs/snapshots",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-digitalocean-074",
+    "source": "digitalocean",
+    "sourceSha256": "5f1156a780a769db54abb39183c8b5f1c39a8ba7bf111726f408110965bcaf6f",
+    "group": "VPC Peerings",
+    "need": "In the digitalocean VPC Peerings area, find the API operation to: Retrieve an Existing VPC Peering",
+    "expectedId": "GET /v2/vpc_peerings/{vpc_peering_id}",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-digitalocean-075",
+    "source": "digitalocean",
+    "sourceSha256": "5f1156a780a769db54abb39183c8b5f1c39a8ba7bf111726f408110965bcaf6f",
+    "group": "Add-Ons",
+    "need": "In the digitalocean Add-Ons area, find the API operation to: Get details on an Add-On Resource",
+    "expectedId": "GET /v2/add-ons/saas/{resource_uuid}",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-digitalocean-076",
+    "source": "digitalocean",
+    "sourceSha256": "5f1156a780a769db54abb39183c8b5f1c39a8ba7bf111726f408110965bcaf6f",
+    "group": "SSH Keys",
+    "need": "In the digitalocean SSH Keys area, find the API operation to: List All SSH Keys",
+    "expectedId": "GET /v2/account/keys",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-digitalocean-077",
+    "source": "digitalocean",
+    "sourceSha256": "5f1156a780a769db54abb39183c8b5f1c39a8ba7bf111726f408110965bcaf6f",
+    "group": "Sizes",
+    "need": "In the digitalocean Sizes area, find the API operation to: List All Droplet Sizes",
+    "expectedId": "GET /v2/sizes",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-digitalocean-078",
+    "source": "digitalocean",
+    "sourceSha256": "5f1156a780a769db54abb39183c8b5f1c39a8ba7bf111726f408110965bcaf6f",
+    "group": "Insights",
+    "need": "In the digitalocean Insights area, find the API operation to: Delete a Notification Channel",
+    "expectedId": "DELETE /v2/insights/notification-channels/{id}",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-digitalocean-079",
+    "source": "digitalocean",
+    "sourceSha256": "5f1156a780a769db54abb39183c8b5f1c39a8ba7bf111726f408110965bcaf6f",
+    "group": "Billing",
+    "need": "In the digitalocean Billing area, find the API operation to: Retrieve an Invoice CSV by UUID",
+    "expectedId": "GET /v2/customers/my/invoices/{invoice_uuid}/csv",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-digitalocean-080",
+    "source": "digitalocean",
+    "sourceSha256": "5f1156a780a769db54abb39183c8b5f1c39a8ba7bf111726f408110965bcaf6f",
+    "group": "Floating IPs",
+    "need": "In the digitalocean Floating IPs area, find the API operation to: Retrieve an Existing Floating IP",
+    "expectedId": "GET /v2/floating_ips/{floating_ip}",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-digitalocean-081",
+    "source": "digitalocean",
+    "sourceSha256": "5f1156a780a769db54abb39183c8b5f1c39a8ba7bf111726f408110965bcaf6f",
+    "group": "Reserved IP Actions",
+    "need": "In the digitalocean Reserved IP Actions area, find the API operation to: List All Actions for a Reserved IP",
+    "expectedId": "GET /v2/reserved_ips/{reserved_ip}/actions",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-digitalocean-082",
+    "source": "digitalocean",
+    "sourceSha256": "5f1156a780a769db54abb39183c8b5f1c39a8ba7bf111726f408110965bcaf6f",
+    "group": "VPCs",
+    "need": "In the digitalocean VPCs area, find the API operation to: Create a Peering with a VPC",
+    "expectedId": "POST /v2/vpcs/{vpc_id}/peerings",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-digitalocean-083",
+    "source": "digitalocean",
+    "sourceSha256": "5f1156a780a769db54abb39183c8b5f1c39a8ba7bf111726f408110965bcaf6f",
+    "group": "Actions",
+    "need": "In the digitalocean Actions area, find the API operation to: List All Actions",
+    "expectedId": "GET /v2/actions",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-digitalocean-084",
+    "source": "digitalocean",
+    "sourceSha256": "5f1156a780a769db54abb39183c8b5f1c39a8ba7bf111726f408110965bcaf6f",
+    "group": "Reserved IPv6",
+    "need": "In the digitalocean Reserved IPv6 area, find the API operation to: List All Reserved IPv6s",
+    "expectedId": "GET /v2/reserved_ipv6",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-digitalocean-085",
+    "source": "digitalocean",
+    "sourceSha256": "5f1156a780a769db54abb39183c8b5f1c39a8ba7bf111726f408110965bcaf6f",
+    "group": "Apps",
+    "need": "In the digitalocean Apps area, find the API operation to: Retrieve App Health",
+    "expectedId": "GET /v2/apps/{app_id}/health",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-digitalocean-086",
+    "source": "digitalocean",
+    "sourceSha256": "5f1156a780a769db54abb39183c8b5f1c39a8ba7bf111726f408110965bcaf6f",
+    "group": "Signals",
+    "need": "In the digitalocean Signals area, find the API operation to: List Export Jobs",
+    "expectedId": "GET /v1/signals/exports",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-digitalocean-087",
+    "source": "digitalocean",
+    "sourceSha256": "5f1156a780a769db54abb39183c8b5f1c39a8ba7bf111726f408110965bcaf6f",
+    "group": "Reserved IPv6 Actions",
+    "need": "In the digitalocean Reserved IPv6 Actions area, find the API operation to: Initiate a Reserved IPv6 Action",
+    "expectedId": "POST /v2/reserved_ipv6/{reserved_ipv6}/actions",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-digitalocean-088",
+    "source": "digitalocean",
+    "sourceSha256": "5f1156a780a769db54abb39183c8b5f1c39a8ba7bf111726f408110965bcaf6f",
+    "group": "Organizations",
+    "need": "In the digitalocean Organizations area, find the API operation to: List Teams in an Organization",
+    "expectedId": "GET /v2/organizations/teams",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-digitalocean-089",
+    "source": "digitalocean",
+    "sourceSha256": "5f1156a780a769db54abb39183c8b5f1c39a8ba7bf111726f408110965bcaf6f",
+    "group": "Functions",
+    "need": "In the digitalocean Functions area, find the API operation to: Get Namespace",
+    "expectedId": "GET /v2/functions/namespaces/{namespace_id}",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-digitalocean-090",
+    "source": "digitalocean",
+    "sourceSha256": "5f1156a780a769db54abb39183c8b5f1c39a8ba7bf111726f408110965bcaf6f",
+    "group": "Certificates",
+    "need": "In the digitalocean Certificates area, find the API operation to: List All Certificates",
+    "expectedId": "GET /v2/certificates",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-digitalocean-091",
+    "source": "digitalocean",
+    "sourceSha256": "5f1156a780a769db54abb39183c8b5f1c39a8ba7bf111726f408110965bcaf6f",
+    "group": "BYOIP Prefixes",
+    "need": "In the digitalocean BYOIP Prefixes area, find the API operation to: List BYOIP Prefix Resources",
+    "expectedId": "GET /v2/byoip_prefixes/{byoip_prefix_uuid}/ips",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-digitalocean-092",
+    "source": "digitalocean",
+    "sourceSha256": "5f1156a780a769db54abb39183c8b5f1c39a8ba7bf111726f408110965bcaf6f",
+    "group": "Dedicated Inference",
+    "need": "In the digitalocean Dedicated Inference area, find the API operation to: List Dedicated Inference Sizes",
+    "expectedId": "GET /v2/dedicated-inferences/sizes",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-digitalocean-093",
+    "source": "digitalocean",
+    "sourceSha256": "5f1156a780a769db54abb39183c8b5f1c39a8ba7bf111726f408110965bcaf6f",
+    "group": "Droplet Autoscale Pools",
+    "need": "In the digitalocean Droplet Autoscale Pools area, find the API operation to: Retrieve an Existing Autoscale Pool",
+    "expectedId": "GET /v2/droplets/autoscale/{autoscale_pool_id}",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-digitalocean-094",
+    "source": "digitalocean",
+    "sourceSha256": "5f1156a780a769db54abb39183c8b5f1c39a8ba7bf111726f408110965bcaf6f",
+    "group": "Snapshots",
+    "need": "In the digitalocean Snapshots area, find the API operation to: Retrieve an Existing Snapshot",
+    "expectedId": "GET /v2/snapshots/{snapshot_id}",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-digitalocean-095",
+    "source": "digitalocean",
+    "sourceSha256": "5f1156a780a769db54abb39183c8b5f1c39a8ba7bf111726f408110965bcaf6f",
+    "group": "Account",
+    "need": "In the digitalocean Account area, find the API operation to: Get User Information",
+    "expectedId": "GET /v2/account",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-digitalocean-096",
+    "source": "digitalocean",
+    "sourceSha256": "5f1156a780a769db54abb39183c8b5f1c39a8ba7bf111726f408110965bcaf6f",
+    "group": "Action Gateway Data Plane",
+    "need": "In the digitalocean Action Gateway Data Plane area, find the API operation to: List Session Tools",
+    "expectedId": "GET /tools",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-digitalocean-097",
+    "source": "digitalocean",
+    "sourceSha256": "5f1156a780a769db54abb39183c8b5f1c39a8ba7bf111726f408110965bcaf6f",
+    "group": "Firewalls",
+    "need": "In the digitalocean Firewalls area, find the API operation to: Add Tags to a Firewall",
+    "expectedId": "POST /v2/firewalls/{firewall_id}/tags",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-digitalocean-098",
+    "source": "digitalocean",
+    "sourceSha256": "5f1156a780a769db54abb39183c8b5f1c39a8ba7bf111726f408110965bcaf6f",
+    "group": "Reserved IPs",
+    "need": "In the digitalocean Reserved IPs area, find the API operation to: List All Reserved IPs",
+    "expectedId": "GET /v2/reserved_ips",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-digitalocean-099",
+    "source": "digitalocean",
+    "sourceSha256": "5f1156a780a769db54abb39183c8b5f1c39a8ba7bf111726f408110965bcaf6f",
+    "group": "Domains",
+    "need": "In the digitalocean Domains area, find the API operation to: Retrieve an Existing Domain",
+    "expectedId": "GET /v2/domains/{domain_name}",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-stripe-100",
+    "source": "stripe",
+    "sourceSha256": "2c31317cdff103e4495b5b3501004d9ddc0af61f43b0ab819e2db392eef008f6",
+    "group": "tokens",
+    "need": "In the stripe tokens area, find the API operation to: Create a bank account token",
+    "expectedId": "POST /v1/tokens",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-stripe-101",
+    "source": "stripe",
+    "sourceSha256": "2c31317cdff103e4495b5b3501004d9ddc0af61f43b0ab819e2db392eef008f6",
+    "group": "refunds",
+    "need": "In the stripe refunds area, find the API operation to: List all refunds",
+    "expectedId": "GET /v1/refunds",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-stripe-102",
+    "source": "stripe",
+    "sourceSha256": "2c31317cdff103e4495b5b3501004d9ddc0af61f43b0ab819e2db392eef008f6",
+    "group": "payment_links",
+    "need": "In the stripe payment_links area, find the API operation to: List all payment links",
+    "expectedId": "GET /v1/payment_links",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-stripe-103",
+    "source": "stripe",
+    "sourceSha256": "2c31317cdff103e4495b5b3501004d9ddc0af61f43b0ab819e2db392eef008f6",
+    "group": "payment_attempt_records",
+    "need": "In the stripe payment_attempt_records area, find the API operation to: List Payment Attempt Records",
+    "expectedId": "GET /v1/payment_attempt_records",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-stripe-104",
+    "source": "stripe",
+    "sourceSha256": "2c31317cdff103e4495b5b3501004d9ddc0af61f43b0ab819e2db392eef008f6",
+    "group": "terminal",
+    "need": "In the stripe terminal area, find the API operation to: List all Readers",
+    "expectedId": "GET /v1/terminal/readers",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-stripe-105",
+    "source": "stripe",
+    "sourceSha256": "2c31317cdff103e4495b5b3501004d9ddc0af61f43b0ab819e2db392eef008f6",
+    "group": "issuing",
+    "need": "In the stripe issuing area, find the API operation to: Update a personalization design",
+    "expectedId": "POST /v1/issuing/personalization_designs/{personalization_design}",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-stripe-106",
+    "source": "stripe",
+    "sourceSha256": "2c31317cdff103e4495b5b3501004d9ddc0af61f43b0ab819e2db392eef008f6",
+    "group": "setup_intents",
+    "need": "In the stripe setup_intents area, find the API operation to: Create a SetupIntent",
+    "expectedId": "POST /v1/setup_intents",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-stripe-107",
+    "source": "stripe",
+    "sourceSha256": "2c31317cdff103e4495b5b3501004d9ddc0af61f43b0ab819e2db392eef008f6",
+    "group": "charges",
+    "need": "In the stripe charges area, find the API operation to: Update a charge",
+    "expectedId": "POST /v1/charges/{charge}",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-stripe-108",
+    "source": "stripe",
+    "sourceSha256": "2c31317cdff103e4495b5b3501004d9ddc0af61f43b0ab819e2db392eef008f6",
+    "group": "billing",
+    "need": "In the stripe billing area, find the API operation to: Feedback Options List API Method",
+    "expectedId": "GET /v1/billing/feedback_options",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-stripe-109",
+    "source": "stripe",
+    "sourceSha256": "2c31317cdff103e4495b5b3501004d9ddc0af61f43b0ab819e2db392eef008f6",
+    "group": "transfers",
+    "need": "In the stripe transfers area, find the API operation to: Create a transfer reversal",
+    "expectedId": "POST /v1/transfers/{id}/reversals",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-stripe-110",
+    "source": "stripe",
+    "sourceSha256": "2c31317cdff103e4495b5b3501004d9ddc0af61f43b0ab819e2db392eef008f6",
+    "group": "application_fees",
+    "need": "In the stripe application_fees area, find the API operation to: List all application fee refunds",
+    "expectedId": "GET /v1/application_fees/{id}/refunds",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-stripe-111",
+    "source": "stripe",
+    "sourceSha256": "2c31317cdff103e4495b5b3501004d9ddc0af61f43b0ab819e2db392eef008f6",
+    "group": "balance",
+    "need": "In the stripe balance area, find the API operation to: List all balance transactions",
+    "expectedId": "GET /v1/balance/history",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-stripe-112",
+    "source": "stripe",
+    "sourceSha256": "2c31317cdff103e4495b5b3501004d9ddc0af61f43b0ab819e2db392eef008f6",
+    "group": "billing_portal",
+    "need": "In the stripe billing_portal area, find the API operation to: Update a portal configuration",
+    "expectedId": "POST /v1/billing_portal/configurations/{configuration}",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-stripe-113",
+    "source": "stripe",
+    "sourceSha256": "2c31317cdff103e4495b5b3501004d9ddc0af61f43b0ab819e2db392eef008f6",
+    "group": "balance_settings",
+    "need": "In the stripe balance_settings area, find the API operation to: Retrieve balance settings",
+    "expectedId": "GET /v1/balance_settings",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-stripe-114",
+    "source": "stripe",
+    "sourceSha256": "2c31317cdff103e4495b5b3501004d9ddc0af61f43b0ab819e2db392eef008f6",
+    "group": "exchange_rates",
+    "need": "In the stripe exchange_rates area, find the API operation to: List all exchange rates",
+    "expectedId": "GET /v1/exchange_rates",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-stripe-115",
+    "source": "stripe",
+    "sourceSha256": "2c31317cdff103e4495b5b3501004d9ddc0af61f43b0ab819e2db392eef008f6",
+    "group": "invoice_rendering_templates",
+    "need": "In the stripe invoice_rendering_templates area, find the API operation to: List all invoice rendering templates",
+    "expectedId": "GET /v1/invoice_rendering_templates",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-stripe-116",
+    "source": "stripe",
+    "sourceSha256": "2c31317cdff103e4495b5b3501004d9ddc0af61f43b0ab819e2db392eef008f6",
+    "group": "account",
+    "need": "In the stripe account area, find the API operation to: Retrieve account",
+    "expectedId": "GET /v1/account",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-stripe-117",
+    "source": "stripe",
+    "sourceSha256": "2c31317cdff103e4495b5b3501004d9ddc0af61f43b0ab819e2db392eef008f6",
+    "group": "sources",
+    "need": "In the stripe sources area, find the API operation to: Create a source",
+    "expectedId": "POST /v1/sources",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-stripe-118",
+    "source": "stripe",
+    "sourceSha256": "2c31317cdff103e4495b5b3501004d9ddc0af61f43b0ab819e2db392eef008f6",
+    "group": "country_specs",
+    "need": "In the stripe country_specs area, find the API operation to: Retrieve a Country Spec",
+    "expectedId": "GET /v1/country_specs/{country}",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-stripe-119",
+    "source": "stripe",
+    "sourceSha256": "2c31317cdff103e4495b5b3501004d9ddc0af61f43b0ab819e2db392eef008f6",
+    "group": "payment_method_domains",
+    "need": "In the stripe payment_method_domains area, find the API operation to: Update a payment method domain",
+    "expectedId": "POST /v1/payment_method_domains/{payment_method_domain}",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-stripe-120",
+    "source": "stripe",
+    "sourceSha256": "2c31317cdff103e4495b5b3501004d9ddc0af61f43b0ab819e2db392eef008f6",
+    "group": "sigma",
+    "need": "In the stripe sigma area, find the API operation to: List all scheduled query runs",
+    "expectedId": "GET /v1/sigma/scheduled_query_runs",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-stripe-121",
+    "source": "stripe",
+    "sourceSha256": "2c31317cdff103e4495b5b3501004d9ddc0af61f43b0ab819e2db392eef008f6",
+    "group": "subscriptions",
+    "need": "In the stripe subscriptions area, find the API operation to: Cancel a subscription",
+    "expectedId": "DELETE /v1/subscriptions/{subscription_exposed_id}",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-stripe-122",
+    "source": "stripe",
+    "sourceSha256": "2c31317cdff103e4495b5b3501004d9ddc0af61f43b0ab819e2db392eef008f6",
+    "group": "payouts",
+    "need": "In the stripe payouts area, find the API operation to: Cancel a payout",
+    "expectedId": "POST /v1/payouts/{payout}/cancel",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-stripe-123",
+    "source": "stripe",
+    "sourceSha256": "2c31317cdff103e4495b5b3501004d9ddc0af61f43b0ab819e2db392eef008f6",
+    "group": "invoice_payments",
+    "need": "In the stripe invoice_payments area, find the API operation to: Retrieve an InvoicePayment",
+    "expectedId": "GET /v1/invoice_payments/{invoice_payment}",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-stripe-124",
+    "source": "stripe",
+    "sourceSha256": "2c31317cdff103e4495b5b3501004d9ddc0af61f43b0ab819e2db392eef008f6",
+    "group": "topups",
+    "need": "In the stripe topups area, find the API operation to: Create a top-up",
+    "expectedId": "POST /v1/topups",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-stripe-125",
+    "source": "stripe",
+    "sourceSha256": "2c31317cdff103e4495b5b3501004d9ddc0af61f43b0ab819e2db392eef008f6",
+    "group": "identity",
+    "need": "In the stripe identity area, find the API operation to: List VerificationSessions",
+    "expectedId": "GET /v1/identity/verification_sessions",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-stripe-126",
+    "source": "stripe",
+    "sourceSha256": "2c31317cdff103e4495b5b3501004d9ddc0af61f43b0ab819e2db392eef008f6",
+    "group": "linked_accounts",
+    "need": "In the stripe linked_accounts area, find the API operation to: Disconnect an Account",
+    "expectedId": "POST /v1/linked_accounts/{account}/disconnect",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-stripe-127",
+    "source": "stripe",
+    "sourceSha256": "2c31317cdff103e4495b5b3501004d9ddc0af61f43b0ab819e2db392eef008f6",
+    "group": "disputes",
+    "need": "In the stripe disputes area, find the API operation to: List all disputes",
+    "expectedId": "GET /v1/disputes",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-stripe-128",
+    "source": "stripe",
+    "sourceSha256": "2c31317cdff103e4495b5b3501004d9ddc0af61f43b0ab819e2db392eef008f6",
+    "group": "invoiceitems",
+    "need": "In the stripe invoiceitems area, find the API operation to: List all invoice items",
+    "expectedId": "GET /v1/invoiceitems",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-stripe-129",
+    "source": "stripe",
+    "sourceSha256": "2c31317cdff103e4495b5b3501004d9ddc0af61f43b0ab819e2db392eef008f6",
+    "group": "confirmation_tokens",
+    "need": "In the stripe confirmation_tokens area, find the API operation to: Retrieve a ConfirmationToken",
+    "expectedId": "GET /v1/confirmation_tokens/{confirmation_token}",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-stripe-130",
+    "source": "stripe",
+    "sourceSha256": "2c31317cdff103e4495b5b3501004d9ddc0af61f43b0ab819e2db392eef008f6",
+    "group": "balance_transactions",
+    "need": "In the stripe balance_transactions area, find the API operation to: List all balance transactions",
+    "expectedId": "GET /v1/balance_transactions",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-stripe-131",
+    "source": "stripe",
+    "sourceSha256": "2c31317cdff103e4495b5b3501004d9ddc0af61f43b0ab819e2db392eef008f6",
+    "group": "setup_attempts",
+    "need": "In the stripe setup_attempts area, find the API operation to: List all SetupAttempts",
+    "expectedId": "GET /v1/setup_attempts",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-stripe-132",
+    "source": "stripe",
+    "sourceSha256": "2c31317cdff103e4495b5b3501004d9ddc0af61f43b0ab819e2db392eef008f6",
+    "group": "test_helpers",
+    "need": "In the stripe test_helpers area, find the API operation to: Test mode: Create a ReceivedCredit",
+    "expectedId": "POST /v1/test_helpers/treasury/received_credits",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-stripe-133",
+    "source": "stripe",
+    "sourceSha256": "2c31317cdff103e4495b5b3501004d9ddc0af61f43b0ab819e2db392eef008f6",
+    "group": "prices",
+    "need": "In the stripe prices area, find the API operation to: Search prices",
+    "expectedId": "GET /v1/prices/search",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-stripe-134",
+    "source": "stripe",
+    "sourceSha256": "2c31317cdff103e4495b5b3501004d9ddc0af61f43b0ab819e2db392eef008f6",
+    "group": "webhook_endpoints",
+    "need": "In the stripe webhook_endpoints area, find the API operation to: Update a webhook endpoint",
+    "expectedId": "POST /v1/webhook_endpoints/{webhook_endpoint}",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-stripe-135",
+    "source": "stripe",
+    "sourceSha256": "2c31317cdff103e4495b5b3501004d9ddc0af61f43b0ab819e2db392eef008f6",
+    "group": "payment_records",
+    "need": "In the stripe payment_records area, find the API operation to: Report payment attempt guaranteed",
+    "expectedId": "POST /v1/payment_records/{id}/report_payment_attempt_guaranteed",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-stripe-136",
+    "source": "stripe",
+    "sourceSha256": "2c31317cdff103e4495b5b3501004d9ddc0af61f43b0ab819e2db392eef008f6",
+    "group": "apps",
+    "need": "In the stripe apps area, find the API operation to: Set a Secret",
+    "expectedId": "POST /v1/apps/secrets",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-stripe-137",
+    "source": "stripe",
+    "sourceSha256": "2c31317cdff103e4495b5b3501004d9ddc0af61f43b0ab819e2db392eef008f6",
+    "group": "payment_intents",
+    "need": "In the stripe payment_intents area, find the API operation to: Retrieve a PaymentIntent",
+    "expectedId": "GET /v1/payment_intents/{intent}",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-stripe-138",
+    "source": "stripe",
+    "sourceSha256": "2c31317cdff103e4495b5b3501004d9ddc0af61f43b0ab819e2db392eef008f6",
+    "group": "products",
+    "need": "In the stripe products area, find the API operation to: Search products",
+    "expectedId": "GET /v1/products/search",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-stripe-139",
+    "source": "stripe",
+    "sourceSha256": "2c31317cdff103e4495b5b3501004d9ddc0af61f43b0ab819e2db392eef008f6",
+    "group": "file_links",
+    "need": "In the stripe file_links area, find the API operation to: Retrieve a file link",
+    "expectedId": "GET /v1/file_links/{link}",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-stripe-140",
+    "source": "stripe",
+    "sourceSha256": "2c31317cdff103e4495b5b3501004d9ddc0af61f43b0ab819e2db392eef008f6",
+    "group": "credit_notes",
+    "need": "In the stripe credit_notes area, find the API operation to: Retrieve a credit note",
+    "expectedId": "GET /v1/credit_notes/{id}",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-stripe-141",
+    "source": "stripe",
+    "sourceSha256": "2c31317cdff103e4495b5b3501004d9ddc0af61f43b0ab819e2db392eef008f6",
+    "group": "climate",
+    "need": "In the stripe climate area, find the API operation to: Cancel an order",
+    "expectedId": "POST /v1/climate/orders/{order}/cancel",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-stripe-142",
+    "source": "stripe",
+    "sourceSha256": "2c31317cdff103e4495b5b3501004d9ddc0af61f43b0ab819e2db392eef008f6",
+    "group": "invoices",
+    "need": "In the stripe invoices area, find the API operation to: Mark an invoice as uncollectible",
+    "expectedId": "POST /v1/invoices/{invoice}/mark_uncollectible",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-stripe-143",
+    "source": "stripe",
+    "sourceSha256": "2c31317cdff103e4495b5b3501004d9ddc0af61f43b0ab819e2db392eef008f6",
+    "group": "core",
+    "need": "In the stripe core area, find the API operation to: Retrieve an Event",
+    "expectedId": "GET /v2/core/events/{id}",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-stripe-144",
+    "source": "stripe",
+    "sourceSha256": "2c31317cdff103e4495b5b3501004d9ddc0af61f43b0ab819e2db392eef008f6",
+    "group": "customers",
+    "need": "In the stripe customers area, find the API operation to: List all Customer tax IDs",
+    "expectedId": "GET /v1/customers/{customer}/tax_ids",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-stripe-145",
+    "source": "stripe",
+    "sourceSha256": "2c31317cdff103e4495b5b3501004d9ddc0af61f43b0ab819e2db392eef008f6",
+    "group": "shipping_rates",
+    "need": "In the stripe shipping_rates area, find the API operation to: Create a shipping rate",
+    "expectedId": "POST /v1/shipping_rates",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-stripe-146",
+    "source": "stripe",
+    "sourceSha256": "2c31317cdff103e4495b5b3501004d9ddc0af61f43b0ab819e2db392eef008f6",
+    "group": "financial_connections",
+    "need": "In the stripe financial_connections area, find the API operation to: List Transactions",
+    "expectedId": "GET /v1/financial_connections/transactions",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-stripe-147",
+    "source": "stripe",
+    "sourceSha256": "2c31317cdff103e4495b5b3501004d9ddc0af61f43b0ab819e2db392eef008f6",
+    "group": "treasury",
+    "need": "In the stripe treasury area, find the API operation to: Create an OutboundPayment",
+    "expectedId": "POST /v1/treasury/outbound_payments",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-stripe-148",
+    "source": "stripe",
+    "sourceSha256": "2c31317cdff103e4495b5b3501004d9ddc0af61f43b0ab819e2db392eef008f6",
+    "group": "files",
+    "need": "In the stripe files area, find the API operation to: List all files",
+    "expectedId": "GET /v1/files",
+    "tier": "source-summary-holdout"
+  },
+  {
+    "id": "holdout-stripe-149",
+    "source": "stripe",
+    "sourceSha256": "2c31317cdff103e4495b5b3501004d9ddc0af61f43b0ab819e2db392eef008f6",
+    "group": "tax_rates",
+    "need": "In the stripe tax_rates area, find the API operation to: Update a tax rate",
+    "expectedId": "POST /v1/tax_rates/{tax_rate}",
+    "tier": "source-summary-holdout"
+  }
+]

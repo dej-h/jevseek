@@ -80,6 +80,7 @@ export async function loadOpenApiOperations(
 }
 
 export interface OpenApiCatalog {
+  document: SourceDocument;
   source: {
     kind: "openapi";
     location: string;
@@ -130,6 +131,7 @@ export function openApiCatalogFromDocument(
     throw new Error("not an OpenAPI document");
   }
   return {
+    document,
     source: {
       kind: "openapi",
       location: document.location,
@@ -311,6 +313,43 @@ export function inspectOpenApiDocument(document: SourceDocument, target: string,
     }
   }
   return contract;
+}
+
+/** Small, source-backed contract view for a selected operation. */
+export function previewOpenApiDocument(document: SourceDocument, target: string): JsonValue {
+  let doc: unknown;
+  try {
+    doc = parseOpenApiDocument(document.text);
+  } catch (cause) {
+    throw new NotOpenApiError("Source is not a valid OpenAPI document", { cause });
+  }
+  if (!isPlainObject(doc) || !isPlainObject(doc.paths)) {
+    throw new NotOpenApiError("not an OpenAPI document with paths");
+  }
+  const match = /^(GET|PUT|POST|DELETE|OPTIONS|HEAD|PATCH|TRACE) (\/.*)$/.exec(target);
+  if (!match) throw new Error("OpenAPI target must be METHOD /path");
+  const [, methodUpper, path] = match;
+  const item = doc.paths[path];
+  const method = methodUpper.toLowerCase();
+  if (!isPlainObject(item) || !isPlainObject(item[method])) {
+    throw new Error(`target not found in current source: ${target}; rediscover the source`);
+  }
+  const operation = item[method];
+  const preview: { [key: string]: JsonValue } = { method: methodUpper, path };
+  if (typeof operation.operationId === "string") preview.operationId = operation.operationId;
+  if (typeof operation.summary === "string") preview.summary = operation.summary;
+  const parameters = compactParameters(doc, item, operation);
+  if (parameters) preview.parameters = parameters;
+  if (operation.requestBody !== undefined) {
+    const body = resolveLocalRef(doc, operation.requestBody);
+    const bodyJson = body === undefined ? undefined : toJsonValue(body);
+    if (bodyJson !== undefined) {
+      preview.requestBody = Buffer.byteLength(JSON.stringify(bodyJson)) <= 12 * 1024
+        ? bodyJson
+        : { inspectPart: ["operation", "requestBody"], reason: "request body exceeds compact preview" };
+    }
+  }
+  return preview;
 }
 
 function buildOperationContract(

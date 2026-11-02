@@ -26,6 +26,7 @@ try {
   const entry = join(installed, manifest.bin.jevseek);
   const command = join(prefix, process.platform === "win32" ? "jevseek.cmd" : "bin/jevseek");
   await access(command);
+  await access(join(installed, "skills/jevseek-discovery/SKILL.md"));
   assert.equal(run(process.execPath, [entry, "--version"], { cwd: work, env }).trim(), expected.version);
   const help = run(process.execPath, [entry, "--help"], { cwd: work, env });
   assert.match(help, /discover "<need>" <source>/);
