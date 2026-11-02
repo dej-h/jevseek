@@ -26,6 +26,25 @@ node --import tsx evals/run-discovery-accuracy.ts \
 
 The evaluator checks each source hash before making paid Jev requests. It writes one result per question with the selected target, confidence status, operations ranked, input tokens, and cost. Its final summary is written to stderr. Substitute the holdout case file for the second set. The snapshots are not packaged with JevSeek; a different source revision requires a separately reviewed answer key.
 
+## Product-level agent comparison
+
+The [per-run results](../evals/agent-product-comparison-20261103.json) include prompts, final answers, elapsed times, Codex usage counters, Jev calls, and checks against the source targets. For the local OpenAPI comparison, 36 distinct curated needs were run once with and once without JevSeek: 12 each for GitHub, DigitalOcean, and Stripe. Both Codex processes in each pair used `gpt-6.1-sol` at medium reasoning, the same source path and prompt, read-only permissions, and web search enabled. The JevSeek condition enabled its MCP server and discovery skill; the control disabled both and retained ordinary shell and web tools. The prompts named the source snapshot but did not require JevSeek. The enabled agent called `jevseek_discover` in all 36 tasks. Neither side used web search for these local files.
+
+The checked answer contained the exact method, path, operation ID, and each top-level required request-body field from the frozen source. Both conditions passed all 36. “Uncached Codex input” is the sum of Codex's reported input tokens minus cached input tokens; it excludes Jev's separately billed ranking input. Time changes are medians of the 12 paired differences for each source, so they need not equal the difference between the two independent medians.
+
+| Source | Tasks | Without JevSeek: uncached Codex input | With JevSeek | Change | Median paired time change |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Stripe | 12 | 233,277 | 159,106 | 32% less | 5.736 s slower |
+| DigitalOcean | 12 | 220,397 | 188,100 | 15% less | 3.822 s slower |
+| GitHub | 12 | 155,859 | 176,094 | 13% more | 0.070 s faster |
+| **All local OpenAPI** | **36** | **609,533** | **523,300** | **14% less** | **3.698 s slower** |
+
+The JevSeek condition also sent 806,194 input tokens to Jev across the 36 tasks, at a total reported Jev cost of $0.0339. Those tokens are outside the Codex column and must be counted when comparing total model work. JevSeek reduced uncached Codex input on 25 of 36 individual tasks, and the enabled agent finished faster on 11 of 36. Both conditions returned the right checked contract, so this set does not establish an accuracy gain. Several DigitalOcean requests needed repeated reference inspection; one NFS action task made ten JevSeek tool calls and finished 21 seconds later than its control.
+
+An earlier matched comparison used three needs from the live [Oxford Ledge public MCP catalog](https://www.oxfordledge.com/mcp), each repeated three times with web search available. The control used web and shell tools; the JevSeek condition called discovery and inspection. Both conditions reported the checked tool name and required inputs in all nine runs. Mean uncached Codex input fell from 32,395 to 17,256 tokens per task, a 47% reduction; the median paired run was 1.204 seconds faster with JevSeek. These November 2 runs used the previously installed client and an older discovery-skill instruction, so they are shown separately from the November 3 OpenAPI runs and are not pooled into their total. The endpoint is live and has no frozen source hash.
+
+For the 36 OpenAPI JevSeek runs, the frozen GitHub source was 13,917,893 bytes, Stripe 4,518,735 bytes, and DigitalOcean 4,281,270 bytes. Median complete serialized MCP discovery results, including text and structured content, were 4,350, 5,204, and 3,629 bytes respectively. This is the amount of source material returned by JevSeek, not a measurement of how much source an agent without JevSeek would read. The matched agent counters above measure the actual alternative behavior. A single run per distinct OpenAPI task and three repeated remote needs leave timing and broader generalization uncertain.
+
 ## Direct ranking
 
 The measured baseline ranked each full catalog. The lean variant used compact source descriptors from at most 100 lexical candidates for large catalogs, with a full-catalog retry after a weak result. Stripe's catalog stayed below the shortlist threshold and was ranked whole in both variants.

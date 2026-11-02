@@ -94,14 +94,14 @@ For either agent, use an absolute path to the installed `jevseek` executable if 
 
 Give the agent the path to a downloaded GitHub OpenAPI snapshot and a real public pull-request URL, then ask:
 
-> Use JevSeek with the GitHub OpenAPI file at /absolute/path/github.openapi.json. I need filenames and change metadata for this pull request. Find the operation and its required inputs, then use your existing HTTP or shell tool to make the public read-only request and summarize the result.
+> Use JevSeek with the GitHub OpenAPI file at /absolute/path/github.openapi.json. I need the files changed by this pull request. Find the operation and its required inputs, then use your existing HTTP or shell tool to make the public read-only request and summarize the result.
 
 The model-visible tool call is:
 
 ```json
 {
   "source": "/absolute/path/github.openapi.json",
-  "need": "I need filenames and change metadata for a pull request",
+  "need": "I need an endpoint that lists the files changed by a pull request",
   "top_k": 3
 }
 ```

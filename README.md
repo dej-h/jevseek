@@ -14,47 +14,58 @@
 </p>
 
 <p align="center">
-  <a href="#what-jevseek-finds">What it finds</a> ·
+  <a href="#why-install-jevseek">Why install</a> ·
   <a href="#get-started">Get started</a> ·
   <a href="#connect-your-agent">Connect your agent</a> ·
   <a href="#from-a-need-to-a-request">See an example</a>
 </p>
 
-![Demo video coming soon: a capability need, a source, and the selected native contract.](docs/assets/hero-video-placeholder.svg)
-
 JevSeek helps coding agents find their way around unfamiliar APIs and MCP servers. Give it an OpenAPI file, an HTTPS document URL, or a public remote MCP endpoint and describe what you need. It detects the source type, enumerates capabilities, and uses [TypeSafe Jev](https://docs.typesafe.ai) to score their relevance. Discovery returns short ranked targets and a compact source-backed preview for a confident top match. Inspection reads the current source when the preview lacks details for the selected operation or tool.
 
 Use it through the CLI, a TypeScript function, or an MCP discovery tool. No per-API wrapper or embedding index is required for discovery.
 
-## What JevSeek finds
+## Why install JevSeek?
 
-| Capability needed | Source catalog | Selected operation or tool |
-| --- | --- | --- |
-| List the files changed by a pull request | GitHub REST API, 1,254 operations | `GET /repos/{owner}/{repo}/pulls/{pull_number}/files` |
-| Add forwarding rules to an existing load balancer | DigitalOcean API, 873 operations | `POST /v2/load_balancers/{lb_id}/forwarding_rules` |
-| Preview a subscription price change with prorations, without applying it | Stripe API, 626 operations | `POST /v1/invoices/create_preview` |
-| Find a company's institutional holders | Oxford Ledge public MCP catalog, 62 tools | `get_institutional_holders` |
+JevSeek returns a source-backed target and compact contract preview without sending the whole catalog back to the coding agent. In 36 Codex discovery tasks, its serialized MCP response was a few kilobytes even when the OpenAPI source was several megabytes:
 
-The OpenAPI rows are observed top matches from the [source-backed discovery evaluation](docs/discovery-evaluation.md); the MCP row is from a [recorded live catalog run](docs/mcp-public-discovery-evidence.md). JevSeek selects and describes a contract. The agent uses its normal tools to make any authorized request.
+| Source, largest first | Catalog source | Median discovery result | Example contract found |
+| --- | ---: | ---: | --- |
+| GitHub REST API, 1,254 operations | 13.9 MB | 4.4 KB | `GET /repos/{owner}/{repo}/pulls/{pull_number}/files` |
+| Stripe API, 626 operations | 4.52 MB | 5.2 KB | `POST /v1/invoices/create_preview` |
+| DigitalOcean API, 873 operations | 4.28 MB | 3.6 KB | `POST /v2/load_balancers/{lb_id}/forwarding_rules` |
+
+The size and response figures come from the 36 agent tasks; the example targets come from the [curated discovery cases](docs/discovery-evaluation.md). The response sizes include duplicate text and structured content. A coding agent without JevSeek can search a local file directly, so the table does not count the entire source as tokens saved. In matched tasks, Codex could choose its normal tools in both conditions. The next table reports average uncached Codex input tokens per task:
+
+| Catalog | Tasks | Without JevSeek | With JevSeek | Input change | Median paired time |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Oxford Ledge public MCP, 62 tools | 3 needs × 3 runs | 32.4k | 17.3k | 47% less | 1.2 s faster |
+| Stripe local OpenAPI | 12 needs | 19.4k | 13.3k | 32% less | 5.7 s slower |
+| DigitalOcean local OpenAPI | 12 needs | 18.4k | 15.7k | 15% less | 3.8 s slower |
+| GitHub local OpenAPI | 12 needs | 13.0k | 14.7k | 13% more | 0.1 s faster |
+
+Both setups found the checked target and inputs in every task. Across the 36 OpenAPI tasks, JevSeek reduced uncached Codex input by 14% but added 3.7 seconds to the median paired task. Its Jev ranking calls processed another 806,194 input tokens at a reported cost of $0.0339 across those tasks. The Oxford comparison used an earlier installed client; its three needs were repeated, while the OpenAPI tasks were distinct. See the [method and per-run results](docs/discovery-evaluation.md#product-level-agent-comparison) before extrapolating these numbers.
 
 ## From a need to a request
 
-You need filenames and change metadata for a pull request. Which operation provides them, and what arguments does it require?
+![Demo video coming soon: a capability need, a source, and the selected native contract.](docs/assets/hero-video-placeholder.svg)
+
+You need the files changed by a pull request. Which operation provides them, and what arguments does it require? Fetch the GitHub specification once, then search it:
 
 ```bash
+./examples/github/fetch.sh
 jevseek discover \
-  "I need filenames and change metadata for a pull request" \
+  "I need an endpoint that lists the files changed by a pull request" \
   ./examples/github/api.github.com.json --top 1 --short
 ```
 
-The result stays short enough to inspect in a terminal:
+This result came from a local GitHub specification snapshot:
 
 ```text
 Status: matches
-Scanned: 1,239 operations
+Scanned: 1239 operations
 Matches:
-  1. [score] GET /repos/{owner}/{repo}/pulls/{pull_number}/files (pulls/list-files): List pull requests files
-Usage: [requests, input tokens, cost]
+  1. [0.96] GET /repos/{owner}/{repo}/pulls/{pull_number}/files (pulls/list-files): List pull requests files
+Usage: 1 Jev request, 7532 input tokens, $0.000316344
 ```
 
 Omit `--short` to return JSON with target names, scores, a compact preview of the top match when confident, scan warning counts, and usage. To read more of the selected operation:
@@ -64,7 +75,7 @@ jevseek inspect ./examples/github/api.github.com.json \
   "GET /repos/{owner}/{repo}/pulls/{pull_number}/files"
 ```
 
-The values above are illustrative, not a captured live run.
+The snapshot and Jev model can change, so scores, counts, and cost may differ on a later run.
 
 **JevSeek finds the contract. Your agent builds and executes the request using its existing tools.**
 
@@ -84,7 +95,7 @@ Set your key and discover directly from an HTTPS OpenAPI document:
 export TYPESAFE_API_KEY="your-typesafe-key"
 
 jevseek discover \
-  "I need filenames and change metadata for a pull request" \
+  "I need an endpoint that lists the files changed by a pull request" \
   "https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/api.github.com/api.github.com.json" \
   --top 1
 ```
@@ -158,7 +169,7 @@ The same optional [discovery skill](docs/coding-agents.md#optional-discovery-ski
 
 Then give your agent a real public PR URL and ask:
 
-> Use JevSeek with the GitHub OpenAPI file at /absolute/path/github.openapi.json. I need filenames and change metadata for this pull request. Find the operation, check its required inputs, and make the public read-only request.
+> Use JevSeek with the GitHub OpenAPI file at /absolute/path/github.openapi.json. I need the files changed by this pull request. Find the operation, check its required inputs, and make the public read-only request.
 
 For an MCP catalog, the source is just the endpoint string:
 

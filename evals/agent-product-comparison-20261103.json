@@ -1,0 +1,2660 @@
+{
+  "localOpenApi": {
+    "date": "2026-11-03",
+    "model": "gpt-6.1-sol",
+    "reasoningEffort": "medium",
+    "webSearchEnabled": true,
+    "permissions": "read-only",
+    "codexMemoriesEnabled": false,
+    "sourceSha256": {
+      "github": "0f85424a3c9603e75d11d3819c47f7e67f51d24bd6deb19cbb6b006e953195e1",
+      "digitalocean": "5f1156a780a769db54abb39183c8b5f1c39a8ba7bf111726f408110965bcaf6f",
+      "stripe": "2c31317cdff103e4495b5b3501004d9ddc0af61f43b0ab819e2db392eef008f6"
+    },
+    "cases": [
+      {
+        "case": {
+          "source": "github",
+          "expectedId": "POST /orgs/{org}/private-registries",
+          "need": "Create a new organization private registry configuration using an encrypted secret."
+        },
+        "prompt": "Using the local github OpenAPI snapshot at /tmp/jevseek-skill-eval/examples/github/openapi.json as the source of truth, find the operation for this need: Create a new organization private registry configuration using an encrypted secret. Report its exact method, path, operationId, and any required path or request-body fields. Do not call the target API.",
+        "launch_order": [
+          "with_jevseek",
+          "without_jevseek"
+        ],
+        "runs": {
+          "without_jevseek": {
+            "input_tokens": 107519,
+            "cached_input_tokens": 86912,
+            "uncached_input_tokens": 20607,
+            "output_tokens": 781,
+            "skill_read": false,
+            "mcp_calls": [],
+            "jev_input_tokens": 0,
+            "jev_cost_usd": 0,
+            "jev_requests": 0,
+            "web_searches": 0,
+            "shell_commands": 5,
+            "final_answer": "The matching operation is **Create a private registry for an organization**.\n\n- **Method:** `POST`\n- **Path:** `/orgs/{org}/private-registries`\n- **operationId:** `private-registries/create-org-private-registry`\n- **Required path field:** `org` (string), the organization name; case insensitive.\n- **Required request body:** `application/json`, containing:\n  - `registry_type` (string): registry type.\n  - `url` (string, URI): private registry URL.\n  - `visibility` (string): `all`, `private`, or `selected`.\n- **Additionally required for encrypted-secret authentication:** `encrypted_value` (string, Base64 secret encrypted using LibSodium and the organization’s public key) and `key_id` (string, ID of that key). Their descriptions require both when `auth_type` is `token` or `username_password`; `auth_type` defaults to `token`.\n\nSource: [code --goto \"/tmp/jevseek-skill-eval/examples/github/openapi.json:47136\"](/tmp/jevseek-skill-eval/examples/github/openapi.json:47136). No target API was called.",
+            "returncode": 0,
+            "elapsed_seconds": 33.768,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true
+          },
+          "with_jevseek": {
+            "input_tokens": 83528,
+            "cached_input_tokens": 64640,
+            "uncached_input_tokens": 18888,
+            "output_tokens": 520,
+            "skill_read": true,
+            "mcp_calls": [
+              "jevseek_discover"
+            ],
+            "jev_input_tokens": 103974,
+            "jev_cost_usd": 0.004366908,
+            "jev_requests": 4,
+            "web_searches": 0,
+            "shell_commands": 2,
+            "final_answer": "- **Method:** `POST`\n- **Path:** `/orgs/{org}/private-registries`\n- **operationId:** `private-registries/create-org-private-registry`\n\nRequired path field: `org` (string).\n\nThe **JSON request body is required**, with these required fields:\n\n| Field | Type | Requirement |\n|---|---|---|\n| `registry_type` | string | Registry type |\n| `url` | string (URI) | Private registry URL |\n| `visibility` | string | `all`, `private`, or `selected` |\n| `encrypted_value` | string | Required for `token` or `username_password` authentication; secret encrypted with LibSodium using the organization’s private registries public key |\n| `key_id` | string | Required for `token` or `username_password`; ID of the key used to encrypt the secret |\n\n`auth_type` defaults to `token` when omitted. The schema’s unconditional `required` list contains only `registry_type`, `url`, and `visibility`; the encrypted-secret requirements are specified in the field descriptions.\n\nSource: the supplied local OpenAPI snapshot. No target API was called.",
+            "returncode": 0,
+            "elapsed_seconds": 27.097,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true,
+            "discoveryResultBytes": 17873
+          }
+        },
+        "expectedOperationId": "private-registries/create-org-private-registry",
+        "requiredBodyFields": [
+          "registry_type",
+          "url",
+          "visibility"
+        ]
+      },
+      {
+        "case": {
+          "source": "stripe",
+          "expectedId": "POST /v1/subscription_schedules/{schedule}",
+          "need": "Change an existing subscription schedule's phases or other settings."
+        },
+        "prompt": "Using the local stripe OpenAPI snapshot at /tmp/jevseek-skill-eval/examples/stripe/openapi.json as the source of truth, find the operation for this need: Change an existing subscription schedule's phases or other settings. Report its exact method, path, operationId, and any required path or request-body fields. Do not call the target API.",
+        "launch_order": [
+          "with_jevseek",
+          "without_jevseek"
+        ],
+        "runs": {
+          "without_jevseek": {
+            "input_tokens": 104470,
+            "cached_input_tokens": 84864,
+            "uncached_input_tokens": 19606,
+            "output_tokens": 884,
+            "skill_read": false,
+            "mcp_calls": [],
+            "jev_input_tokens": 0,
+            "jev_cost_usd": 0,
+            "jev_requests": 0,
+            "web_searches": 0,
+            "shell_commands": 5,
+            "final_answer": "The matching operation is **Update a schedule**.\n\n- **Method:** `POST`\n- **Path:** `/v1/subscription_schedules/{schedule}`\n- **operationId:** `PostSubscriptionSchedulesSchedule`\n- **Required path field:** `schedule` (string).\n- **Required request-body fields:** None at the top level. The body is optional and uses `application/x-www-form-urlencoded`.\n- **When supplying `phases`:** Each `phases[]` entry requires `items`. Optional nested settings can impose additional required fields, such as `phases[].duration.interval` or `automatic_tax.enabled`.\n\nSource: the supplied local OpenAPI snapshot. No API call was made.",
+            "returncode": 0,
+            "elapsed_seconds": 28.701,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true
+          },
+          "with_jevseek": {
+            "input_tokens": 89707,
+            "cached_input_tokens": 76288,
+            "uncached_input_tokens": 13419,
+            "output_tokens": 716,
+            "skill_read": true,
+            "mcp_calls": [
+              "jevseek_discover"
+            ],
+            "jev_input_tokens": 38391,
+            "jev_cost_usd": 0.001612422,
+            "jev_requests": 2,
+            "web_searches": 0,
+            "shell_commands": 3,
+            "final_answer": "The snapshot defines **Update a schedule**:\n\n| Field | Exact value |\n|---|---|\n| Method | `POST` |\n| Path | `/v1/subscription_schedules/{schedule}` |\n| operationId | `PostSubscriptionSchedulesSchedule` |\n| Required path field | `schedule` — string |\n| Request-body format | `application/x-www-form-urlencoded` |\n\n**The request body is optional, with no required top-level fields.** If you supply `phases`, each phase requires `items`.\n\nOther nested fields are required only when their containing objects are supplied:\n\n| Object | Required fields |\n|---|---|\n| `default_settings.automatic_tax` or `phases[].automatic_tax` | `enabled` |\n| Either automatic-tax object's `liability` | `type` |\n| Either settings object's `invoice_settings.custom_fields[]` | `name`, `value` |\n| Either settings object's `invoice_settings.issuer` | `type` |\n| `default_settings.transfer_data` or `phases[].transfer_data` | `destination` |\n| `phases[].duration` | `interval` |\n| `phases[].items[].billing_thresholds` (object form) | `usage_gte` |\n| `phases[].items[].price_data` | `currency`, `product`, `recurring` |\n| `phases[].items[].price_data.recurring` | `interval` |\n| `phases[].add_invoice_items[].price_data` | `currency`, `product` |\n| `phases[].add_invoice_items[].period` | `start`, `end` |\n| That period's `start` and `end` objects | `type` |\n\nNo target API was called.",
+            "returncode": 0,
+            "elapsed_seconds": 32.964,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true,
+            "discoveryResultBytes": 25129
+          }
+        },
+        "expectedOperationId": "PostSubscriptionSchedulesSchedule",
+        "requiredBodyFields": []
+      },
+      {
+        "case": {
+          "source": "github",
+          "expectedId": "POST /users/{username}/packages/{package_type}/{package_name}/versions/{package_version_id}/restore",
+          "need": "Recover one recently deleted version of a package owned by a specified user, rather than a package owned by the authenticated user."
+        },
+        "prompt": "Using the local github OpenAPI snapshot at /tmp/jevseek-skill-eval/examples/github/openapi.json as the source of truth, find the operation for this need: Recover one recently deleted version of a package owned by a specified user, rather than a package owned by the authenticated user. Report its exact method, path, operationId, and any required path or request-body fields. Do not call the target API.",
+        "launch_order": [
+          "with_jevseek",
+          "without_jevseek"
+        ],
+        "runs": {
+          "without_jevseek": {
+            "input_tokens": 84911,
+            "cached_input_tokens": 64768,
+            "uncached_input_tokens": 20143,
+            "output_tokens": 747,
+            "skill_read": false,
+            "mcp_calls": [],
+            "jev_input_tokens": 0,
+            "jev_cost_usd": 0,
+            "jev_requests": 0,
+            "web_searches": 0,
+            "shell_commands": 4,
+            "final_answer": "The matching operation is **Restore package version for a user**.\n\n- **Method:** `POST`\n- **Path:** `/users/{username}/packages/{package_type}/{package_name}/versions/{package_version_id}/restore`\n- **operationId:** `packages/restore-package-version-for-user`\n\nRequired path fields:\n\n| Field | Type | Meaning |\n|---|---|---|\n| `username` | string | Specified owner’s GitHub handle |\n| `package_type` | string | `npm`, `maven`, `rubygems`, `docker`, `nuget`, or `container` |\n| `package_name` | string | Package name |\n| `package_version_id` | integer | Unique version identifier |\n\n**Request body:** None defined.\n\nThe snapshot requires deletion within the last **30 days**, with the package namespace and version still available.\n\nSource: `/tmp/jevseek-skill-eval/examples/github/openapi.json`. No API was called.",
+            "returncode": 0,
+            "elapsed_seconds": 35.453,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true
+          },
+          "with_jevseek": {
+            "input_tokens": 105431,
+            "cached_input_tokens": 94592,
+            "uncached_input_tokens": 10839,
+            "output_tokens": 611,
+            "skill_read": true,
+            "mcp_calls": [
+              "jevseek_discover",
+              "jevseek_inspect"
+            ],
+            "jev_input_tokens": 7713,
+            "jev_cost_usd": 0.00032394600000000003,
+            "jev_requests": 1,
+            "web_searches": 0,
+            "shell_commands": 3,
+            "final_answer": "The snapshot defines **Restore package version for a user**:\n\n- **Method:** `POST`\n- **Path:** `/users/{username}/packages/{package_type}/{package_name}/versions/{package_version_id}/restore`\n- **operationId:** `packages/restore-package-version-for-user`\n\nAll four path fields are required:\n\n| Field | Type | Values |\n|---|---|---|\n| `username` | string | Specified package owner |\n| `package_type` | string | `npm`, `maven`, `rubygems`, `docker`, `nuget`, `container` |\n| `package_name` | string | Package name |\n| `package_version_id` | integer | Deleted version ID |\n\n**Request body:** None defined.\n\nThe version must have been deleted within the last 30 days, and its namespace and version must remain available. The `/users/{username}` route targets the specified user’s package.\n\nNo target API was called.",
+            "returncode": 0,
+            "elapsed_seconds": 32.634,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true,
+            "discoveryResultBytes": 4359
+          }
+        },
+        "expectedOperationId": "packages/restore-package-version-for-user",
+        "requiredBodyFields": []
+      },
+      {
+        "case": {
+          "source": "stripe",
+          "expectedId": "POST /v1/account_sessions",
+          "need": "Create a short-lived account session token so a platform frontend can access connected-account functionality."
+        },
+        "prompt": "Using the local stripe OpenAPI snapshot at /tmp/jevseek-skill-eval/examples/stripe/openapi.json as the source of truth, find the operation for this need: Create a short-lived account session token so a platform frontend can access connected-account functionality. Report its exact method, path, operationId, and any required path or request-body fields. Do not call the target API.",
+        "launch_order": [
+          "without_jevseek",
+          "with_jevseek"
+        ],
+        "runs": {
+          "without_jevseek": {
+            "input_tokens": 70572,
+            "cached_input_tokens": 57088,
+            "uncached_input_tokens": 13484,
+            "output_tokens": 642,
+            "skill_read": false,
+            "mcp_calls": [],
+            "jev_input_tokens": 0,
+            "jev_cost_usd": 0,
+            "jev_requests": 0,
+            "web_searches": 0,
+            "shell_commands": 4,
+            "final_answer": "The operation is **Create an Account Session**. The snapshot describes it as creating a single-use token for frontend client-side API access.\n\n- **Method:** `POST`\n- **Path:** `/v1/account_sessions`\n- **operationId:** `PostAccountSessions`\n- **Required path fields:** None.\n- **Required request body:** `application/x-www-form-urlencoded`\n  - `account` (string): Account identifier.\n  - `components` (object): Embedded-component configurations. Each supplied `components.<component>` object requires an `enabled` boolean. No specific component key is required by the schema.\n\nSource: `/tmp/jevseek-skill-eval/examples/stripe/openapi.json`, at `paths[\"/v1/account_sessions\"].post`. No API call was made.",
+            "returncode": 0,
+            "elapsed_seconds": 41.988,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true
+          },
+          "with_jevseek": {
+            "input_tokens": 107679,
+            "cached_input_tokens": 96128,
+            "uncached_input_tokens": 11551,
+            "output_tokens": 611,
+            "skill_read": true,
+            "mcp_calls": [
+              "jevseek_discover"
+            ],
+            "jev_input_tokens": 38403,
+            "jev_cost_usd": 0.001612926,
+            "jev_requests": 2,
+            "web_searches": 0,
+            "shell_commands": 4,
+            "final_answer": "The snapshot identifies **Create an Account Session**:\n\n| Field | Exact value |\n|---|---|\n| Method | `POST` |\n| Path | `/v1/account_sessions` |\n| operationId | `PostAccountSessions` |\n| Required path fields | None |\n| Request-body content type | `application/x-www-form-urlencoded` |\n\nRequired request-body fields:\n\n- `account` — string identifying the connected account.\n- `components` — object mapping embedded component names to configurations. Each component you include requires an `enabled` boolean; no particular component key is required by the schema.\n\nThe operation creates an `AccountSession` containing a single-use token for frontend client-side API access. No target API was called.",
+            "returncode": 0,
+            "elapsed_seconds": 38.92,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true,
+            "discoveryResultBytes": 19521
+          }
+        },
+        "expectedOperationId": "PostAccountSessions",
+        "requiredBodyFields": [
+          "account",
+          "components"
+        ]
+      },
+      {
+        "case": {
+          "source": "stripe",
+          "expectedId": "POST /v1/sigma/saved_queries/{id}",
+          "need": "Modify an existing saved Sigma query."
+        },
+        "prompt": "Using the local stripe OpenAPI snapshot at /tmp/jevseek-skill-eval/examples/stripe/openapi.json as the source of truth, find the operation for this need: Modify an existing saved Sigma query. Report its exact method, path, operationId, and any required path or request-body fields. Do not call the target API.",
+        "launch_order": [
+          "without_jevseek",
+          "with_jevseek"
+        ],
+        "runs": {
+          "without_jevseek": {
+            "input_tokens": 111582,
+            "cached_input_tokens": 90112,
+            "uncached_input_tokens": 21470,
+            "output_tokens": 490,
+            "skill_read": false,
+            "mcp_calls": [],
+            "jev_input_tokens": 0,
+            "jev_cost_usd": 0,
+            "jev_requests": 0,
+            "web_searches": 0,
+            "shell_commands": 3,
+            "final_answer": "From the local OpenAPI snapshot:\n\n- **Method:** `POST`\n- **Path:** `/v1/sigma/saved_queries/{id}`\n- **operationId:** `PostSigmaSavedQueriesId`\n- **Required path field:** `id` (string), identifying the existing saved query.\n- **Required request-body fields:** None. The body is optional (`required: false`), with optional `name`, `sql`, and `expand` fields encoded as `application/x-www-form-urlencoded`.\n\nNo target API was called.",
+            "returncode": 0,
+            "elapsed_seconds": 29.536,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true
+          },
+          "with_jevseek": {
+            "input_tokens": 141472,
+            "cached_input_tokens": 115968,
+            "uncached_input_tokens": 25504,
+            "output_tokens": 671,
+            "skill_read": true,
+            "mcp_calls": [
+              "jevseek_discover"
+            ],
+            "jev_input_tokens": 0,
+            "jev_cost_usd": 0,
+            "jev_requests": 0,
+            "web_searches": 0,
+            "shell_commands": 5,
+            "final_answer": "The snapshot defines **“Update an existing Sigma Query”**:\n\n| Field | Exact value |\n|---|---|\n| Method | `POST` |\n| Path | `/v1/sigma/saved_queries/{id}` |\n| operationId | `PostSigmaSavedQueriesId` |\n| Required path field | `id`: string, maximum 5,000 characters; identifies the existing saved query |\n| Required request-body fields | None; the request body itself is optional |\n\nThe body uses `application/x-www-form-urlencoded`. Optional fields are `name` (string, max 5,000 characters), `sql` (valid Trino SQL string, max 100,000 characters), and `expand` (array of strings).\n\nJevSeek discovery was unavailable, so I inspected the local JSON directly. No target API was called.",
+            "returncode": 0,
+            "elapsed_seconds": 44.737,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true,
+            "discoveryResultBytes": 95
+          }
+        },
+        "expectedOperationId": "PostSigmaSavedQueriesId",
+        "requiredBodyFields": []
+      },
+      {
+        "case": {
+          "source": "digitalocean",
+          "expectedId": "DELETE /v2/droplets/{droplet_id}/destroy_with_associated_resources/selective",
+          "need": "Destroy a Droplet together with only selected associated reserved IPs, snapshots, or volumes."
+        },
+        "prompt": "Using the local digitalocean OpenAPI snapshot at /tmp/jevseek-skill-eval/examples/digitalocean/openapi.yaml as the source of truth, find the operation for this need: Destroy a Droplet together with only selected associated reserved IPs, snapshots, or volumes. Report its exact method, path, operationId, and any required path or request-body fields. Do not call the target API.",
+        "launch_order": [
+          "with_jevseek",
+          "without_jevseek"
+        ],
+        "runs": {
+          "without_jevseek": {
+            "input_tokens": 87236,
+            "cached_input_tokens": 75776,
+            "uncached_input_tokens": 11460,
+            "output_tokens": 665,
+            "skill_read": false,
+            "mcp_calls": [],
+            "jev_input_tokens": 0,
+            "jev_cost_usd": 0,
+            "jev_requests": 0,
+            "web_searches": 0,
+            "shell_commands": 5,
+            "final_answer": "- **Method:** `DELETE`\n- **Path:** `/v2/droplets/{droplet_id}/destroy_with_associated_resources/selective`\n- **operationId:** `droplets_destroy_withAssociatedResourcesSelective`\n- **Required path field:** `droplet_id`, an integer ≥ 1.\n- **Request body:** `application/json`, with selected resource IDs in `reserved_ips`, `snapshots`, `volumes`, or `volume_snapshots`. Each field is an array of strings. Neither the body nor any body fields are explicitly marked required in the snapshot.\n\nThe Droplet and selected resources are destroyed; unlisted associated resources remain.\n\nSource: [code --goto \"/tmp/jevseek-skill-eval/examples/digitalocean/openapi.yaml:25688\"](/tmp/jevseek-skill-eval/examples/digitalocean/openapi.yaml:25688), with the body schema at [line 83751](/tmp/jevseek-skill-eval/examples/digitalocean/openapi.yaml:83751) and path parameter at [line 64920](/tmp/jevseek-skill-eval/examples/digitalocean/openapi.yaml:64920).\n\nNo API calls were made.",
+            "returncode": 0,
+            "elapsed_seconds": 41.606,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true
+          },
+          "with_jevseek": {
+            "input_tokens": 136117,
+            "cached_input_tokens": 123392,
+            "uncached_input_tokens": 12725,
+            "output_tokens": 661,
+            "skill_read": true,
+            "mcp_calls": [
+              "jevseek_discover",
+              "jevseek_inspect",
+              "jevseek_inspect",
+              "jevseek_inspect"
+            ],
+            "jev_input_tokens": 7812,
+            "jev_cost_usd": 0.000328104,
+            "jev_requests": 1,
+            "web_searches": 0,
+            "shell_commands": 3,
+            "final_answer": "The matching operation in the local snapshot is:\n\n- **Method:** `DELETE`\n- **Path:** `/v2/droplets/{droplet_id}/destroy_with_associated_resources/selective`\n- **operationId:** `droplets_destroy_withAssociatedResourcesSelective`\n- **Required path field:** `droplet_id` — integer, minimum `1`.\n\nThe JSON request body accepts `reserved_ips`, `snapshots`, `volumes`, and `volume_snapshots`, each an array of string IDs identifying resources to destroy. Associated resources omitted from the request remain.\n\n**Required body fields:** None declared. The snapshot also does not mark the request body itself as required, although the operation description instructs callers to supply the selected resource IDs.\n\nNo target API was called.",
+            "returncode": 0,
+            "elapsed_seconds": 45.43,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true,
+            "discoveryResultBytes": 3655
+          }
+        },
+        "expectedOperationId": "droplets_destroy_withAssociatedResourcesSelective",
+        "requiredBodyFields": []
+      },
+      {
+        "case": {
+          "source": "digitalocean",
+          "expectedId": "DELETE /v2/kubernetes/clusters/{cluster_id}/destroy_with_associated_resources/selective",
+          "need": "Delete a Kubernetes cluster and only the selected associated load balancers, volumes, or snapshots."
+        },
+        "prompt": "Using the local digitalocean OpenAPI snapshot at /tmp/jevseek-skill-eval/examples/digitalocean/openapi.yaml as the source of truth, find the operation for this need: Delete a Kubernetes cluster and only the selected associated load balancers, volumes, or snapshots. Report its exact method, path, operationId, and any required path or request-body fields. Do not call the target API.",
+        "launch_order": [
+          "without_jevseek",
+          "with_jevseek"
+        ],
+        "runs": {
+          "without_jevseek": {
+            "input_tokens": 112004,
+            "cached_input_tokens": 88320,
+            "uncached_input_tokens": 23684,
+            "output_tokens": 606,
+            "skill_read": false,
+            "mcp_calls": [],
+            "jev_input_tokens": 0,
+            "jev_cost_usd": 0,
+            "jev_requests": 0,
+            "web_searches": 0,
+            "shell_commands": 5,
+            "final_answer": "- **Method:** `DELETE`\n- **Path:** `/v2/kubernetes/clusters/{cluster_id}/destroy_with_associated_resources/selective`\n- **operationId:** `kubernetes_destroy_associatedResourcesSelective`\n- **Required path field:** `cluster_id`, a string with `uuid` format.\n- **Required request body:** An `application/json` object. Its schema declares **no required properties**. Select resources using these optional fields, each an array of string IDs:\n  - `load_balancers`\n  - `volumes`\n  - `volume_snapshots`\n\nThe operation deletes the cluster and the selected associated resources; unlisted associated resources remain.\n\nSource: local `examples/digitalocean/openapi.yaml`, operation at line 32863, path parameter at line 65489, body schema at line 88526. No API was called.",
+            "returncode": 0,
+            "elapsed_seconds": 42.542,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true
+          },
+          "with_jevseek": {
+            "input_tokens": 135812,
+            "cached_input_tokens": 114176,
+            "uncached_input_tokens": 21636,
+            "output_tokens": 657,
+            "skill_read": true,
+            "mcp_calls": [
+              "jevseek_discover",
+              "jevseek_inspect",
+              "jevseek_inspect"
+            ],
+            "jev_input_tokens": 8340,
+            "jev_cost_usd": 0.00035028,
+            "jev_requests": 1,
+            "web_searches": 0,
+            "shell_commands": 3,
+            "final_answer": "The matching operation in the local snapshot is:\n\n| Field | Exact value |\n|---|---|\n| Method | `DELETE` |\n| Path | `/v2/kubernetes/clusters/{cluster_id}/destroy_with_associated_resources/selective` |\n| operationId | `kubernetes_destroy_associatedResourcesSelective` |\n| Required path field | `cluster_id`: string, UUID format |\n| Required request body | `application/json` object |\n\nThe body accepts these fields, each an array of string resource IDs:\n\n- `load_balancers`\n- `volumes`\n- `volume_snapshots`\n\n**No individual body fields are marked required** in the schema. Include the IDs of associated resources to delete; associated resources omitted from the request remain.\n\nNo target API was called.",
+            "returncode": 0,
+            "elapsed_seconds": 42.642,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true,
+            "discoveryResultBytes": 3799
+          }
+        },
+        "expectedOperationId": "kubernetes_destroy_associatedResourcesSelective",
+        "requiredBodyFields": []
+      },
+      {
+        "case": {
+          "source": "stripe",
+          "expectedId": "POST /v1/customers/{customer}/balance_transactions",
+          "need": "Add an immutable transaction that changes a customer's credit balance."
+        },
+        "prompt": "Using the local stripe OpenAPI snapshot at /tmp/jevseek-skill-eval/examples/stripe/openapi.json as the source of truth, find the operation for this need: Add an immutable transaction that changes a customer's credit balance. Report its exact method, path, operationId, and any required path or request-body fields. Do not call the target API.",
+        "launch_order": [
+          "without_jevseek",
+          "with_jevseek"
+        ],
+        "runs": {
+          "without_jevseek": {
+            "input_tokens": 112992,
+            "cached_input_tokens": 91136,
+            "uncached_input_tokens": 21856,
+            "output_tokens": 564,
+            "skill_read": false,
+            "mcp_calls": [],
+            "jev_input_tokens": 0,
+            "jev_cost_usd": 0,
+            "jev_requests": 0,
+            "web_searches": 0,
+            "shell_commands": 3,
+            "final_answer": "The matching operation is **Create a customer balance transaction**.\n\n- **Method:** `POST`\n- **Path:** `/v1/customers/{customer}/balance_transactions`\n- **operationId:** `PostCustomersCustomerBalanceTransactions`\n\nRequired fields:\n\n| Location | Field | Type | Meaning |\n|---|---|---|---|\n| Path | `customer` | string | Customer identifier |\n| Body | `amount` | integer | Amount in cents or local equivalent to apply to the credit balance |\n| Body | `currency` | string | Lowercase, three-letter ISO currency code |\n\nThe request body is required and uses `application/x-www-form-urlencoded`.\n\nVerified against the local snapshot. No target API was called.",
+            "returncode": 0,
+            "elapsed_seconds": 40.436,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true
+          },
+          "with_jevseek": {
+            "input_tokens": 105456,
+            "cached_input_tokens": 86400,
+            "uncached_input_tokens": 19056,
+            "output_tokens": 519,
+            "skill_read": true,
+            "mcp_calls": [
+              "jevseek_discover",
+              "jevseek_inspect"
+            ],
+            "jev_input_tokens": 38393,
+            "jev_cost_usd": 0.0016125059999999999,
+            "jev_requests": 2,
+            "web_searches": 0,
+            "shell_commands": 3,
+            "final_answer": "The snapshot identifies **Create a customer balance transaction**, described as creating an immutable transaction that updates the customer’s credit balance.\n\n- **Method:** `POST`\n- **Path:** `/v1/customers/{customer}/balance_transactions`\n- **operationId:** `PostCustomersCustomerBalanceTransactions`\n- **Required path field:** `customer` — string.\n- **Required request body:** `application/x-www-form-urlencoded`, containing:\n  - `amount` — integer amount in cents (or local equivalent).\n  - `currency` — lowercase, three-letter ISO currency code; must be a supported currency.\n\nNo target API was called.",
+            "returncode": 0,
+            "elapsed_seconds": 48.713,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true,
+            "discoveryResultBytes": 6425
+          }
+        },
+        "expectedOperationId": "PostCustomersCustomerBalanceTransactions",
+        "requiredBodyFields": [
+          "amount",
+          "currency"
+        ]
+      },
+      {
+        "case": {
+          "source": "github",
+          "expectedId": "GET /gists/{gist_id}/{sha}",
+          "need": "Fetch a particular historical version of a gist by its revision SHA, rather than its latest contents."
+        },
+        "prompt": "Using the local github OpenAPI snapshot at /tmp/jevseek-skill-eval/examples/github/openapi.json as the source of truth, find the operation for this need: Fetch a particular historical version of a gist by its revision SHA, rather than its latest contents. Report its exact method, path, operationId, and any required path or request-body fields. Do not call the target API.",
+        "launch_order": [
+          "with_jevseek",
+          "without_jevseek"
+        ],
+        "runs": {
+          "without_jevseek": {
+            "input_tokens": 59405,
+            "cached_input_tokens": 51200,
+            "uncached_input_tokens": 8205,
+            "output_tokens": 575,
+            "skill_read": false,
+            "mcp_calls": [],
+            "jev_input_tokens": 0,
+            "jev_cost_usd": 0,
+            "jev_requests": 0,
+            "web_searches": 0,
+            "shell_commands": 4,
+            "final_answer": "The snapshot defines **“Get a gist revision”**:\n\n- **Method:** `GET`\n- **Path:** `/gists/{gist_id}/{sha}`\n- **operationId:** `gists/get-revision`\n- **Required path fields:** `gist_id` (string, gist identifier) and `sha` (string, revision SHA)\n- **Request body:** None defined.\n\nNo target API was called.",
+            "returncode": 0,
+            "elapsed_seconds": 26.694,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true
+          },
+          "with_jevseek": {
+            "input_tokens": 125477,
+            "cached_input_tokens": 106496,
+            "uncached_input_tokens": 18981,
+            "output_tokens": 657,
+            "skill_read": true,
+            "mcp_calls": [
+              "jevseek_discover"
+            ],
+            "jev_input_tokens": 0,
+            "jev_cost_usd": 0,
+            "jev_requests": 0,
+            "web_searches": 0,
+            "shell_commands": 5,
+            "final_answer": "The local snapshot defines **Get a gist revision**:\n\n- **Method:** `GET`\n- **Path:** `/gists/{gist_id}/{sha}`\n- **operationId:** `gists/get-revision`\n- **Required path fields:** `gist_id` (string, gist identifier), `sha` (string, revision SHA)\n- **Request body:** None defined.\n\nJevSeek was unavailable, so I inspected the local JSON directly. No target API was called.",
+            "returncode": 0,
+            "elapsed_seconds": 33.527,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true,
+            "discoveryResultBytes": 95
+          }
+        },
+        "expectedOperationId": "gists/get-revision",
+        "requiredBodyFields": []
+      },
+      {
+        "case": {
+          "source": "stripe",
+          "expectedId": "GET /v1/forwarding/requests/{id}",
+          "need": "Retrieve one existing ForwardingRequest by its identifier."
+        },
+        "prompt": "Using the local stripe OpenAPI snapshot at /tmp/jevseek-skill-eval/examples/stripe/openapi.json as the source of truth, find the operation for this need: Retrieve one existing ForwardingRequest by its identifier. Report its exact method, path, operationId, and any required path or request-body fields. Do not call the target API.",
+        "launch_order": [
+          "with_jevseek",
+          "without_jevseek"
+        ],
+        "runs": {
+          "without_jevseek": {
+            "input_tokens": 79891,
+            "cached_input_tokens": 61184,
+            "uncached_input_tokens": 18707,
+            "output_tokens": 496,
+            "skill_read": false,
+            "mcp_calls": [],
+            "jev_input_tokens": 0,
+            "jev_cost_usd": 0,
+            "jev_requests": 0,
+            "web_searches": 0,
+            "shell_commands": 4,
+            "final_answer": "The snapshot defines **“Retrieve a ForwardingRequest”** as:\n\n- **Method:** `GET`\n- **Path:** `/v1/forwarding/requests/{id}`\n- **operationId:** `GetForwardingRequestsId`\n- **Required path field:** `id` — string, maximum length 5000.\n- **Required request-body fields:** None. The request body is optional and its schema has no fields.\n\nNo target API was called.",
+            "returncode": 0,
+            "elapsed_seconds": 32.465,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true
+          },
+          "with_jevseek": {
+            "input_tokens": 81889,
+            "cached_input_tokens": 77696,
+            "uncached_input_tokens": 4193,
+            "output_tokens": 383,
+            "skill_read": true,
+            "mcp_calls": [
+              "jevseek_discover"
+            ],
+            "jev_input_tokens": 38393,
+            "jev_cost_usd": 0.0016125059999999999,
+            "jev_requests": 2,
+            "web_searches": 0,
+            "shell_commands": 3,
+            "final_answer": "- **Method:** `GET`\n- **Path:** `/v1/forwarding/requests/{id}`\n- **operationId:** `GetForwardingRequestsId`\n- **Required path field:** `id` (string), the ForwardingRequest identifier.\n- **Required request-body fields:** None; the request body is optional.\n\nVerified against the local Stripe OpenAPI snapshot. No target API was called.",
+            "returncode": 0,
+            "elapsed_seconds": 28.705,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true,
+            "discoveryResultBytes": 2853
+          }
+        },
+        "expectedOperationId": "GetForwardingRequestsId",
+        "requiredBodyFields": []
+      },
+      {
+        "case": {
+          "source": "github",
+          "expectedId": "POST /repos/{owner}/{repo}/check-runs",
+          "need": "Create a new check run for a commit as a GitHub App."
+        },
+        "prompt": "Using the local github OpenAPI snapshot at /tmp/jevseek-skill-eval/examples/github/openapi.json as the source of truth, find the operation for this need: Create a new check run for a commit as a GitHub App. Report its exact method, path, operationId, and any required path or request-body fields. Do not call the target API.",
+        "launch_order": [
+          "with_jevseek",
+          "without_jevseek"
+        ],
+        "runs": {
+          "without_jevseek": {
+            "input_tokens": 62393,
+            "cached_input_tokens": 51072,
+            "uncached_input_tokens": 11321,
+            "output_tokens": 750,
+            "skill_read": false,
+            "mcp_calls": [],
+            "jev_input_tokens": 0,
+            "jev_cost_usd": 0,
+            "jev_requests": 0,
+            "web_searches": 0,
+            "shell_commands": 4,
+            "final_answer": "The local snapshot defines:\n\n- **Method:** `POST`\n- **Path:** `/repos/{owner}/{repo}/check-runs`\n- **operationId:** `checks/create`\n- **Required path fields:** `owner` (string), `repo` (string, without `.git`)\n- **Required JSON body fields:** `name` (string, check name), `head_sha` (string, commit SHA)\n\nAdditional requirements when optional fields are supplied:\n\n- `conclusion` is required when `status` is `completed` or `completed_at` is provided.\n- `output` requires `title` and `summary`.\n- Each `output.annotations[]` item requires `path`, `start_line`, `end_line`, `annotation_level`, and `message`.\n- Each `output.images[]` item requires `alt` and `image_url`.\n- Each `actions[]` item requires `label`, `description`, and `identifier`.\n\nThe operation description explicitly requires a GitHub App. No target API was called.",
+            "returncode": 0,
+            "elapsed_seconds": 39.31,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true
+          },
+          "with_jevseek": {
+            "input_tokens": 84016,
+            "cached_input_tokens": 55936,
+            "uncached_input_tokens": 28080,
+            "output_tokens": 486,
+            "skill_read": true,
+            "mcp_calls": [
+              "jevseek_discover"
+            ],
+            "jev_input_tokens": 8043,
+            "jev_cost_usd": 0.000337806,
+            "jev_requests": 1,
+            "web_searches": 0,
+            "shell_commands": 2,
+            "final_answer": "The snapshot identifies **Create a check run**:\n\n- **Method:** `POST`\n- **Path:** `/repos/{owner}/{repo}/check-runs`\n- **operationId:** `checks/create`\n- **Required path fields:** `owner`, `repo` (strings).\n- **Required JSON body fields:** `name` (check name), `head_sha` (commit SHA), both strings.\n\nConditional requirements:\n\n- `conclusion` is required when `status` is `completed` or `completed_at` is supplied.\n- If `output` is supplied: `title`, `summary`.\n- Each `output.annotations[]` item: `path`, `start_line`, `end_line`, `annotation_level`, `message`.\n- Each `output.images[]` item: `alt`, `image_url`.\n- Each `actions[]` item: `label`, `description`, `identifier`.\n\nSource: `/tmp/jevseek-skill-eval/examples/github/openapi.json`. No target API was called.",
+            "returncode": 0,
+            "elapsed_seconds": 35.051,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true,
+            "discoveryResultBytes": 19092
+          }
+        },
+        "expectedOperationId": "checks/create",
+        "requiredBodyFields": [
+          "head_sha",
+          "name"
+        ]
+      },
+      {
+        "case": {
+          "source": "github",
+          "expectedId": "POST /agents/repos/{owner}/{repo}/automations/{automation_id}/tasks",
+          "need": "Manually start an existing repository automation with optional context for its prompt."
+        },
+        "prompt": "Using the local github OpenAPI snapshot at /tmp/jevseek-skill-eval/examples/github/openapi.json as the source of truth, find the operation for this need: Manually start an existing repository automation with optional context for its prompt. Report its exact method, path, operationId, and any required path or request-body fields. Do not call the target API.",
+        "launch_order": [
+          "without_jevseek",
+          "with_jevseek"
+        ],
+        "runs": {
+          "without_jevseek": {
+            "input_tokens": 97286,
+            "cached_input_tokens": 82560,
+            "uncached_input_tokens": 14726,
+            "output_tokens": 598,
+            "skill_read": false,
+            "mcp_calls": [],
+            "jev_input_tokens": 0,
+            "jev_cost_usd": 0,
+            "jev_requests": 0,
+            "web_searches": 0,
+            "shell_commands": 6,
+            "final_answer": "The matching operation is **Run an automation**.\n\n- **Method:** `POST`\n- **Path:** `/agents/repos/{owner}/{repo}/automations/{automation_id}/tasks`\n- **operationId:** `agent-automations/create-repo-automation-task`\n- **Required path fields:** `owner`, `repo`, `automation_id` (all strings).\n- **Required request body:** `application/json` with `event` set to `\"manual\"`.\n- **Optional body field:** `context` (string, maximum 10,000 characters), injected into the automation’s prompt.\n\nBased solely on the local OpenAPI snapshot. No target API was called.",
+            "returncode": 0,
+            "elapsed_seconds": 46.68,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true
+          },
+          "with_jevseek": {
+            "input_tokens": 87129,
+            "cached_input_tokens": 75648,
+            "uncached_input_tokens": 11481,
+            "output_tokens": 442,
+            "skill_read": true,
+            "mcp_calls": [
+              "jevseek_discover"
+            ],
+            "jev_input_tokens": 7728,
+            "jev_cost_usd": 0.00032457600000000003,
+            "jev_requests": 1,
+            "web_searches": 0,
+            "shell_commands": 3,
+            "final_answer": "The matching operation is **Run an automation**:\n\n- **Method:** `POST`\n- **Path:** `/agents/repos/{owner}/{repo}/automations/{automation_id}/tasks`\n- **operationId:** `agent-automations/create-repo-automation-task`\n- **Required path fields:** `owner`, `repo`, `automation_id` (all strings).\n- **Required JSON body:** `event`, whose only supported value is `\"manual\"`.\n- **Optional body field:** `context` (string, maximum 10,000 characters), which supplements the automation’s configured instructions.\n\nVerified against the local OpenAPI snapshot. No target API was called.",
+            "returncode": 0,
+            "elapsed_seconds": 40.079,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true,
+            "discoveryResultBytes": 4979
+          }
+        },
+        "expectedOperationId": "agent-automations/create-repo-automation-task",
+        "requiredBodyFields": [
+          "event"
+        ]
+      },
+      {
+        "case": {
+          "source": "stripe",
+          "expectedId": "POST /v1/test_helpers/issuing/personalization_designs/{personalization_design}/reject",
+          "need": "In test mode, mark one card personalization design as rejected."
+        },
+        "prompt": "Using the local stripe OpenAPI snapshot at /tmp/jevseek-skill-eval/examples/stripe/openapi.json as the source of truth, find the operation for this need: In test mode, mark one card personalization design as rejected. Report its exact method, path, operationId, and any required path or request-body fields. Do not call the target API.",
+        "launch_order": [
+          "with_jevseek",
+          "without_jevseek"
+        ],
+        "runs": {
+          "without_jevseek": {
+            "input_tokens": 76343,
+            "cached_input_tokens": 59136,
+            "uncached_input_tokens": 17207,
+            "output_tokens": 649,
+            "skill_read": false,
+            "mcp_calls": [],
+            "jev_input_tokens": 0,
+            "jev_cost_usd": 0,
+            "jev_requests": 0,
+            "web_searches": 0,
+            "shell_commands": 4,
+            "final_answer": "The snapshot defines **“Reject a testmode personalization design”**, which sets the specified design’s status to `rejected`.\n\n| Field | Exact value |\n|---|---|\n| Method | `POST` |\n| Path | `/v1/test_helpers/issuing/personalization_designs/{personalization_design}/reject` |\n| operationId | `PostTestHelpersIssuingPersonalizationDesignsPersonalizationDesignReject` |\n| Body content type | `application/x-www-form-urlencoded` |\n\nRequired fields:\n\n- **Path:** `personalization_design` — string identifying the design; maximum length 5,000.\n- **Request body:** `rejection_reasons` — object. Its `card_logo` and `carrier_text` properties are optional arrays of reason strings; neither nested property is required by the snapshot.\n\nSource: [code --goto \"/tmp/jevseek-skill-eval/examples/stripe/openapi.json:1\"](/tmp/jevseek-skill-eval/examples/stripe/openapi.json:1). No API call was made.",
+            "returncode": 0,
+            "elapsed_seconds": 32.087,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true
+          },
+          "with_jevseek": {
+            "input_tokens": 87176,
+            "cached_input_tokens": 76032,
+            "uncached_input_tokens": 11144,
+            "output_tokens": 437,
+            "skill_read": true,
+            "mcp_calls": [
+              "jevseek_discover"
+            ],
+            "jev_input_tokens": 38399,
+            "jev_cost_usd": 0.0016127580000000002,
+            "jev_requests": 2,
+            "web_searches": 0,
+            "shell_commands": 3,
+            "final_answer": "- **Method:** `POST`\n- **Path:** `/v1/test_helpers/issuing/personalization_designs/{personalization_design}/reject`\n- **operationId:** `PostTestHelpersIssuingPersonalizationDesignsPersonalizationDesignReject`\n- **Required path field:** `personalization_design` (string), identifying the design.\n- **Required request body:** `application/x-www-form-urlencoded`, containing `rejection_reasons` (object). Its `card_logo` and `carrier_text` arrays are optional; neither is marked required in the snapshot.\n\nThe operation is described as “Reject a testmode personalization design.” No target API call was made.",
+            "returncode": 0,
+            "elapsed_seconds": 30.032,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true,
+            "discoveryResultBytes": 5695
+          }
+        },
+        "expectedOperationId": "PostTestHelpersIssuingPersonalizationDesignsPersonalizationDesignReject",
+        "requiredBodyFields": [
+          "rejection_reasons"
+        ]
+      },
+      {
+        "case": {
+          "source": "digitalocean",
+          "expectedId": "PUT /v2/gen-ai/agents/{agent_uuid}/api_keys/{api_key_uuid}",
+          "need": "Update one existing API key belonging to a GenAI agent."
+        },
+        "prompt": "Using the local digitalocean OpenAPI snapshot at /tmp/jevseek-skill-eval/examples/digitalocean/openapi.yaml as the source of truth, find the operation for this need: Update one existing API key belonging to a GenAI agent. Report its exact method, path, operationId, and any required path or request-body fields. Do not call the target API.",
+        "launch_order": [
+          "with_jevseek",
+          "without_jevseek"
+        ],
+        "runs": {
+          "without_jevseek": {
+            "input_tokens": 100783,
+            "cached_input_tokens": 84352,
+            "uncached_input_tokens": 16431,
+            "output_tokens": 552,
+            "skill_read": false,
+            "mcp_calls": [],
+            "jev_input_tokens": 0,
+            "jev_cost_usd": 0,
+            "jev_requests": 0,
+            "web_searches": 0,
+            "shell_commands": 5,
+            "final_answer": "- **Method:** `PUT`\n- **Path:** `/v2/gen-ai/agents/{agent_uuid}/api_keys/{api_key_uuid}`\n- **operationId:** `genai_update_agent_api_key`\n- **Required path fields:** `agent_uuid` and `api_key_uuid`, both strings.\n- **Required request-body fields:** None. The JSON schema defines optional string fields `agent_uuid`, `api_key_uuid`, and `name`. The request body itself is not marked required.\n\nSources: [operation definition](/tmp/jevseek-skill-eval/examples/digitalocean/openapi.yaml:52084), [body schema](/tmp/jevseek-skill-eval/examples/digitalocean/openapi.yaml:96645).\n\nNo API calls were made.",
+            "returncode": 0,
+            "elapsed_seconds": 33.243,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true
+          },
+          "with_jevseek": {
+            "input_tokens": 135166,
+            "cached_input_tokens": 111360,
+            "uncached_input_tokens": 23806,
+            "output_tokens": 623,
+            "skill_read": true,
+            "mcp_calls": [
+              "jevseek_discover",
+              "jevseek_inspect",
+              "jevseek_inspect"
+            ],
+            "jev_input_tokens": 7587,
+            "jev_cost_usd": 0.00031865400000000003,
+            "jev_requests": 1,
+            "web_searches": 0,
+            "shell_commands": 3,
+            "final_answer": "The local snapshot defines:\n\n- **Method:** `PUT`\n- **Path:** `/v2/gen-ai/agents/{agent_uuid}/api_keys/{api_key_uuid}`\n- **operationId:** `genai_update_agent_api_key`\n- **Required path fields:** `agent_uuid` and `api_key_uuid`, both strings.\n- **Request body:** `application/json`, schema `apiUpdateAgentAPIKeyInputPublic`. Available fields are `agent_uuid`, `api_key_uuid`, and `name`, all strings. **No body fields are marked required**, and the request body itself is not marked required.\n\nNo target API call was made.",
+            "returncode": 0,
+            "elapsed_seconds": 39.925,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true,
+            "discoveryResultBytes": 3509
+          }
+        },
+        "expectedOperationId": "genai_update_agent_api_key",
+        "requiredBodyFields": []
+      },
+      {
+        "case": {
+          "source": "github",
+          "expectedId": "DELETE /orgs/{org}/actions/oidc/customization/properties/repo/{custom_property_name}",
+          "need": "Stop including one repository custom property in the OIDC tokens issued for an organization's Actions jobs."
+        },
+        "prompt": "Using the local github OpenAPI snapshot at /tmp/jevseek-skill-eval/examples/github/openapi.json as the source of truth, find the operation for this need: Stop including one repository custom property in the OIDC tokens issued for an organization's Actions jobs. Report its exact method, path, operationId, and any required path or request-body fields. Do not call the target API.",
+        "launch_order": [
+          "with_jevseek",
+          "without_jevseek"
+        ],
+        "runs": {
+          "without_jevseek": {
+            "input_tokens": 70181,
+            "cached_input_tokens": 56320,
+            "uncached_input_tokens": 13861,
+            "output_tokens": 593,
+            "skill_read": false,
+            "mcp_calls": [],
+            "jev_input_tokens": 0,
+            "jev_cost_usd": 0,
+            "jev_requests": 0,
+            "web_searches": 0,
+            "shell_commands": 4,
+            "final_answer": "The matching operation is **Delete an OIDC custom property inclusion for an organization**.\n\n- **Method:** `DELETE`\n- **Path:** `/orgs/{org}/actions/oidc/customization/properties/repo/{custom_property_name}`\n- **operationId:** `oidc/delete-oidc-custom-property-inclusion-for-org`\n- **Required path fields:**\n  - `org` (string): Organization name; case insensitive.\n  - `custom_property_name` (string): Name of the custom property to remove from OIDC token inclusion.\n- **Request body:** None defined.\n\nVerified against the local OpenAPI snapshot. No API call was made.",
+            "returncode": 0,
+            "elapsed_seconds": 34.764,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true
+          },
+          "with_jevseek": {
+            "input_tokens": 132997,
+            "cached_input_tokens": 121600,
+            "uncached_input_tokens": 11397,
+            "output_tokens": 785,
+            "skill_read": true,
+            "mcp_calls": [
+              "jevseek_discover"
+            ],
+            "jev_input_tokens": 0,
+            "jev_cost_usd": 0,
+            "jev_requests": 0,
+            "web_searches": 0,
+            "shell_commands": 5,
+            "final_answer": "The local snapshot defines:\n\n- **Method:** `DELETE`\n- **Path:** `/orgs/{org}/actions/oidc/customization/properties/repo/{custom_property_name}`\n- **operationId:** `oidc/delete-oidc-custom-property-inclusion-for-org`\n- **Required path fields:**\n  - `org` (string): Organization name; case insensitive.\n  - `custom_property_name` (string): Custom property to remove from OIDC token inclusion.\n- **Request body:** None defined.\n\nThis removes the property’s inclusion in OIDC tokens for the organization’s repository Actions jobs.\n\nJevSeek discovery was unavailable, so I inspected the local JSON directly. No target API was called.",
+            "returncode": 0,
+            "elapsed_seconds": 42.801,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true,
+            "discoveryResultBytes": 95
+          }
+        },
+        "expectedOperationId": "oidc/delete-oidc-custom-property-inclusion-for-org",
+        "requiredBodyFields": []
+      },
+      {
+        "case": {
+          "source": "digitalocean",
+          "expectedId": "POST /v2/projects/{project_id}/resources",
+          "need": "Assign existing resources such as Droplets to a particular project."
+        },
+        "prompt": "Using the local digitalocean OpenAPI snapshot at /tmp/jevseek-skill-eval/examples/digitalocean/openapi.yaml as the source of truth, find the operation for this need: Assign existing resources such as Droplets to a particular project. Report its exact method, path, operationId, and any required path or request-body fields. Do not call the target API.",
+        "launch_order": [
+          "without_jevseek",
+          "with_jevseek"
+        ],
+        "runs": {
+          "without_jevseek": {
+            "input_tokens": 93443,
+            "cached_input_tokens": 67200,
+            "uncached_input_tokens": 26243,
+            "output_tokens": 624,
+            "skill_read": false,
+            "mcp_calls": [],
+            "jev_input_tokens": 0,
+            "jev_cost_usd": 0,
+            "jev_requests": 0,
+            "web_searches": 0,
+            "shell_commands": 5,
+            "final_answer": "The operation is **Assign Resources to a Project**:\n\n- **Method:** `POST`\n- **Path:** `/v2/projects/{project_id}/resources`\n- **operationId:** `projects_assign_resources`\n- **Required path field:** `project_id`, a string in UUID format.\n- **Request body:** Required, with content type `application/json`. Its `resources` property is an array of resource URNs, such as `{\"resources\":[\"do:droplet:13457723\"]}`. **The snapshot does not formally mark `resources` as required** in the schema.\n\nSource: [openapi.yaml operation](/tmp/jevseek-skill-eval/examples/digitalocean/openapi.yaml:41662), [path parameter](/tmp/jevseek-skill-eval/examples/digitalocean/openapi.yaml:65997), [body schema](/tmp/jevseek-skill-eval/examples/digitalocean/openapi.yaml:91684).\n\nNo target API was called.",
+            "returncode": 0,
+            "elapsed_seconds": 39.619,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true
+          },
+          "with_jevseek": {
+            "input_tokens": 152313,
+            "cached_input_tokens": 131584,
+            "uncached_input_tokens": 20729,
+            "output_tokens": 751,
+            "skill_read": true,
+            "mcp_calls": [
+              "jevseek_discover",
+              "jevseek_inspect",
+              "jevseek_inspect",
+              "jevseek_inspect"
+            ],
+            "jev_input_tokens": 7914,
+            "jev_cost_usd": 0.000332388,
+            "jev_requests": 1,
+            "web_searches": 0,
+            "shell_commands": 3,
+            "final_answer": "The snapshot defines **Assign Resources to a Project**:\n\n- **Method:** `POST`\n- **Path:** `/v2/projects/{project_id}/resources`\n- **operationId:** `projects_assign_resources`\n- **Required path field:** `project_id`, a string with UUID format.\n- **Request body:** Required, with content type `application/json`. Its `resources` property is an array of URN strings, formatted as `do:resource_type:resource_id`.\n\nExample body:\n\n```json\n{\n  \"resources\": [\"do:droplet:13457723\"]\n}\n```\n\n**Schema detail:** Although the request body is required, the snapshot’s `project_assignment` schema has no `required` list, so `resources` is not formally marked required.\n\nNo target API call was made.",
+            "returncode": 0,
+            "elapsed_seconds": 40.471,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true,
+            "discoveryResultBytes": 3565
+          }
+        },
+        "expectedOperationId": "projects_assign_resources",
+        "requiredBodyFields": []
+      },
+      {
+        "case": {
+          "source": "digitalocean",
+          "expectedId": "POST /v1/signals/exports",
+          "need": "Start an export of a team's Signals conversation data, with optional filters by signal type or session."
+        },
+        "prompt": "Using the local digitalocean OpenAPI snapshot at /tmp/jevseek-skill-eval/examples/digitalocean/openapi.yaml as the source of truth, find the operation for this need: Start an export of a team's Signals conversation data, with optional filters by signal type or session. Report its exact method, path, operationId, and any required path or request-body fields. Do not call the target API.",
+        "launch_order": [
+          "without_jevseek",
+          "with_jevseek"
+        ],
+        "runs": {
+          "without_jevseek": {
+            "input_tokens": 72735,
+            "cached_input_tokens": 44672,
+            "uncached_input_tokens": 28063,
+            "output_tokens": 561,
+            "skill_read": false,
+            "mcp_calls": [],
+            "jev_input_tokens": 0,
+            "jev_cost_usd": 0,
+            "jev_requests": 0,
+            "web_searches": 0,
+            "shell_commands": 4,
+            "final_answer": "- **Method:** `POST`\n- **Path:** `/v1/signals/exports`\n- **operationId:** `signals_create_export`\n- **Required path fields:** None.\n- **Request body:** Required, `application/json`. The schema declares no universally required fields.\n\nFor a team-wide Serverless Inference Signals export, set `\"type\": \"inference\"` and omit `environment_id` and `agent_id`. The schema also defaults to `inference` when both IDs are omitted.\n\nOptional filters: `signal_type` (array of strings), `session_ids` (array of UUIDs), `start_time` and `end_time` (date-time strings).\n\nFor `type: agent`, either `environment_id` or deprecated `agent_id` is required.\n\nSources: [operation](/tmp/jevseek-skill-eval/examples/digitalocean/openapi.yaml:31944), [request schema](/tmp/jevseek-skill-eval/examples/digitalocean/openapi.yaml:87230). No API was called.",
+            "returncode": 0,
+            "elapsed_seconds": 28.724,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true
+          },
+          "with_jevseek": {
+            "input_tokens": 128812,
+            "cached_input_tokens": 117248,
+            "uncached_input_tokens": 11564,
+            "output_tokens": 633,
+            "skill_read": true,
+            "mcp_calls": [
+              "jevseek_discover",
+              "jevseek_inspect",
+              "jevseek_inspect"
+            ],
+            "jev_input_tokens": 7920,
+            "jev_cost_usd": 0.00033264000000000004,
+            "jev_requests": 1,
+            "web_searches": 0,
+            "shell_commands": 3,
+            "final_answer": "The operation is **Create an Export Job**:\n\n| Field | Exact value |\n|---|---|\n| Method | `POST` |\n| Path | `/v1/signals/exports` |\n| operationId | `signals_create_export` |\n| Required path fields | None |\n| Request body | Required, `application/json`; no unconditionally required properties |\n\nFor the team-wide conversation export, set `type` to `\"inference\"` and omit `environment_id` and `agent_id`. The schema also defaults to inference when both IDs are omitted.\n\nOptional filters are `signal_type` (array of strings), `session_ids` (array of UUIDs), `start_time`, and `end_time` (date-time strings).\n\nFor `type: \"agent\"`, either `environment_id` or deprecated `agent_id` is required.\n\nVerified against the local snapshot. No target API was called.",
+            "returncode": 0,
+            "elapsed_seconds": 43.883,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true,
+            "discoveryResultBytes": 3781
+          }
+        },
+        "expectedOperationId": "signals_create_export",
+        "requiredBodyFields": []
+      },
+      {
+        "case": {
+          "source": "digitalocean",
+          "expectedId": "POST /v2/reserved_ips",
+          "need": "Allocate a new reserved IP assigned either to a Droplet or to a region."
+        },
+        "prompt": "Using the local digitalocean OpenAPI snapshot at /tmp/jevseek-skill-eval/examples/digitalocean/openapi.yaml as the source of truth, find the operation for this need: Allocate a new reserved IP assigned either to a Droplet or to a region. Report its exact method, path, operationId, and any required path or request-body fields. Do not call the target API.",
+        "launch_order": [
+          "with_jevseek",
+          "without_jevseek"
+        ],
+        "runs": {
+          "without_jevseek": {
+            "input_tokens": 103496,
+            "cached_input_tokens": 86912,
+            "uncached_input_tokens": 16584,
+            "output_tokens": 472,
+            "skill_read": false,
+            "mcp_calls": [],
+            "jev_input_tokens": 0,
+            "jev_cost_usd": 0,
+            "jev_requests": 0,
+            "web_searches": 0,
+            "shell_commands": 6,
+            "final_answer": "- **Method:** `POST`\n- **Path:** `/v2/reserved_ips`\n- **operationId:** `reservedIPs_create`\n- **Required path fields:** None.\n- **Required request body:** JSON matching one of:\n  - `droplet_id` (integer): assigns the new reserved IP to that Droplet.\n  - `region` (string): reserves the new IP to that region, using its slug (for example, `nyc3`). This variant also accepts optional `project_id` (UUID string).\n\nSource: local `openapi.yaml`, operation at line 44394 and `reserved_ip_create` schema at line 92193. No API calls made.",
+            "returncode": 0,
+            "elapsed_seconds": 51.585,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true
+          },
+          "with_jevseek": {
+            "input_tokens": 149789,
+            "cached_input_tokens": 138240,
+            "uncached_input_tokens": 11549,
+            "output_tokens": 697,
+            "skill_read": true,
+            "mcp_calls": [
+              "jevseek_discover"
+            ],
+            "jev_input_tokens": 0,
+            "jev_cost_usd": 0,
+            "jev_requests": 0,
+            "web_searches": 0,
+            "shell_commands": 6,
+            "final_answer": "- **Method:** `POST`\n- **Path:** `/v2/reserved_ips`\n- **operationId:** `reservedIPs_create`\n- **Required path fields:** None.\n- **Request body:** Required, `application/json`, matching one of:\n  - `droplet_id` — required integer, assigning the IP to a Droplet.\n  - `region` — required string containing a region slug, reserving the IP to that region. `project_id` is optional.\n\nThe body schema uses `oneOf`; supply either `droplet_id` or `region`.\n\nSource: [operation](/tmp/jevseek-skill-eval/examples/digitalocean/openapi.yaml:44394), [body schema](/tmp/jevseek-skill-eval/examples/digitalocean/openapi.yaml:92193).\n\nJevSeek was unavailable, so I inspected the local snapshot directly. No target API was called.",
+            "returncode": 0,
+            "elapsed_seconds": 55.404,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true,
+            "discoveryResultBytes": 95
+          }
+        },
+        "expectedOperationId": "reservedIPs_create",
+        "requiredBodyFields": []
+      },
+      {
+        "case": {
+          "source": "github",
+          "expectedId": "GET /repos/{owner}/{repo}/actions/jobs/{job_id}/logs",
+          "need": "Download the plain text log for one workflow job, rather than logs for the entire run."
+        },
+        "prompt": "Using the local github OpenAPI snapshot at /tmp/jevseek-skill-eval/examples/github/openapi.json as the source of truth, find the operation for this need: Download the plain text log for one workflow job, rather than logs for the entire run. Report its exact method, path, operationId, and any required path or request-body fields. Do not call the target API.",
+        "launch_order": [
+          "with_jevseek",
+          "without_jevseek"
+        ],
+        "runs": {
+          "without_jevseek": {
+            "input_tokens": 63902,
+            "cached_input_tokens": 44544,
+            "uncached_input_tokens": 19358,
+            "output_tokens": 596,
+            "skill_read": false,
+            "mcp_calls": [],
+            "jev_input_tokens": 0,
+            "jev_cost_usd": 0,
+            "jev_requests": 0,
+            "web_searches": 0,
+            "shell_commands": 4,
+            "final_answer": "The matching operation is **Download job logs for a workflow run**.\n\n- **Method:** `GET`\n- **Path:** `/repos/{owner}/{repo}/actions/jobs/{job_id}/logs`\n- **operationId:** `actions/download-job-logs-for-workflow-run`\n- **Required path fields:** `owner` (string), `repo` (string, without `.git`), `job_id` (integer, int64)\n- **Request body:** None.\n\nIt returns a **302 redirect**, with a `Location` header pointing to the plain text logs for that job. The download URL expires after one minute.\n\nSource: the supplied local OpenAPI snapshot. No target API was called.",
+            "returncode": 0,
+            "elapsed_seconds": 42.521,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true
+          },
+          "with_jevseek": {
+            "input_tokens": 110641,
+            "cached_input_tokens": 99072,
+            "uncached_input_tokens": 11569,
+            "output_tokens": 521,
+            "skill_read": true,
+            "mcp_calls": [
+              "jevseek_discover",
+              "jevseek_inspect"
+            ],
+            "jev_input_tokens": 102844,
+            "jev_cost_usd": 0.004319448,
+            "jev_requests": 4,
+            "web_searches": 0,
+            "shell_commands": 3,
+            "final_answer": "The snapshot defines:\n\n- **Method:** `GET`\n- **Path:** `/repos/{owner}/{repo}/actions/jobs/{job_id}/logs`\n- **operationId:** `actions/download-job-logs-for-workflow-run`\n\nRequired path fields:\n\n| Field | Type |\n|---|---|\n| `owner` | string |\n| `repo` | string |\n| `job_id` | integer (`int64`) |\n\n**Request body:** None.\n\nThe operation returns a **302 redirect** with a `Location` header pointing to the job’s plain-text log. The download URL expires after **1 minute**.\n\nNo target API was called.",
+            "returncode": 0,
+            "elapsed_seconds": 46.097,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true,
+            "discoveryResultBytes": 3665
+          }
+        },
+        "expectedOperationId": "actions/download-job-logs-for-workflow-run",
+        "requiredBodyFields": []
+      },
+      {
+        "case": {
+          "source": "digitalocean",
+          "expectedId": "DELETE /v2/cdn/endpoints/{cdn_id}/cache",
+          "need": "Purge selected cached file paths, possibly with a wildcard, from a CDN endpoint."
+        },
+        "prompt": "Using the local digitalocean OpenAPI snapshot at /tmp/jevseek-skill-eval/examples/digitalocean/openapi.yaml as the source of truth, find the operation for this need: Purge selected cached file paths, possibly with a wildcard, from a CDN endpoint. Report its exact method, path, operationId, and any required path or request-body fields. Do not call the target API.",
+        "launch_order": [
+          "without_jevseek",
+          "with_jevseek"
+        ],
+        "runs": {
+          "without_jevseek": {
+            "input_tokens": 146369,
+            "cached_input_tokens": 125952,
+            "uncached_input_tokens": 20417,
+            "output_tokens": 759,
+            "skill_read": false,
+            "mcp_calls": [],
+            "jev_input_tokens": 0,
+            "jev_cost_usd": 0,
+            "jev_requests": 0,
+            "web_searches": 0,
+            "shell_commands": 6,
+            "final_answer": "- **Method:** `DELETE`\n- **Path:** `/v2/cdn/endpoints/{cdn_id}/cache`\n- **operationId:** `cdn_purge_cache`\n- **Required path field:** `cdn_id`, a string in UUID format identifying the CDN endpoint.\n- **Required request body:** `application/json` with `files`, an array of strings containing cached paths. Paths support `*` for recursive directory purging; `\"*\"` alone purges all cached files.\n\n```json\n{\"files\":[\"path/to/image.png\",\"path/to/css/*\"]}\n```\n\nSource: [openapi.yaml:16214](/tmp/jevseek-skill-eval/examples/digitalocean/openapi.yaml:16214), [path parameter:64628](/tmp/jevseek-skill-eval/examples/digitalocean/openapi.yaml:64628), [body schema:76642](/tmp/jevseek-skill-eval/examples/digitalocean/openapi.yaml:76642).\n\nNo API calls were made.",
+            "returncode": 0,
+            "elapsed_seconds": 47.527,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true
+          },
+          "with_jevseek": {
+            "input_tokens": 127575,
+            "cached_input_tokens": 109696,
+            "uncached_input_tokens": 17879,
+            "output_tokens": 598,
+            "skill_read": true,
+            "mcp_calls": [
+              "jevseek_discover",
+              "jevseek_inspect",
+              "jevseek_inspect"
+            ],
+            "jev_input_tokens": 71427,
+            "jev_cost_usd": 0.002999934,
+            "jev_requests": 3,
+            "web_searches": 0,
+            "shell_commands": 2,
+            "final_answer": "The local snapshot defines:\n\n- **Method:** `DELETE`\n- **Path:** `/v2/cdn/endpoints/{cdn_id}/cache`\n- **operationId:** `cdn_purge_cache`\n- **Required path field:** `cdn_id`, a string in UUID format identifying the CDN endpoint.\n- **Required request body:** `application/json` with `files`, an array of strings containing cached paths to purge.\n\nExample body:\n\n```json\n{\"files\":[\"assets/img/hero.png\",\"assets/css/*\"]}\n```\n\nA `*` wildcard recursively purges files under a directory; `{\"files\":[\"*\"]}` purges all cached files.\n\nNo target API was called.",
+            "returncode": 0,
+            "elapsed_seconds": 48.833,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true,
+            "discoveryResultBytes": 2719
+          }
+        },
+        "expectedOperationId": "cdn_purge_cache",
+        "requiredBodyFields": [
+          "files"
+        ]
+      },
+      {
+        "case": {
+          "source": "stripe",
+          "expectedId": "POST /v1/payouts/{payout}/reverse",
+          "need": "Reverse a completed connected-account payout by debiting its destination bank account, rather than cancelling a pending payout."
+        },
+        "prompt": "Using the local stripe OpenAPI snapshot at /tmp/jevseek-skill-eval/examples/stripe/openapi.json as the source of truth, find the operation for this need: Reverse a completed connected-account payout by debiting its destination bank account, rather than cancelling a pending payout. Report its exact method, path, operationId, and any required path or request-body fields. Do not call the target API.",
+        "launch_order": [
+          "with_jevseek",
+          "without_jevseek"
+        ],
+        "runs": {
+          "without_jevseek": {
+            "input_tokens": 71028,
+            "cached_input_tokens": 63488,
+            "uncached_input_tokens": 7540,
+            "output_tokens": 468,
+            "skill_read": false,
+            "mcp_calls": [],
+            "jev_input_tokens": 0,
+            "jev_cost_usd": 0,
+            "jev_requests": 0,
+            "web_searches": 0,
+            "shell_commands": 4,
+            "final_answer": "The matching operation is **Reverse a payout**:\n\n- **Method:** `POST`\n- **Path:** `/v1/payouts/{payout}/reverse`\n- **operationId:** `PostPayoutsPayoutReverse`\n- **Required path field:** `payout` — string, maximum 5,000 characters.\n- **Required request-body fields:** None. The body is optional; it supports `expand` and `metadata` as `application/x-www-form-urlencoded`.\n\nThe snapshot describes this operation as debiting the destination bank account and limits it to connected-account payouts to US and Canadian bank accounts. Pending manual payouts use the separate cancellation operation.\n\nSource: local `examples/stripe/openapi.json`. No target API was called.",
+            "returncode": 0,
+            "elapsed_seconds": 32.847,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true
+          },
+          "with_jevseek": {
+            "input_tokens": 111374,
+            "cached_input_tokens": 99200,
+            "uncached_input_tokens": 12174,
+            "output_tokens": 547,
+            "skill_read": true,
+            "mcp_calls": [
+              "jevseek_discover",
+              "jevseek_inspect"
+            ],
+            "jev_input_tokens": 38411,
+            "jev_cost_usd": 0.001613262,
+            "jev_requests": 2,
+            "web_searches": 0,
+            "shell_commands": 3,
+            "final_answer": "The snapshot defines **Reverse a payout**:\n\n- **Method:** `POST`\n- **Path:** `/v1/payouts/{payout}/reverse`\n- **operationId:** `PostPayoutsPayoutReverse`\n- **Required path field:** `payout` — string identifying the payout.\n- **Required request-body fields:** None. The body is optional; it accepts optional `expand` and `metadata` fields as `application/x-www-form-urlencoded`.\n\nIts description explicitly says it debits the destination bank account and supports connected-account payouts to US and Canadian bank accounts. Manual payouts still in `pending` status use the cancellation operation instead.\n\nNo target API was called.",
+            "returncode": 0,
+            "elapsed_seconds": 42.996,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true,
+            "discoveryResultBytes": 4729
+          }
+        },
+        "expectedOperationId": "PostPayoutsPayoutReverse",
+        "requiredBodyFields": []
+      },
+      {
+        "case": {
+          "source": "digitalocean",
+          "expectedId": "GET /v2/monitoring/metrics/load_balancer/frontend_tls_connections_exceeding_rate_limit",
+          "need": "Read the load balancer metric for frontend TLS connections closed because the rate limit was exceeded."
+        },
+        "prompt": "Using the local digitalocean OpenAPI snapshot at /tmp/jevseek-skill-eval/examples/digitalocean/openapi.yaml as the source of truth, find the operation for this need: Read the load balancer metric for frontend TLS connections closed because the rate limit was exceeded. Report its exact method, path, operationId, and any required path or request-body fields. Do not call the target API.",
+        "launch_order": [
+          "with_jevseek",
+          "without_jevseek"
+        ],
+        "runs": {
+          "without_jevseek": {
+            "input_tokens": 95890,
+            "cached_input_tokens": 68224,
+            "uncached_input_tokens": 27666,
+            "output_tokens": 572,
+            "skill_read": false,
+            "mcp_calls": [],
+            "jev_input_tokens": 0,
+            "jev_cost_usd": 0,
+            "jev_requests": 0,
+            "web_searches": 0,
+            "shell_commands": 7,
+            "final_answer": "The matching operation in the local snapshot is:\n\n- **Method:** `GET`\n- **Path:** `/v2/monitoring/metrics/load_balancer/frontend_tls_connections_exceeding_rate_limit`\n- **operationId:** `monitoring_get_lb_frontend_tls_connections_exceeding_rate_limit`\n- **Required path fields:** None.\n- **Request body:** None.\n- **Required query parameters:** `lb_id` (load balancer identifier), `start` and `end` (UNIX timestamps defining the metric window). All three are strings.\n\nSource: `examples/digitalocean/openapi.yaml`, operation at line 38215; parameter definitions at lines 65782–65797 and 65814–65821. No API call was made.",
+            "returncode": 0,
+            "elapsed_seconds": 29.405,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true
+          },
+          "with_jevseek": {
+            "input_tokens": 104621,
+            "cached_input_tokens": 84608,
+            "uncached_input_tokens": 20013,
+            "output_tokens": 513,
+            "skill_read": true,
+            "mcp_calls": [
+              "jevseek_discover",
+              "jevseek_inspect"
+            ],
+            "jev_input_tokens": 8362,
+            "jev_cost_usd": 0.000351204,
+            "jev_requests": 1,
+            "web_searches": 0,
+            "shell_commands": 3,
+            "final_answer": "The snapshot defines this operation:\n\n- **Method:** `GET`\n- **Path:** `/v2/monitoring/metrics/load_balancer/frontend_tls_connections_exceeding_rate_limit`\n- **operationId:** `monitoring_get_lb_frontend_tls_connections_exceeding_rate_limit`\n- **Required path fields:** None.\n- **Request body:** None.\n- **Required query fields:** `lb_id`, `start`, `end` (all strings).\n\nIts description explicitly covers frontend TLS connections closed because the rate limit was exceeded. No target API call was made.",
+            "returncode": 0,
+            "elapsed_seconds": 38.936,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true,
+            "discoveryResultBytes": 4253
+          }
+        },
+        "expectedOperationId": "monitoring_get_lb_frontend_tls_connections_exceeding_rate_limit",
+        "requiredBodyFields": []
+      },
+      {
+        "case": {
+          "source": "digitalocean",
+          "expectedId": "POST /v2/nfs/{nfs_id}/actions",
+          "need": "Trigger an action such as resize or snapshot on an existing NFS share."
+        },
+        "prompt": "Using the local digitalocean OpenAPI snapshot at /tmp/jevseek-skill-eval/examples/digitalocean/openapi.yaml as the source of truth, find the operation for this need: Trigger an action such as resize or snapshot on an existing NFS share. Report its exact method, path, operationId, and any required path or request-body fields. Do not call the target API.",
+        "launch_order": [
+          "without_jevseek",
+          "with_jevseek"
+        ],
+        "runs": {
+          "without_jevseek": {
+            "input_tokens": 69450,
+            "cached_input_tokens": 55296,
+            "uncached_input_tokens": 14154,
+            "output_tokens": 712,
+            "skill_read": false,
+            "mcp_calls": [],
+            "jev_input_tokens": 0,
+            "jev_cost_usd": 0,
+            "jev_requests": 0,
+            "web_searches": 0,
+            "shell_commands": 4,
+            "final_answer": "The operation is **Initiate an NFS action**:\n\n- **Method:** `POST`\n- **Path:** `/v2/nfs/{nfs_id}/actions`\n- **operationId:** `nfs_create_action`\n- **Required path field:** `nfs_id` (string), the existing NFS share’s ID.\n- **Request body:** required, `application/json`.\n- **Required body field:** `type`, one of `resize`, `snapshot`, `attach`, `detach`, `reassign`, or `switch_performance_tier`.\n\nAction-specific fields are nested under `params`:\n\n| `type` | Fields required within `params` |\n|---|---|\n| `resize` | `size_gib` (integer) |\n| `snapshot` | `name` (string) |\n| `attach` / `detach` | `vpc_id` (string) |\n| `reassign` | `old_vpc_id`, `new_vpc_id` (strings) |\n| `switch_performance_tier` | `performance_tier` (string) |\n\n**Schema nuance:** the snapshot does not mark `params` itself as required; its listed fields are required when `params` is present. `region` is optional.\n\nSource: [openapi.yaml:39713](/tmp/jevseek-skill-eval/examples/digitalocean/openapi.yaml:39713), [body schemas:90817](/tmp/jevseek-skill-eval/examples/digitalocean/openapi.yaml:90817). No target API was called.",
+            "returncode": 0,
+            "elapsed_seconds": 32.791,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true
+          },
+          "with_jevseek": {
+            "input_tokens": 138662,
+            "cached_input_tokens": 124800,
+            "uncached_input_tokens": 13862,
+            "output_tokens": 975,
+            "skill_read": true,
+            "mcp_calls": [
+              "jevseek_discover",
+              "jevseek_inspect",
+              "jevseek_inspect",
+              "jevseek_inspect",
+              "jevseek_inspect",
+              "jevseek_inspect",
+              "jevseek_inspect",
+              "jevseek_inspect",
+              "jevseek_inspect",
+              "jevseek_inspect"
+            ],
+            "jev_input_tokens": 71545,
+            "jev_cost_usd": 0.0030048899999999996,
+            "jev_requests": 3,
+            "web_searches": 0,
+            "shell_commands": 4,
+            "final_answer": "The operation is **`POST /v2/nfs/{nfs_id}/actions`**, with operationId **`nfs_create_action`**.\n\nRequired inputs:\n\n- **Path:** `nfs_id` (string), the existing NFS share’s unique ID.\n- **Body:** Required JSON body with `type` (string) selecting the action.\n\nAction-specific fields inside `params`:\n\n| `type` | Required fields within `params` |\n|---|---|\n| `resize` | `size_gib` (integer) |\n| `snapshot` | `name` (string) |\n| `attach` / `detach` | `vpc_id` (string) |\n| `reassign` | `old_vpc_id`, `new_vpc_id` (strings) |\n| `switch_performance_tier` | `performance_tier` (string) |\n\n**Schema nuance:** The snapshot marks these fields as required *inside* `params`, but does not mark `params` itself as required. `region` is optional.\n\nSource: [openapi.yaml:39713](/tmp/jevseek-skill-eval/examples/digitalocean/openapi.yaml:39713), [schemas at openapi.yaml:90817](/tmp/jevseek-skill-eval/examples/digitalocean/openapi.yaml:90817). No target API was called.",
+            "returncode": 0,
+            "elapsed_seconds": 54.107,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true,
+            "discoveryResultBytes": 4916
+          }
+        },
+        "expectedOperationId": "nfs_create_action",
+        "requiredBodyFields": []
+      },
+      {
+        "case": {
+          "source": "digitalocean",
+          "expectedId": "POST /v2/apps/{app_id}/rollback/revert",
+          "need": "Undo an active app rollback and resume deployments from the app spec that was current before it."
+        },
+        "prompt": "Using the local digitalocean OpenAPI snapshot at /tmp/jevseek-skill-eval/examples/digitalocean/openapi.yaml as the source of truth, find the operation for this need: Undo an active app rollback and resume deployments from the app spec that was current before it. Report its exact method, path, operationId, and any required path or request-body fields. Do not call the target API.",
+        "launch_order": [
+          "with_jevseek",
+          "without_jevseek"
+        ],
+        "runs": {
+          "without_jevseek": {
+            "input_tokens": 85488,
+            "cached_input_tokens": 74752,
+            "uncached_input_tokens": 10736,
+            "output_tokens": 499,
+            "skill_read": false,
+            "mcp_calls": [],
+            "jev_input_tokens": 0,
+            "jev_cost_usd": 0,
+            "jev_requests": 0,
+            "web_searches": 0,
+            "shell_commands": 5,
+            "final_answer": "The operation is **Revert App Rollback**. It creates a deployment from the latest app spec before the rollback and unpins the app to resume deployments.\n\n- **Method:** `POST`\n- **Path:** `/v2/apps/{app_id}/rollback/revert`\n- **operationId:** `apps_revert_rollback`\n- **Required path field:** `app_id` (string)\n- **Request body:** None defined; no required body fields.\n\nSource: [code --goto \"/tmp/jevseek-skill-eval/examples/digitalocean/openapi.yaml:15612\"](/tmp/jevseek-skill-eval/examples/digitalocean/openapi.yaml:15612), [path parameter definition](/tmp/jevseek-skill-eval/examples/digitalocean/openapi.yaml:64495).\n\nNo API call was made.",
+            "returncode": 0,
+            "elapsed_seconds": 37.355,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true
+          },
+          "with_jevseek": {
+            "input_tokens": 171850,
+            "cached_input_tokens": 160640,
+            "uncached_input_tokens": 11210,
+            "output_tokens": 674,
+            "skill_read": true,
+            "mcp_calls": [
+              "jevseek_discover"
+            ],
+            "jev_input_tokens": 0,
+            "jev_cost_usd": 0,
+            "jev_requests": 0,
+            "web_searches": 0,
+            "shell_commands": 7,
+            "final_answer": "The matching operation is **Revert App Rollback**:\n\n| Field | Exact value |\n|---|---|\n| Method | `POST` |\n| Path | `/v2/apps/{app_id}/rollback/revert` |\n| operationId | `apps_revert_rollback` |\n| Required path field | `app_id` — string, the app ID |\n| Required request-body fields | None; no request body is defined |\n\nIt creates a deployment from the latest app spec prior to the rollback and unpins the app to resume deployments.\n\nVerified directly in the local snapshot after JevSeek discovery failed to connect. No target API was called.",
+            "returncode": 0,
+            "elapsed_seconds": 57.897,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true,
+            "discoveryResultBytes": 95
+          }
+        },
+        "expectedOperationId": "apps_revert_rollback",
+        "requiredBodyFields": []
+      },
+      {
+        "case": {
+          "source": "digitalocean",
+          "expectedId": "POST /v2/insights/query/{region}/traces/search",
+          "need": "Search distributed traces in a region over a time window, optionally filtering spans and paginating results."
+        },
+        "prompt": "Using the local digitalocean OpenAPI snapshot at /tmp/jevseek-skill-eval/examples/digitalocean/openapi.yaml as the source of truth, find the operation for this need: Search distributed traces in a region over a time window, optionally filtering spans and paginating results. Report its exact method, path, operationId, and any required path or request-body fields. Do not call the target API.",
+        "launch_order": [
+          "without_jevseek",
+          "with_jevseek"
+        ],
+        "runs": {
+          "without_jevseek": {
+            "input_tokens": 150199,
+            "cached_input_tokens": 135552,
+            "uncached_input_tokens": 14647,
+            "output_tokens": 853,
+            "skill_read": false,
+            "mcp_calls": [],
+            "jev_input_tokens": 0,
+            "jev_cost_usd": 0,
+            "jev_requests": 0,
+            "web_searches": 0,
+            "shell_commands": 5,
+            "final_answer": "The matching operation is **Search traces**:\n\n| Field | Exact value |\n|---|---|\n| Method | `POST` |\n| Path | `/v2/insights/query/{region}/traces/search` |\n| operationId | `insights_post_tracesSearch` |\n\nRequired fields:\n\n- **Path:** `region` — datacenter region slug, such as `nyc3`.\n- **JSON body:** `time_range`, containing required `from` and `to` objects. Each bound must contain `absolute` or `relative`; if both are supplied, `absolute` takes precedence. The window is inclusive, `from ≤ to`, and cannot exceed 7 days.\n\nOptional fields are `filter`, `order_by`, and `pagination.limit`. A trace matches when at least one span matches the filter. Pagination supports a limit of `0–1000` (omitted or `0` defaults to `100`), **without a cursor**; use response `pagination.has_more` and narrow the window or filter.\n\nSources: [operation](/tmp/jevseek-skill-eval/examples/digitalocean/openapi.yaml:31106), [region](/tmp/jevseek-skill-eval/examples/digitalocean/openapi.yaml:65109), [time bounds](/tmp/jevseek-skill-eval/examples/digitalocean/openapi.yaml:86015), [request schema](/tmp/jevseek-skill-eval/examples/digitalocean/openapi.yaml:86293).\n\nNo target API was called.",
+            "returncode": 0,
+            "elapsed_seconds": 51.506,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true
+          },
+          "with_jevseek": {
+            "input_tokens": 130677,
+            "cached_input_tokens": 117888,
+            "uncached_input_tokens": 12789,
+            "output_tokens": 760,
+            "skill_read": true,
+            "mcp_calls": [
+              "jevseek_discover",
+              "jevseek_inspect",
+              "jevseek_inspect",
+              "jevseek_inspect",
+              "jevseek_inspect",
+              "jevseek_inspect"
+            ],
+            "jev_input_tokens": 7336,
+            "jev_cost_usd": 0.000308112,
+            "jev_requests": 1,
+            "web_searches": 0,
+            "shell_commands": 3,
+            "final_answer": "The matching operation is **Search traces**:\n\n| Field | Exact value |\n|---|---|\n| Method | `POST` |\n| Path | `/v2/insights/query/{region}/traces/search` |\n| operationId | `insights_post_tracesSearch` |\n\nRequired inputs:\n\n- **Path:** `region` (string).\n- **Request body:** required, `application/json`.\n- **Body fields:** `time_range`, containing required `from` and `to` objects. Each bound must specify `absolute` or `relative`; if both are supplied, `absolute` takes precedence. `from` must not exceed `to`, and the window must not exceed **7 days (`168h`)**.\n\nOptional fields include `filter`, `order_by`, and `pagination.limit`. A trace matches when at least one span matches the filter. The limit defaults to 100, with an allowed range of 0–1000 (`0` also uses 100). **There is no pagination cursor**; the response’s `pagination.has_more` indicates additional matches, which require narrowing the window or filter.\n\nVerified against the local OpenAPI snapshot. No target API call was made.",
+            "returncode": 0,
+            "elapsed_seconds": 49.965,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true,
+            "discoveryResultBytes": 6193
+          }
+        },
+        "expectedOperationId": "insights_post_tracesSearch",
+        "requiredBodyFields": [
+          "time_range"
+        ]
+      },
+      {
+        "case": {
+          "source": "stripe",
+          "expectedId": "POST /v2/commerce/product_catalog/imports",
+          "need": "Create a new product catalog import in the Commerce API."
+        },
+        "prompt": "Using the local stripe OpenAPI snapshot at /tmp/jevseek-skill-eval/examples/stripe/openapi.json as the source of truth, find the operation for this need: Create a new product catalog import in the Commerce API. Report its exact method, path, operationId, and any required path or request-body fields. Do not call the target API.",
+        "launch_order": [
+          "with_jevseek",
+          "without_jevseek"
+        ],
+        "runs": {
+          "without_jevseek": {
+            "input_tokens": 75846,
+            "cached_input_tokens": 36864,
+            "uncached_input_tokens": 38982,
+            "output_tokens": 622,
+            "skill_read": false,
+            "mcp_calls": [],
+            "jev_input_tokens": 0,
+            "jev_cost_usd": 0,
+            "jev_requests": 0,
+            "web_searches": 0,
+            "shell_commands": 4,
+            "final_answer": "The matching operation is **Create a Product Catalog Import**.\n\n- **Method:** `POST`\n- **Path:** `/v2/commerce/product_catalog/imports`\n- **operationId:** `PostV2CommerceProductCatalogImports`\n- **Required path fields:** None\n- **Request-body content type:** `application/json`\n\nRequired fields in the body schema:\n\n| Field | Type | Allowed values |\n|---|---|---|\n| `feed_type` | string | `inventory`, `pricing`, `product`, `promotion` |\n| `metadata` | object with string values | No required keys; `{}` is valid |\n| `mode` | string | `replace`, `upsert` |\n\nThe snapshot omits `requestBody.required`; the fields above are required when a body is supplied.\n\nSource: `/tmp/jevseek-skill-eval/examples/stripe/openapi.json`. No target API was called.",
+            "returncode": 0,
+            "elapsed_seconds": 34.053,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true
+          },
+          "with_jevseek": {
+            "input_tokens": 105601,
+            "cached_input_tokens": 95104,
+            "uncached_input_tokens": 10497,
+            "output_tokens": 625,
+            "skill_read": true,
+            "mcp_calls": [
+              "jevseek_discover",
+              "jevseek_inspect"
+            ],
+            "jev_input_tokens": 38389,
+            "jev_cost_usd": 0.001612338,
+            "jev_requests": 2,
+            "web_searches": 0,
+            "shell_commands": 4,
+            "final_answer": "The snapshot defines **Create a Product Catalog Import**:\n\n- **Method:** `POST`\n- **Path:** `/v2/commerce/product_catalog/imports`\n- **operationId:** `PostV2CommerceProductCatalogImports`\n- **Required path fields:** None.\n\nRequired fields in the `application/json` request-body schema:\n\n| Field | Type | Allowed values |\n|---|---|---|\n| `feed_type` | string | `inventory`, `pricing`, `product`, `promotion` |\n| `metadata` | object | Arbitrary keys with string values |\n| `mode` | string | `replace`, `upsert` |\n\nThe `requestBody` itself has no explicit `required: true` flag.\n\nSource: [local OpenAPI snapshot](/tmp/jevseek-skill-eval/examples/stripe/openapi.json), at `#/paths/~1v2~1commerce~1product_catalog~1imports/post`. No target API call was made.",
+            "returncode": 0,
+            "elapsed_seconds": 41.262,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true,
+            "discoveryResultBytes": 3869
+          }
+        },
+        "expectedOperationId": "PostV2CommerceProductCatalogImports",
+        "requiredBodyFields": [
+          "feed_type",
+          "metadata",
+          "mode"
+        ]
+      },
+      {
+        "case": {
+          "source": "github",
+          "expectedId": "GET /repos/{owner}/{repo}/deployments/{deployment_id}/statuses/{status_id}",
+          "need": "Read one specific status record associated with an existing deployment."
+        },
+        "prompt": "Using the local github OpenAPI snapshot at /tmp/jevseek-skill-eval/examples/github/openapi.json as the source of truth, find the operation for this need: Read one specific status record associated with an existing deployment. Report its exact method, path, operationId, and any required path or request-body fields. Do not call the target API.",
+        "launch_order": [
+          "with_jevseek",
+          "without_jevseek"
+        ],
+        "runs": {
+          "without_jevseek": {
+            "input_tokens": 68723,
+            "cached_input_tokens": 56320,
+            "uncached_input_tokens": 12403,
+            "output_tokens": 488,
+            "skill_read": false,
+            "mcp_calls": [],
+            "jev_input_tokens": 0,
+            "jev_cost_usd": 0,
+            "jev_requests": 0,
+            "web_searches": 0,
+            "shell_commands": 4,
+            "final_answer": "The snapshot defines **“Get a deployment status”**:\n\n- **Method:** `GET`\n- **Path:** `/repos/{owner}/{repo}/deployments/{deployment_id}/statuses/{status_id}`\n- **operationId:** `repos/get-deployment-status`\n\nRequired path fields:\n\n| Field | Type |\n|---|---|\n| `owner` | string |\n| `repo` | string |\n| `deployment_id` | integer |\n| `status_id` | integer |\n\n**Request body:** None.\n\nNo target API was called.",
+            "returncode": 0,
+            "elapsed_seconds": 38.159,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true
+          },
+          "with_jevseek": {
+            "input_tokens": 104312,
+            "cached_input_tokens": 96896,
+            "uncached_input_tokens": 7416,
+            "output_tokens": 509,
+            "skill_read": true,
+            "mcp_calls": [
+              "jevseek_discover",
+              "jevseek_inspect"
+            ],
+            "jev_input_tokens": 7953,
+            "jev_cost_usd": 0.000334026,
+            "jev_requests": 1,
+            "web_searches": 0,
+            "shell_commands": 3,
+            "final_answer": "The local snapshot defines **Get a deployment status**:\n\n- **Method:** `GET`\n- **Path:** `/repos/{owner}/{repo}/deployments/{deployment_id}/statuses/{status_id}`\n- **operationId:** `repos/get-deployment-status`\n\nAll four path fields are required:\n\n| Field | Type |\n|---|---|\n| `owner` | string |\n| `repo` | string |\n| `deployment_id` | integer |\n| `status_id` | integer |\n\n**Request body:** None defined.\n\nNo target API call was made.",
+            "returncode": 0,
+            "elapsed_seconds": 38.062,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true,
+            "discoveryResultBytes": 3821
+          }
+        },
+        "expectedOperationId": "repos/get-deployment-status",
+        "requiredBodyFields": []
+      },
+      {
+        "case": {
+          "source": "digitalocean",
+          "expectedId": "GET /v2/uptime/checks/{check_id}/state",
+          "need": "Read the current state of a specific uptime check."
+        },
+        "prompt": "Using the local digitalocean OpenAPI snapshot at /tmp/jevseek-skill-eval/examples/digitalocean/openapi.yaml as the source of truth, find the operation for this need: Read the current state of a specific uptime check. Report its exact method, path, operationId, and any required path or request-body fields. Do not call the target API.",
+        "launch_order": [
+          "without_jevseek",
+          "with_jevseek"
+        ],
+        "runs": {
+          "without_jevseek": {
+            "input_tokens": 84424,
+            "cached_input_tokens": 74112,
+            "uncached_input_tokens": 10312,
+            "output_tokens": 427,
+            "skill_read": false,
+            "mcp_calls": [],
+            "jev_input_tokens": 0,
+            "jev_cost_usd": 0,
+            "jev_requests": 0,
+            "web_searches": 0,
+            "shell_commands": 5,
+            "final_answer": "The matching operation is **Retrieve Check State**:\n\n- **Method:** `GET`\n- **Path:** `/v2/uptime/checks/{check_id}/state`\n- **operationId:** `uptime_get_checkState`\n- **Required path field:** `check_id`, a string with format `uuid`, identifying the check.\n- **Request body:** None.\n\nVerified against the local OpenAPI snapshot. No API call was made.",
+            "returncode": 0,
+            "elapsed_seconds": 34.644,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true
+          },
+          "with_jevseek": {
+            "input_tokens": 104290,
+            "cached_input_tokens": 93952,
+            "uncached_input_tokens": 10338,
+            "output_tokens": 463,
+            "skill_read": true,
+            "mcp_calls": [
+              "jevseek_discover",
+              "jevseek_inspect"
+            ],
+            "jev_input_tokens": 7400,
+            "jev_cost_usd": 0.0003108,
+            "jev_requests": 1,
+            "web_searches": 0,
+            "shell_commands": 3,
+            "final_answer": "The snapshot defines **Retrieve Check State**:\n\n- **Method:** `GET`\n- **Path:** `/v2/uptime/checks/{check_id}/state`\n- **operationId:** `uptime_get_checkState`\n- **Required path field:** `check_id` — string, UUID format.\n- **Request body:** None defined.\n\nNo target API call was made.",
+            "returncode": 0,
+            "elapsed_seconds": 35.448,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true,
+            "discoveryResultBytes": 3075
+          }
+        },
+        "expectedOperationId": "uptime_get_checkState",
+        "requiredBodyFields": []
+      },
+      {
+        "case": {
+          "source": "stripe",
+          "expectedId": "DELETE /v1/subscription_items/{item}",
+          "need": "Remove one price item from a subscription while leaving the subscription itself active."
+        },
+        "prompt": "Using the local stripe OpenAPI snapshot at /tmp/jevseek-skill-eval/examples/stripe/openapi.json as the source of truth, find the operation for this need: Remove one price item from a subscription while leaving the subscription itself active. Report its exact method, path, operationId, and any required path or request-body fields. Do not call the target API.",
+        "launch_order": [
+          "without_jevseek",
+          "with_jevseek"
+        ],
+        "runs": {
+          "without_jevseek": {
+            "input_tokens": 103781,
+            "cached_input_tokens": 87424,
+            "uncached_input_tokens": 16357,
+            "output_tokens": 612,
+            "skill_read": false,
+            "mcp_calls": [],
+            "jev_input_tokens": 0,
+            "jev_cost_usd": 0,
+            "jev_requests": 0,
+            "web_searches": 0,
+            "shell_commands": 6,
+            "final_answer": "From the local OpenAPI snapshot:\n\n- **Method:** `DELETE`\n- **Path:** `/v1/subscription_items/{item}`\n- **operationId:** `DeleteSubscriptionItemsItem`\n- **Required path field:** `item` (string), the subscription item ID.\n- **Required request-body fields:** None. The request body is optional.\n\nThe operation description explicitly states: “Removing a subscription item from a subscription will not cancel the subscription.”\n\nNo target API was called.",
+            "returncode": 0,
+            "elapsed_seconds": 37.803,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true
+          },
+          "with_jevseek": {
+            "input_tokens": 82764,
+            "cached_input_tokens": 72448,
+            "uncached_input_tokens": 10316,
+            "output_tokens": 491,
+            "skill_read": true,
+            "mcp_calls": [
+              "jevseek_discover"
+            ],
+            "jev_input_tokens": 38397,
+            "jev_cost_usd": 0.0016126740000000001,
+            "jev_requests": 2,
+            "web_searches": 0,
+            "shell_commands": 3,
+            "final_answer": "The matching operation is **Delete a subscription item**, which removes the item while keeping the subscription active.\n\n| Field | Exact value |\n|---|---|\n| Method | `DELETE` |\n| Path | `/v1/subscription_items/{item}` |\n| operationId | `DeleteSubscriptionItemsItem` |\n| Required path field | `item` — string; the subscription item ID |\n| Required request-body fields | None; the request body is optional |\n\nThe optional body uses `application/x-www-form-urlencoded`.\n\nSource: the supplied local Stripe OpenAPI snapshot. No target API was called.",
+            "returncode": 0,
+            "elapsed_seconds": 38.004,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true,
+            "discoveryResultBytes": 5911
+          }
+        },
+        "expectedOperationId": "DeleteSubscriptionItemsItem",
+        "requiredBodyFields": []
+      },
+      {
+        "case": {
+          "source": "stripe",
+          "expectedId": "POST /v1/payment_intents/{intent}/verify_microdeposits",
+          "need": "Confirm the small bank deposits used to verify a PaymentIntent."
+        },
+        "prompt": "Using the local stripe OpenAPI snapshot at /tmp/jevseek-skill-eval/examples/stripe/openapi.json as the source of truth, find the operation for this need: Confirm the small bank deposits used to verify a PaymentIntent. Report its exact method, path, operationId, and any required path or request-body fields. Do not call the target API.",
+        "launch_order": [
+          "without_jevseek",
+          "with_jevseek"
+        ],
+        "runs": {
+          "without_jevseek": {
+            "input_tokens": 102217,
+            "cached_input_tokens": 77312,
+            "uncached_input_tokens": 24905,
+            "output_tokens": 623,
+            "skill_read": false,
+            "mcp_calls": [],
+            "jev_input_tokens": 0,
+            "jev_cost_usd": 0,
+            "jev_requests": 0,
+            "web_searches": 0,
+            "shell_commands": 4,
+            "final_answer": "The operation is **“Verify microdeposits on a PaymentIntent.”**\n\n- **Method:** `POST`\n- **Path:** `/v1/payment_intents/{intent}/verify_microdeposits`\n- **operationId:** `PostPaymentIntentsIntentVerifyMicrodeposits`\n- **Required path field:** `intent` — string, maximum 5,000 characters.\n- **Required request-body fields:** None. The snapshot marks the body optional and declares no required properties.\n\nThe body uses `application/x-www-form-urlencoded`. Its optional verification fields are `amounts` (two positive integers in cents) and `descriptor_code` (a six-character code starting with `SM`).\n\nSource: local `examples/stripe/openapi.json`. No API call was made.",
+            "returncode": 0,
+            "elapsed_seconds": 33.969,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true
+          },
+          "with_jevseek": {
+            "input_tokens": 109712,
+            "cached_input_tokens": 98432,
+            "uncached_input_tokens": 11280,
+            "output_tokens": 574,
+            "skill_read": true,
+            "mcp_calls": [
+              "jevseek_discover"
+            ],
+            "jev_input_tokens": 0,
+            "jev_cost_usd": 0,
+            "jev_requests": 0,
+            "web_searches": 0,
+            "shell_commands": 4,
+            "final_answer": "From the local Stripe OpenAPI snapshot:\n\n- **Method:** `POST`\n- **Path:** `/v1/payment_intents/{intent}/verify_microdeposits`\n- **operationId:** `PostPaymentIntentsIntentVerifyMicrodeposits`\n- **Required path field:** `intent` (string), the PaymentIntent ID.\n- **Required request-body fields:** None. The snapshot marks the body optional and declares no required properties.\n\nThe body uses `application/x-www-form-urlencoded`. For deposit amounts, `amounts` accepts two positive integers in cents. It also supports `descriptor_code`, `client_secret`, and `expand`.\n\nJevSeek was unavailable, so I inspected the local JSON directly. No target API was called.",
+            "returncode": 0,
+            "elapsed_seconds": 36.059,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true,
+            "discoveryResultBytes": 95
+          }
+        },
+        "expectedOperationId": "PostPaymentIntentsIntentVerifyMicrodeposits",
+        "requiredBodyFields": []
+      },
+      {
+        "case": {
+          "source": "github",
+          "expectedId": "POST /repos/{owner}/{repo}/stacks/{stack_number}/add",
+          "need": "Append several pull requests in order to the top of an existing pull request stack."
+        },
+        "prompt": "Using the local github OpenAPI snapshot at /tmp/jevseek-skill-eval/examples/github/openapi.json as the source of truth, find the operation for this need: Append several pull requests in order to the top of an existing pull request stack. Report its exact method, path, operationId, and any required path or request-body fields. Do not call the target API.",
+        "launch_order": [
+          "without_jevseek",
+          "with_jevseek"
+        ],
+        "runs": {
+          "without_jevseek": {
+            "input_tokens": 69053,
+            "cached_input_tokens": 64000,
+            "uncached_input_tokens": 5053,
+            "output_tokens": 667,
+            "skill_read": false,
+            "mcp_calls": [],
+            "jev_input_tokens": 0,
+            "jev_cost_usd": 0,
+            "jev_requests": 0,
+            "web_searches": 0,
+            "shell_commands": 4,
+            "final_answer": "The matching operation is **Add pull requests to a pull request stack**.\n\n- **Method:** `POST`\n- **Path:** `/repos/{owner}/{repo}/stacks/{stack_number}/add`\n- **operationId:** `pull-request-stacks/add`\n\nRequired path fields:\n\n| Field | Type | Meaning |\n|---|---|---|\n| `owner` | string | Repository account owner |\n| `repo` | string | Repository name without `.git` |\n| `stack_number` | integer | Existing stack number |\n\nA JSON request body is required, containing **`pull_requests`**: an array of **1–100 integers**, ordered from the current top upward. Include only the pull requests being added. The first new pull request’s base ref must match the current top pull request’s head ref.\n\n```json\n{\"pull_requests\": [104, 102]}\n```\n\nVerified against the local OpenAPI snapshot. No API was called.",
+            "returncode": 0,
+            "elapsed_seconds": 36.831,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true
+          },
+          "with_jevseek": {
+            "input_tokens": 134870,
+            "cached_input_tokens": 110976,
+            "uncached_input_tokens": 23894,
+            "output_tokens": 755,
+            "skill_read": true,
+            "mcp_calls": [
+              "jevseek_discover"
+            ],
+            "jev_input_tokens": 0,
+            "jev_cost_usd": 0,
+            "jev_requests": 0,
+            "web_searches": 0,
+            "shell_commands": 5,
+            "final_answer": "The local snapshot defines:\n\n- **Method:** `POST`\n- **Path:** `/repos/{owner}/{repo}/stacks/{stack_number}/add`\n- **operationId:** `pull-request-stacks/add`\n\nRequired path fields:\n\n| Field | Type | Meaning |\n|---|---|---|\n| `owner` | string | Repository account owner |\n| `repo` | string | Repository name without `.git` |\n| `stack_number` | integer | Existing stack number |\n\nThe **JSON request body is required**, with one required field:\n\n- `pull_requests`: array of **1–100 integers**, ordered from the current stack top upward. Include only the pull requests being added. The first new pull request’s base ref must match the current top pull request’s head ref.\n\n```json\n{\"pull_requests\": [104, 102]}\n```\n\nJevSeek was unavailable, so I verified the snapshot directly. No target API was called.",
+            "returncode": 0,
+            "elapsed_seconds": 36.788,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true,
+            "discoveryResultBytes": 95
+          }
+        },
+        "expectedOperationId": "pull-request-stacks/add",
+        "requiredBodyFields": [
+          "pull_requests"
+        ]
+      },
+      {
+        "case": {
+          "source": "stripe",
+          "expectedId": "POST /v1/payment_records/{id}/report_payment_attempt_failed",
+          "need": "Record that the latest attempt on a Payment Record failed or errored."
+        },
+        "prompt": "Using the local stripe OpenAPI snapshot at /tmp/jevseek-skill-eval/examples/stripe/openapi.json as the source of truth, find the operation for this need: Record that the latest attempt on a Payment Record failed or errored. Report its exact method, path, operationId, and any required path or request-body fields. Do not call the target API.",
+        "launch_order": [
+          "without_jevseek",
+          "with_jevseek"
+        ],
+        "runs": {
+          "without_jevseek": {
+            "input_tokens": 101481,
+            "cached_input_tokens": 83456,
+            "uncached_input_tokens": 18025,
+            "output_tokens": 587,
+            "skill_read": false,
+            "mcp_calls": [],
+            "jev_input_tokens": 0,
+            "jev_cost_usd": 0,
+            "jev_requests": 0,
+            "web_searches": 0,
+            "shell_commands": 5,
+            "final_answer": "The matching operation is **Report payment attempt failed**, which records that the most recent attempt failed or errored.\n\n- **Method:** `POST`\n- **Path:** `/v1/payment_records/{id}/report_payment_attempt_failed`\n- **operationId:** `PostPaymentRecordsIdReportPaymentAttemptFailed`\n- **Required path field:** `id` — string; the Payment Record ID.\n- **Required request-body field:** `failed_at` — integer; failure time in seconds since the Unix epoch.\n- **Body encoding:** `application/x-www-form-urlencoded`; the request body is required.\n\nVerified against the local snapshot. No API call was made.",
+            "returncode": 0,
+            "elapsed_seconds": 33.758,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true
+          },
+          "with_jevseek": {
+            "input_tokens": 137972,
+            "cached_input_tokens": 123520,
+            "uncached_input_tokens": 14452,
+            "output_tokens": 662,
+            "skill_read": true,
+            "mcp_calls": [
+              "jevseek_discover"
+            ],
+            "jev_input_tokens": 0,
+            "jev_cost_usd": 0,
+            "jev_requests": 0,
+            "web_searches": 0,
+            "shell_commands": 5,
+            "final_answer": "The snapshot defines this operation for reporting that the most recent payment attempt failed or errored:\n\n- **Method:** `POST`\n- **Path:** `/v1/payment_records/{id}/report_payment_attempt_failed`\n- **operationId:** `PostPaymentRecordsIdReportPaymentAttemptFailed`\n- **Required path field:** `id` — string; the Payment Record ID.\n- **Required request-body field:** `failed_at` — integer; when the payment failed, in seconds since the Unix epoch.\n- **Body content type:** `application/x-www-form-urlencoded`\n\nJevSeek was unavailable, so I inspected the local snapshot directly. No target API was called.",
+            "returncode": 0,
+            "elapsed_seconds": 41.275,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true,
+            "discoveryResultBytes": 95
+          }
+        },
+        "expectedOperationId": "PostPaymentRecordsIdReportPaymentAttemptFailed",
+        "requiredBodyFields": [
+          "failed_at"
+        ]
+      },
+      {
+        "case": {
+          "source": "github",
+          "expectedId": "PATCH /repos/{owner}/{repo}/dependabot/alerts/{alert_number}",
+          "need": "Change the state or dismissal details of one existing Dependabot security alert."
+        },
+        "prompt": "Using the local github OpenAPI snapshot at /tmp/jevseek-skill-eval/examples/github/openapi.json as the source of truth, find the operation for this need: Change the state or dismissal details of one existing Dependabot security alert. Report its exact method, path, operationId, and any required path or request-body fields. Do not call the target API.",
+        "launch_order": [
+          "with_jevseek",
+          "without_jevseek"
+        ],
+        "runs": {
+          "without_jevseek": {
+            "input_tokens": 72280,
+            "cached_input_tokens": 57728,
+            "uncached_input_tokens": 14552,
+            "output_tokens": 662,
+            "skill_read": false,
+            "mcp_calls": [],
+            "jev_input_tokens": 0,
+            "jev_cost_usd": 0,
+            "jev_requests": 0,
+            "web_searches": 0,
+            "shell_commands": 4,
+            "final_answer": "The operation is **Update a Dependabot alert**:\n\n- **Method:** `PATCH`\n- **Path:** `/repos/{owner}/{repo}/dependabot/alerts/{alert_number}`\n- **operationId:** `dependabot/update-alert`\n- **Required path fields:** `owner`, `repo`, `alert_number`.\n\nA JSON request body is required. Its schema requires **at least one of `state` or `assignees`**. For the requested state or dismissal update:\n\n- `state`: `\"open\"` or `\"dismissed\"`.\n- `dismissed_reason`: required when `state` is `\"dismissed\"`; allowed values are `\"fix_started\"`, `\"inaccurate\"`, `\"no_bandwidth\"`, `\"not_used\"`, `\"tolerable_risk\"`.\n- `dismissed_comment`: optional string, maximum 280 characters.\n\nVerified against the local snapshot. No target API was called.",
+            "returncode": 0,
+            "elapsed_seconds": 36.481,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true
+          },
+          "with_jevseek": {
+            "input_tokens": 82286,
+            "cached_input_tokens": 72320,
+            "uncached_input_tokens": 9966,
+            "output_tokens": 496,
+            "skill_read": true,
+            "mcp_calls": [
+              "jevseek_discover"
+            ],
+            "jev_input_tokens": 8230,
+            "jev_cost_usd": 0.00034566,
+            "jev_requests": 1,
+            "web_searches": 0,
+            "shell_commands": 3,
+            "final_answer": "The snapshot defines **Update a Dependabot alert**:\n\n- **Method:** `PATCH`\n- **Path:** `/repos/{owner}/{repo}/dependabot/alerts/{alert_number}`\n- **operationId:** `dependabot/update-alert`\n\nRequired path fields:\n\n| Field | Type |\n|---|---|\n| `owner` | string |\n| `repo` | string |\n| `alert_number` | integer |\n\nAn **`application/json` request body is required**, containing at least one of `state` or `assignees`.\n\nFor state or dismissal changes:\n\n- `state`: `open` or `dismissed`.\n- `dismissed_reason`: required when `state` is `dismissed`; allowed values: `fix_started`, `inaccurate`, `no_bandwidth`, `not_used`, `tolerable_risk`.\n- `dismissed_comment`: optional string, maximum 280 characters.\n\nNo target API call was made.",
+            "returncode": 0,
+            "elapsed_seconds": 33.618,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true,
+            "discoveryResultBytes": 6320
+          }
+        },
+        "expectedOperationId": "dependabot/update-alert",
+        "requiredBodyFields": []
+      },
+      {
+        "case": {
+          "source": "github",
+          "expectedId": "PATCH /organizations/{org}/settings/billing/budgets/{budget_id}",
+          "need": "Change an existing spending budget for an organization as its billing manager."
+        },
+        "prompt": "Using the local github OpenAPI snapshot at /tmp/jevseek-skill-eval/examples/github/openapi.json as the source of truth, find the operation for this need: Change an existing spending budget for an organization as its billing manager. Report its exact method, path, operationId, and any required path or request-body fields. Do not call the target API.",
+        "launch_order": [
+          "with_jevseek",
+          "without_jevseek"
+        ],
+        "runs": {
+          "without_jevseek": {
+            "input_tokens": 66829,
+            "cached_input_tokens": 62848,
+            "uncached_input_tokens": 3981,
+            "output_tokens": 731,
+            "skill_read": false,
+            "mcp_calls": [],
+            "jev_input_tokens": 0,
+            "jev_cost_usd": 0,
+            "jev_requests": 0,
+            "web_searches": 0,
+            "shell_commands": 4,
+            "final_answer": "- **Method:** `PATCH`\n- **Path:** `/organizations/{org}/settings/billing/budgets/{budget_id}`\n- **operationId:** `billing/update-budget-org`\n- **Authorization:** Organization admin or billing manager.\n\nRequired path fields:\n\n| Field | Type | Meaning |\n|---|---|---|\n| `org` | string | Organization name, case insensitive |\n| `budget_id` | string | ID of the existing budget |\n\nAn **`application/json` request body is required**, but the schema declares **no required body fields**. To change the amount, supply `budget_amount` (integer, whole dollars; license count for license-based products).\n\nSource: local OpenAPI snapshot. No target API was called.",
+            "returncode": 0,
+            "elapsed_seconds": 43.145,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true
+          },
+          "with_jevseek": {
+            "input_tokens": 111913,
+            "cached_input_tokens": 99456,
+            "uncached_input_tokens": 12457,
+            "output_tokens": 532,
+            "skill_read": true,
+            "mcp_calls": [
+              "jevseek_discover",
+              "jevseek_inspect"
+            ],
+            "jev_input_tokens": 8439,
+            "jev_cost_usd": 0.00035443800000000005,
+            "jev_requests": 1,
+            "web_searches": 0,
+            "shell_commands": 2,
+            "final_answer": "The snapshot defines **Update a budget for an organization**, available to an authenticated organization admin or billing manager.\n\n- **Method:** `PATCH`\n- **Path:** `/organizations/{org}/settings/billing/budgets/{budget_id}`\n- **operationId:** `billing/update-budget-org`\n- **Required path fields:** `org` (string), `budget_id` (string).\n- **Request body:** Required, with content type `application/json`, but **no individual body fields are marked required**. To change the amount, supply `budget_amount` (integer, whole dollars; license count for license-based products).\n\nOther optional fields are `prevent_further_usage`, `budget_alerting`, and `expires_at`. For budgets scoped to `user` or `multi_user_customer`, `prevent_further_usage` must remain `true`.\n\nNo target API was called.",
+            "returncode": 0,
+            "elapsed_seconds": 49.326,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true,
+            "discoveryResultBytes": 6404
+          }
+        },
+        "expectedOperationId": "billing/update-budget-org",
+        "requiredBodyFields": []
+      },
+      {
+        "case": {
+          "source": "stripe",
+          "expectedId": "GET /v1/invoice_payments",
+          "need": "Retrieve the full paginated collection of payments attached to an invoice, beyond the few embedded in the invoice response."
+        },
+        "prompt": "Using the local stripe OpenAPI snapshot at /tmp/jevseek-skill-eval/examples/stripe/openapi.json as the source of truth, find the operation for this need: Retrieve the full paginated collection of payments attached to an invoice, beyond the few embedded in the invoice response. Report its exact method, path, operationId, and any required path or request-body fields. Do not call the target API.",
+        "launch_order": [
+          "without_jevseek",
+          "with_jevseek"
+        ],
+        "runs": {
+          "without_jevseek": {
+            "input_tokens": 72098,
+            "cached_input_tokens": 56960,
+            "uncached_input_tokens": 15138,
+            "output_tokens": 532,
+            "skill_read": false,
+            "mcp_calls": [],
+            "jev_input_tokens": 0,
+            "jev_cost_usd": 0,
+            "jev_requests": 0,
+            "web_searches": 0,
+            "shell_commands": 4,
+            "final_answer": "The snapshot identifies **“List all payments for an invoice”**:\n\n| Field | Exact value |\n|---|---|\n| Method | `GET` |\n| Path | `/v1/invoice_payments` |\n| operationId | `GetInvoicePayments` |\n| Required path fields | None |\n| Required request-body fields | None; the body is optional and has no defined fields |\n\nPass `invoice=<invoice_id>` as a **query parameter** to select the invoice. The snapshot marks it optional.\n\nFor the full collection, paginate using `starting_after` and `limit` (1–100, default 10) until `has_more` is `false`.\n\nSource: local snapshot, `paths[\"/v1/invoice_payments\"].get`. No target API was called.",
+            "returncode": 0,
+            "elapsed_seconds": 34.887,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true
+          },
+          "with_jevseek": {
+            "input_tokens": 111776,
+            "cached_input_tokens": 96256,
+            "uncached_input_tokens": 15520,
+            "output_tokens": 589,
+            "skill_read": true,
+            "mcp_calls": [
+              "jevseek_discover",
+              "jevseek_inspect"
+            ],
+            "jev_input_tokens": 38451,
+            "jev_cost_usd": 0.001614942,
+            "jev_requests": 2,
+            "web_searches": 0,
+            "shell_commands": 3,
+            "final_answer": "The snapshot identifies **“List all payments for an invoice”**:\n\n| Field | Exact value |\n|---|---|\n| Method | `GET` |\n| Path | `/v1/invoice_payments` |\n| operationId | `GetInvoicePayments` |\n| Required path fields | None |\n| Required request-body fields | None; the body is optional and its schema has no properties |\n\nPass the invoice ID in the `invoice` query parameter to select its payments. The snapshot marks this parameter optional.\n\nFor the full collection, paginate using `starting_after` until `has_more` is false. `limit` supports 1–100 items, defaulting to 10.\n\nVerified against the local snapshot at JSON pointer `#/paths/~1v1~1invoice_payments/get`. No target API call was made.",
+            "returncode": 0,
+            "elapsed_seconds": 42.887,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true,
+            "discoveryResultBytes": 4349
+          }
+        },
+        "expectedOperationId": "GetInvoicePayments",
+        "requiredBodyFields": []
+      },
+      {
+        "case": {
+          "source": "github",
+          "expectedId": "DELETE /repos/{owner}/{repo}/issues/{issue_number}/lock",
+          "need": "Reopen the conversation on an issue whose comments were locked."
+        },
+        "prompt": "Using the local github OpenAPI snapshot at /tmp/jevseek-skill-eval/examples/github/openapi.json as the source of truth, find the operation for this need: Reopen the conversation on an issue whose comments were locked. Report its exact method, path, operationId, and any required path or request-body fields. Do not call the target API.",
+        "launch_order": [
+          "without_jevseek",
+          "with_jevseek"
+        ],
+        "runs": {
+          "without_jevseek": {
+            "input_tokens": 65537,
+            "cached_input_tokens": 53888,
+            "uncached_input_tokens": 11649,
+            "output_tokens": 558,
+            "skill_read": false,
+            "mcp_calls": [],
+            "jev_input_tokens": 0,
+            "jev_cost_usd": 0,
+            "jev_requests": 0,
+            "web_searches": 0,
+            "shell_commands": 4,
+            "final_answer": "The snapshot defines **“Unlock an issue”** for reopening a locked conversation.\n\n- **Method:** `DELETE`\n- **Path:** `/repos/{owner}/{repo}/issues/{issue_number}/lock`\n- **operationId:** `issues/unlock`\n\nRequired path fields:\n\n| Field | Type | Meaning |\n|---|---|---|\n| `owner` | string | Repository owner |\n| `repo` | string | Repository name without `.git` |\n| `issue_number` | integer | Issue number |\n\n**Request body:** None defined.\n\nThe operation requires push access. No API was called.",
+            "returncode": 0,
+            "elapsed_seconds": 38.418,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true
+          },
+          "with_jevseek": {
+            "input_tokens": 127990,
+            "cached_input_tokens": 116864,
+            "uncached_input_tokens": 11126,
+            "output_tokens": 744,
+            "skill_read": true,
+            "mcp_calls": [
+              "jevseek_discover"
+            ],
+            "jev_input_tokens": 0,
+            "jev_cost_usd": 0,
+            "jev_requests": 0,
+            "web_searches": 0,
+            "shell_commands": 5,
+            "final_answer": "The operation is **Unlock an issue**.\n\n- **Method:** `DELETE`\n- **Path:** `/repos/{owner}/{repo}/issues/{issue_number}/lock`\n- **operationId:** `issues/unlock`\n\nRequired path fields:\n\n| Field | Type | Meaning |\n|---|---|---|\n| `owner` | string | Repository owner |\n| `repo` | string | Repository name without `.git` |\n| `issue_number` | integer | Issue number |\n\n**Request body:** None defined.\n\nVerified directly from the local snapshot after JevSeek discovery failed to connect. No target API was called.",
+            "returncode": 0,
+            "elapsed_seconds": 44.249,
+            "timed_out": false,
+            "target_check": true,
+            "operationIdCheck": true,
+            "requiredBodyFieldsCheck": true,
+            "discoveryResultBytes": 95
+          }
+        },
+        "expectedOperationId": "issues/unlock",
+        "requiredBodyFields": []
+      }
+    ],
+    "jevseekSourceRevision": "1e1ad773a8394ff6f7e59262a921eb28d04ed326",
+    "codexCliVersion": "0.166.0",
+    "sourceBytes": {
+      "github": 13917893,
+      "digitalocean": 4281270,
+      "stripe": 4518735
+    }
+  },
+  "remoteMcp": {
+    "date": "2026-11-02",
+    "model": "gpt-6.1-sol",
+    "reasoningEffort": "medium",
+    "webSearchEnabled": true,
+    "permissions": "read-only",
+    "endpoint": "https://www.oxfordledge.com/mcp",
+    "cases": [
+      {
+        "case": "mcp_institutional_consensus",
+        "prompt": "The public MCP endpoint is https://www.oxfordledge.com/mcp. Which tool finds the stocks most widely held in common by tracked institutional filers? Report its exact tool name and required input arguments from the current tool definition. Do not call the underlying data tool.",
+        "runs": {
+          "without_jevseek": {
+            "input_tokens": 154852,
+            "cached_input_tokens": 107136,
+            "uncached_input_tokens": 47716,
+            "output_tokens": 683,
+            "skill_read": false,
+            "mcp_calls": [],
+            "jev_input_tokens": 0,
+            "jev_cost_usd": 0,
+            "jev_requests": 0,
+            "web_searches": 3,
+            "shell_commands": 4,
+            "final_answer": "The tool is **`get_institutional_consensus`**. It ranks stocks held in common by tracked 13F filers by fund count, then value.\n\n**Required input arguments: none** (`\"required\": []`). An empty arguments object `{}` is valid. Optional arguments are `top_n` and `min_funds`. [Current tool definition](https://www.oxfordledge.com/mcp#get_institutional_consensus)\n\nI inspected the definition without calling the data tool.",
+            "target_check": true,
+            "returncode": 0,
+            "elapsed_seconds": 38.896,
+            "timed_out": false,
+            "targetCheck": true,
+            "requiredInputCheck": true
+          },
+          "with_jevseek": {
+            "input_tokens": 118803,
+            "cached_input_tokens": 104704,
+            "uncached_input_tokens": 14099,
+            "output_tokens": 479,
+            "skill_read": true,
+            "mcp_calls": [
+              "jevseek_discover",
+              "jevseek_inspect"
+            ],
+            "jev_input_tokens": 23425,
+            "jev_cost_usd": 0.00098385,
+            "jev_requests": 1,
+            "web_searches": 0,
+            "shell_commands": 3,
+            "final_answer": "The tool is **`get_institutional_consensus`** (“Most Widely Held (13F)”).\n\n**Required input arguments:** none (`required: []`). An empty object `{}` is valid.\n\nOptional arguments:\n\n- `top_n`: integer, 1–200; default 50.\n- `min_funds`: integer, 1–20; default 2.\n\nVerified against the current definition at the [MCP endpoint](https://www.oxfordledge.com/mcp). The underlying data tool was not called.",
+            "target_check": true,
+            "returncode": 0,
+            "elapsed_seconds": 27.961,
+            "timed_out": false,
+            "targetCheck": true,
+            "requiredInputCheck": true
+          }
+        },
+        "expectedTool": "get_institutional_consensus",
+        "requiredInput": null
+      },
+      {
+        "case": "mcp_institutional_consensus",
+        "prompt": "The public MCP endpoint is https://www.oxfordledge.com/mcp. Which tool finds the stocks most widely held in common by tracked institutional filers? Report its exact tool name and required input arguments from the current tool definition. Do not call the underlying data tool.",
+        "runs": {
+          "without_jevseek": {
+            "input_tokens": 115338,
+            "cached_input_tokens": 91136,
+            "uncached_input_tokens": 24202,
+            "output_tokens": 482,
+            "skill_read": false,
+            "mcp_calls": [],
+            "jev_input_tokens": 0,
+            "jev_cost_usd": 0,
+            "jev_requests": 0,
+            "web_searches": 2,
+            "shell_commands": 3,
+            "final_answer": "The tool is **`get_institutional_consensus`**.\n\nRequired input arguments: **none** (`\"required\": []`); `{}` is valid. Optional arguments are `top_n` (integer, 1–200; default 50) and `min_funds` (integer, 1–20; default 2). [Current tool definition](https://www.oxfordledge.com/mcp)\n\nI inspected the definition without calling the data tool.",
+            "target_check": true,
+            "returncode": 0,
+            "elapsed_seconds": 25.49,
+            "timed_out": false,
+            "targetCheck": true,
+            "requiredInputCheck": true
+          },
+          "with_jevseek": {
+            "input_tokens": 134913,
+            "cached_input_tokens": 100480,
+            "uncached_input_tokens": 34433,
+            "output_tokens": 501,
+            "skill_read": true,
+            "mcp_calls": [
+              "jevseek_discover",
+              "jevseek_inspect"
+            ],
+            "jev_input_tokens": 23425,
+            "jev_cost_usd": 0.00098385,
+            "jev_requests": 1,
+            "web_searches": 0,
+            "shell_commands": 3,
+            "final_answer": "The tool is **`get_institutional_consensus`** (“Most Widely Held (13F)”).\n\n**Required input arguments: none** (`required: []`). An empty object `{}` is valid.\n\nOptional arguments:\n\n- `top_n`: integer, 1–200; default 50.\n- `min_funds`: integer, 1–20; default 2.\n\nVerified against the current [MCP tool definition](https://www.oxfordledge.com/mcp). The underlying data tool was not called.",
+            "target_check": true,
+            "returncode": 0,
+            "elapsed_seconds": 26.644,
+            "timed_out": false,
+            "targetCheck": true,
+            "requiredInputCheck": true
+          }
+        },
+        "expectedTool": "get_institutional_consensus",
+        "requiredInput": null
+      },
+      {
+        "case": "mcp_institutional_consensus",
+        "prompt": "The public MCP endpoint is https://www.oxfordledge.com/mcp. Which tool finds the stocks most widely held in common by tracked institutional filers? Report its exact tool name and required input arguments from the current tool definition. Do not call the underlying data tool.",
+        "runs": {
+          "without_jevseek": {
+            "input_tokens": 102847,
+            "cached_input_tokens": 80000,
+            "uncached_input_tokens": 22847,
+            "output_tokens": 564,
+            "skill_read": false,
+            "mcp_calls": [],
+            "jev_input_tokens": 0,
+            "jev_cost_usd": 0,
+            "jev_requests": 0,
+            "web_searches": 2,
+            "shell_commands": 3,
+            "final_answer": "The tool is **`get_institutional_consensus`**.\n\n**Required input arguments:** none (`\"required\": []`), so `{}` is valid. Optional arguments are `top_n` (integer, 1–200, default 50) and `min_funds` (integer, 1–20, default 2). [Current tool definition](https://www.oxfordledge.com/mcp#get_institutional_consensus)\n\nI inspected the definition without calling the data tool.",
+            "target_check": true,
+            "returncode": 0,
+            "elapsed_seconds": 22.245,
+            "timed_out": false,
+            "targetCheck": true,
+            "requiredInputCheck": true
+          },
+          "with_jevseek": {
+            "input_tokens": 108290,
+            "cached_input_tokens": 103936,
+            "uncached_input_tokens": 4354,
+            "output_tokens": 472,
+            "skill_read": true,
+            "mcp_calls": [
+              "jevseek_discover",
+              "jevseek_inspect"
+            ],
+            "jev_input_tokens": 23425,
+            "jev_cost_usd": 0.00098385,
+            "jev_requests": 1,
+            "web_searches": 0,
+            "shell_commands": 3,
+            "final_answer": "The tool is **`get_institutional_consensus`** (“Most Widely Held (13F)”).\n\n**Required input arguments: none** (`required: []`). An empty object `{}` is valid.\n\nOptional inputs:\n- `top_n`: integer, 1–200; default 50.\n- `min_funds`: integer, 1–20; default 2.\n\nVerified against the current definition at the [MCP endpoint](https://www.oxfordledge.com/mcp). The underlying data tool was not called.",
+            "target_check": true,
+            "returncode": 0,
+            "elapsed_seconds": 25.053,
+            "timed_out": false,
+            "targetCheck": true,
+            "requiredInputCheck": true
+          }
+        },
+        "expectedTool": "get_institutional_consensus",
+        "requiredInput": null
+      },
+      {
+        "case": "mcp_ownership_changes",
+        "prompt": "The public MCP endpoint is https://www.oxfordledge.com/mcp. Which tool shows quarter-over-quarter institutional accumulation or distribution for one ticker, including funds that increased or exited positions? Report its exact tool name and required input arguments from the current tool definition. Do not call the underlying data tool.",
+        "runs": {
+          "with_jevseek": {
+            "input_tokens": 140678,
+            "cached_input_tokens": 121088,
+            "uncached_input_tokens": 19590,
+            "output_tokens": 490,
+            "skill_read": true,
+            "mcp_calls": [
+              "jevseek_discover",
+              "jevseek_inspect"
+            ],
+            "jev_input_tokens": 23442,
+            "jev_cost_usd": 0.000984564,
+            "jev_requests": 1,
+            "web_searches": 0,
+            "shell_commands": 3,
+            "final_answer": "The exact tool is **`ol_ownership_changes`**. Its current definition describes quarter-over-quarter positions classified as new, increased, decreased, or exited over roughly four quarters.\n\nRequired input:\n\n- **`ticker`** — string; stock ticker, e.g. `\"AAPL\"`.\n\nOptional: `limit` — integer, 1–250; defaults to 50 rows per bucket.\n\nVerified against the current [MCP tool definition](https://www.oxfordledge.com/mcp). The underlying data tool was not called.",
+            "target_check": true,
+            "returncode": 0,
+            "elapsed_seconds": 28.108,
+            "timed_out": false,
+            "targetCheck": true,
+            "requiredInputCheck": true
+          },
+          "without_jevseek": {
+            "input_tokens": 125105,
+            "cached_input_tokens": 95104,
+            "uncached_input_tokens": 30001,
+            "output_tokens": 531,
+            "skill_read": false,
+            "mcp_calls": [],
+            "jev_input_tokens": 0,
+            "jev_cost_usd": 0,
+            "jev_requests": 0,
+            "web_searches": 2,
+            "shell_commands": 3,
+            "final_answer": "The tool is **`ol_ownership_changes`**. It reports quarter-over-quarter institutional position changes for one ticker, classified as new, increased, decreased, or exited. [Current tool definition](https://www.oxfordledge.com/mcp#ol_ownership_changes)\n\nRequired input:\n\n- **`ticker`** — `string`; description: “Stock ticker (e.g. AAPL).”\n\n`limit` is optional, not required (integer, 1–250; default 50 rows per bucket).\n\nNo underlying data tool was called.",
+            "target_check": true,
+            "returncode": 0,
+            "elapsed_seconds": 21.335,
+            "timed_out": false,
+            "targetCheck": true,
+            "requiredInputCheck": true
+          }
+        },
+        "expectedTool": "ol_ownership_changes",
+        "requiredInput": "ticker"
+      },
+      {
+        "case": "mcp_ownership_changes",
+        "prompt": "The public MCP endpoint is https://www.oxfordledge.com/mcp. Which tool shows quarter-over-quarter institutional accumulation or distribution for one ticker, including funds that increased or exited positions? Report its exact tool name and required input arguments from the current tool definition. Do not call the underlying data tool.",
+        "runs": {
+          "without_jevseek": {
+            "input_tokens": 125026,
+            "cached_input_tokens": 95104,
+            "uncached_input_tokens": 29922,
+            "output_tokens": 522,
+            "skill_read": false,
+            "mcp_calls": [],
+            "jev_input_tokens": 0,
+            "jev_cost_usd": 0,
+            "jev_requests": 0,
+            "web_searches": 2,
+            "shell_commands": 3,
+            "final_answer": "The tool is **`ol_ownership_changes`**. It reports quarter-over-quarter institutional accumulation/distribution for one ticker, classifying fund positions as new, increased, decreased, or exited. [Current tool definition](https://www.oxfordledge.com/mcp#ol_ownership_changes)\n\nIts only required input is:\n\n- **`ticker`** — `string`; description: “Stock ticker (e.g. AAPL).”\n\nExample arguments: `{\"ticker\":\"AAPL\"}`. The `limit` argument is optional.\n\nI inspected the definition without calling the underlying data tool.",
+            "target_check": true,
+            "returncode": 0,
+            "elapsed_seconds": 25.742,
+            "timed_out": false,
+            "targetCheck": true,
+            "requiredInputCheck": true
+          },
+          "with_jevseek": {
+            "input_tokens": 104051,
+            "cached_input_tokens": 86528,
+            "uncached_input_tokens": 17523,
+            "output_tokens": 470,
+            "skill_read": true,
+            "mcp_calls": [
+              "jevseek_discover",
+              "jevseek_inspect"
+            ],
+            "jev_input_tokens": 23433,
+            "jev_cost_usd": 0.000984186,
+            "jev_requests": 1,
+            "web_searches": 0,
+            "shell_commands": 3,
+            "final_answer": "The exact tool is **`ol_ownership_changes`**. Its current definition describes quarter-over-quarter positions classified as **new, increased, decreased, or exited** over roughly four quarters.\n\nRequired input:\n\n- **`ticker`** — string; stock ticker, e.g. `\"AAPL\"`.\n\nOptional: `limit` — integer, 1–250, default 50; maximum rows per bucket.\n\nVerified against the current definition at the [public MCP endpoint](https://www.oxfordledge.com/mcp). The underlying data tool was not called.",
+            "target_check": true,
+            "returncode": 0,
+            "elapsed_seconds": 24.538,
+            "timed_out": false,
+            "targetCheck": true,
+            "requiredInputCheck": true
+          }
+        },
+        "expectedTool": "ol_ownership_changes",
+        "requiredInput": "ticker"
+      },
+      {
+        "case": "mcp_ownership_changes",
+        "prompt": "The public MCP endpoint is https://www.oxfordledge.com/mcp. Which tool shows quarter-over-quarter institutional accumulation or distribution for one ticker, including funds that increased or exited positions? Report its exact tool name and required input arguments from the current tool definition. Do not call the underlying data tool.",
+        "runs": {
+          "without_jevseek": {
+            "input_tokens": 124753,
+            "cached_input_tokens": 73472,
+            "uncached_input_tokens": 51281,
+            "output_tokens": 531,
+            "skill_read": false,
+            "mcp_calls": [],
+            "jev_input_tokens": 0,
+            "jev_cost_usd": 0,
+            "jev_requests": 0,
+            "web_searches": 2,
+            "shell_commands": 3,
+            "final_answer": "The tool is **`ol_ownership_changes`**. It reports quarter-over-quarter institutional position changes for one ticker, classifying funds as new, increased, decreased, or exited. [Current tool definition](https://www.oxfordledge.com/mcp)\n\nIts only required input argument is:\n\n- **`ticker`** — `string`: “Stock ticker (e.g. AAPL).”\n\n`limit` is optional: integer, default 50, range 1–250 rows per bucket.\n\nI inspected the definition without calling the underlying data tool.",
+            "target_check": true,
+            "returncode": 0,
+            "elapsed_seconds": 25.358,
+            "timed_out": false,
+            "targetCheck": true,
+            "requiredInputCheck": true
+          },
+          "with_jevseek": {
+            "input_tokens": 108220,
+            "cached_input_tokens": 97024,
+            "uncached_input_tokens": 11196,
+            "output_tokens": 454,
+            "skill_read": true,
+            "mcp_calls": [
+              "jevseek_discover",
+              "jevseek_inspect"
+            ],
+            "jev_input_tokens": 23440,
+            "jev_cost_usd": 0.00098448,
+            "jev_requests": 1,
+            "web_searches": 0,
+            "shell_commands": 2,
+            "final_answer": "The exact tool is **`ol_ownership_changes`**.\n\nRequired input:\n\n- **`ticker`** (string): Stock ticker, such as `\"AAPL\"`.\n\nIt reports quarter-over-quarter positions classified as new, increased, decreased, or exited. Optional `limit` controls rows per category (default 50; range 1–250).\n\nVerified against the current definition at the [MCP endpoint](https://www.oxfordledge.com/mcp). The underlying data tool was not called.",
+            "target_check": true,
+            "returncode": 0,
+            "elapsed_seconds": 27.378,
+            "timed_out": false,
+            "targetCheck": true,
+            "requiredInputCheck": true
+          }
+        },
+        "expectedTool": "ol_ownership_changes",
+        "requiredInput": "ticker"
+      },
+      {
+        "case": "remote_mcp",
+        "prompt": "The public MCP endpoint is https://www.oxfordledge.com/mcp. Find which tool in its catalog provides institutional holders of a public company, and report the exact tool name and required input arguments from its current definition. Do not call the underlying data tool.",
+        "runs": {
+          "with_jevseek": {
+            "input_tokens": 104845,
+            "cached_input_tokens": 86784,
+            "uncached_input_tokens": 18061,
+            "output_tokens": 442,
+            "skill_read": true,
+            "mcp_calls": [
+              "jevseek_discover",
+              "jevseek_inspect"
+            ],
+            "web_searches": 0,
+            "shell_commands": 2,
+            "final_answer": "The tool is **`get_institutional_holders`**, verified against the current [MCP catalog](https://www.oxfordledge.com/mcp).\n\n- **Required:** `ticker` — string; stock ticker symbol, e.g. `\"AAPL\"`.\n- **Optional:** `limit` — integer, 1–100; documented default 25.\n\nThe schema’s `required` array is exactly `[\"ticker\"]`. I inspected the definition only; I did not call the data tool.",
+            "returncode": 0,
+            "elapsed_seconds": 26.455,
+            "timed_out": false,
+            "targetCheck": true,
+            "requiredInputCheck": true
+          },
+          "without_jevseek": {
+            "input_tokens": 202485,
+            "cached_input_tokens": 173184,
+            "uncached_input_tokens": 29301,
+            "output_tokens": 783,
+            "skill_read": false,
+            "mcp_calls": [],
+            "web_searches": 2,
+            "shell_commands": 5,
+            "final_answer": "The tool is **`get_institutional_holders`**.\n\nIts only required input argument is:\n\n- **`ticker`** — `string`: “Stock ticker symbol (e.g. AAPL)”\n\nThe schema specifies `\"required\": [\"ticker\"]`. It also accepts optional `limit` (integer, 1–100; default 25). [Source: published tool definition](https://www.oxfordledge.com/mcp)\n\nI inspected the catalog only; I did not call the underlying data tool.",
+            "returncode": 0,
+            "elapsed_seconds": 39.558,
+            "timed_out": false,
+            "targetCheck": true,
+            "requiredInputCheck": true
+          }
+        },
+        "expectedTool": "get_institutional_holders",
+        "requiredInput": "ticker"
+      },
+      {
+        "case": "remote_mcp",
+        "prompt": "The public MCP endpoint is https://www.oxfordledge.com/mcp. Find which tool in its catalog provides institutional holders of a public company, and report the exact tool name and required input arguments from its current definition. Do not call the underlying data tool.",
+        "runs": {
+          "without_jevseek": {
+            "input_tokens": 179967,
+            "cached_input_tokens": 152448,
+            "uncached_input_tokens": 27519,
+            "output_tokens": 770,
+            "skill_read": false,
+            "mcp_calls": [],
+            "web_searches": 4,
+            "shell_commands": 5,
+            "final_answer": "The tool is **`get_institutional_holders`**.\n\nIts only required input argument is:\n\n- **`ticker`** — `string`; description: “Stock ticker symbol (e.g. AAPL)”\n\nThe schema specifies `\"required\": [\"ticker\"]`. It also accepts optional `limit` (integer, 1–100; default 25). Source: [Oxford Ledge’s published tool catalog](https://www.oxfordledge.com/mcp).\n\nI did not call the underlying data tool. Direct catalog API requests returned `Forbidden`, so this definition comes from the published catalog page.",
+            "returncode": 0,
+            "elapsed_seconds": 36.638,
+            "timed_out": false,
+            "targetCheck": true,
+            "requiredInputCheck": true
+          },
+          "with_jevseek": {
+            "input_tokens": 140301,
+            "cached_input_tokens": 121216,
+            "uncached_input_tokens": 19085,
+            "output_tokens": 504,
+            "skill_read": true,
+            "mcp_calls": [
+              "jevseek_discover",
+              "jevseek_inspect"
+            ],
+            "web_searches": 0,
+            "shell_commands": 3,
+            "final_answer": "The tool is **`get_institutional_holders`**.\n\nIts current definition requires one input argument:\n\n- **`ticker`** — `string`: stock ticker symbol, such as `\"AAPL\"`.\n\nOptional: `limit` — integer from 1 to 100, default 25.\n\nVerified against the [live MCP catalog](https://www.oxfordledge.com/mcp). The underlying data tool was not called.",
+            "returncode": 0,
+            "elapsed_seconds": 28.608,
+            "timed_out": false,
+            "targetCheck": true,
+            "requiredInputCheck": true
+          }
+        },
+        "expectedTool": "get_institutional_holders",
+        "requiredInput": "ticker"
+      },
+      {
+        "case": "remote_mcp",
+        "prompt": "The public MCP endpoint is https://www.oxfordledge.com/mcp. Find which tool in its catalog provides institutional holders of a public company, and report the exact tool name and required input arguments from its current definition. Do not call the underlying data tool.",
+        "runs": {
+          "with_jevseek": {
+            "input_tokens": 132415,
+            "cached_input_tokens": 115456,
+            "uncached_input_tokens": 16959,
+            "output_tokens": 478,
+            "skill_read": true,
+            "mcp_calls": [
+              "jevseek_discover",
+              "jevseek_inspect"
+            ],
+            "web_searches": 0,
+            "shell_commands": 2,
+            "final_answer": "The tool is **`get_institutional_holders`** in the [current MCP catalog](https://www.oxfordledge.com/mcp).\n\nRequired input:\n\n- **`ticker`** — string; stock ticker symbol, e.g. `\"AAPL\"`.\n\nOptional: `limit` — integer from 1 to 100; defaults to 25.\n\nI inspected its current definition without calling the underlying data tool.",
+            "returncode": 0,
+            "elapsed_seconds": 20.633,
+            "timed_out": false,
+            "targetCheck": true,
+            "requiredInputCheck": true
+          },
+          "without_jevseek": {
+            "input_tokens": 119776,
+            "cached_input_tokens": 91008,
+            "uncached_input_tokens": 28768,
+            "output_tokens": 531,
+            "skill_read": false,
+            "mcp_calls": [],
+            "web_searches": 2,
+            "shell_commands": 3,
+            "final_answer": "The tool is **`get_institutional_holders`**.\n\nIts only required input argument is:\n\n- **`ticker`** — `string`; description: “Stock ticker symbol (e.g. AAPL)”\n\nThe schema specifies `\"required\": [\"ticker\"]`. It also accepts an optional `limit` integer, from 1 to 100, defaulting to 25. [Current catalog definition](https://www.oxfordledge.com/mcp)\n\nI did not call the underlying data tool.",
+            "returncode": 0,
+            "elapsed_seconds": 22.842,
+            "timed_out": false,
+            "targetCheck": true,
+            "requiredInputCheck": true
+          }
+        },
+        "expectedTool": "get_institutional_holders",
+        "requiredInput": "ticker"
+      }
+    ]
+  }
+}
