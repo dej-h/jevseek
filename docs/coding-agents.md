@@ -39,6 +39,28 @@ Each flag permits one file or one exact URL, not a directory or an entire host. 
 
 In this restricted mode, the agent sees the allowed locations in the tool's input schema. To add another source, update the server registration and restart it. Tool arguments cannot change these restrictions. Without any `--allow-source` flags, sources remain unrestricted.
 
+## Optional discovery skill
+
+The package includes one [discovery skill](../skills/jevseek-discovery/SKILL.md) for coding agents that support the Agent Skills `SKILL.md` format. Its description helps the agent recognize requests to find a capability in an unfamiliar OpenAPI document or public MCP catalog. The instructions use the same JevSeek MCP tool names in Codex and Claude Code: locate a real source, discover its matching target, use the source-backed preview when sufficient, and inspect the current source when more detail is needed. For known operations, the agent inspects only when it needs contract details; other work stays with its normal tools.
+
+Install the bundled file into either or both local skill directories:
+
+| Agent | Personal skill path |
+| --- | --- |
+| Codex | `~/.agents/skills/jevseek-discovery/SKILL.md` |
+| Claude Code | `~/.claude/skills/jevseek-discovery/SKILL.md` |
+
+For a global npm installation, copy the same file to each agent you use:
+
+```bash
+skill_source="$(npm root -g)/jevseek/skills/jevseek-discovery/SKILL.md"
+mkdir -p "$HOME/.agents/skills/jevseek-discovery" "$HOME/.claude/skills/jevseek-discovery"
+cp "$skill_source" "$HOME/.agents/skills/jevseek-discovery/SKILL.md"
+cp "$skill_source" "$HOME/.claude/skills/jevseek-discovery/SKILL.md"
+```
+
+From a source checkout, use `skills/jevseek-discovery/SKILL.md` as `skill_source` instead. You can copy to just one directory if you use only that agent. Start a new agent session after installation. The skill does not register the MCP server or sources; complete the agent's MCP setup below as well. The source path or URL must be real, though the agent may locate it with ordinary tools. See [Codex skills](https://learn.chatgpt.com/docs/build-skills) and [Claude Code skills](https://code.claude.com/docs/en/skills) for their skill loading rules. These personal paths apply to local sessions; Claude cloud sessions use different skill distribution.
+
 ## Codex
 
 Register the installed command, passing the key already exported in your shell:
@@ -50,22 +72,6 @@ codex mcp add jevseek \
 ```
 
 Restart the agent session after registration. Run `codex mcp list` to inspect registration and `/mcp` in the CLI session to inspect active servers. These commands are documented in [Codex MCP setup](https://developers.openai.com/codex/mcp).
-
-### Optional Codex discovery skill
-
-The package includes a small [discovery skill](../skills/jevseek-discovery/SKILL.md). Its description lets Codex consider JevSeek when a task asks which operation or tool supports a capability in an OpenAPI document or public MCP catalog. The skill locates a real source and uses discovery for unfamiliar catalogs. It uses the top match's source-backed preview when that contains the requested inputs and inspects the current source when more detail is needed. For known operations, it inspects only when contract details are needed; other work stays with the agent's normal tools.
-
-For a global npm installation, copy the bundled skill into Codex's user skill directory:
-
-```bash
-mkdir -p "$HOME/.agents/skills/jevseek-discovery"
-cp "$(npm root -g)/jevseek/skills/jevseek-discovery/SKILL.md" \
-  "$HOME/.agents/skills/jevseek-discovery/SKILL.md"
-```
-
-From a source checkout, use `skills/jevseek-discovery/SKILL.md` as the copy source instead.
-
-Start a new Codex session after installing it. The skill does not register sources or change JevSeek's MCP configuration. The workflow needs a real source path or URL, which the agent may locate with ordinary tools. See [Codex skills](https://learn.chatgpt.com/docs/build-skills) for skill discovery and invocation.
 
 ## Claude Code
 

@@ -14,6 +14,7 @@
 </p>
 
 <p align="center">
+  <a href="#what-jevseek-finds">What it finds</a> ·
   <a href="#get-started">Get started</a> ·
   <a href="#connect-your-agent">Connect your agent</a> ·
   <a href="#from-a-need-to-a-request">See an example</a>
@@ -24,6 +25,17 @@
 JevSeek helps coding agents find their way around unfamiliar APIs and MCP servers. Give it an OpenAPI file, an HTTPS document URL, or a public remote MCP endpoint and describe what you need. It detects the source type, enumerates capabilities, and uses [TypeSafe Jev](https://docs.typesafe.ai) to score their relevance. Discovery returns short ranked targets and a compact source-backed preview for a confident top match. Inspection reads the current source when the preview lacks details for the selected operation or tool.
 
 Use it through the CLI, a TypeScript function, or an MCP discovery tool. No per-API wrapper or embedding index is required for discovery.
+
+## What JevSeek finds
+
+| Capability needed | Source catalog | Selected operation or tool |
+| --- | --- | --- |
+| List the files changed by a pull request | GitHub REST API, 1,254 operations | `GET /repos/{owner}/{repo}/pulls/{pull_number}/files` |
+| Add forwarding rules to an existing load balancer | DigitalOcean API, 873 operations | `POST /v2/load_balancers/{lb_id}/forwarding_rules` |
+| Preview a subscription price change with prorations, without applying it | Stripe API, 626 operations | `POST /v1/invoices/create_preview` |
+| Find a company's institutional holders | Oxford Ledge public MCP catalog, 62 tools | `get_institutional_holders` |
+
+The OpenAPI rows are observed top matches from the [source-backed discovery evaluation](docs/discovery-evaluation.md); the MCP row is from a [recorded live catalog run](docs/mcp-public-discovery-evidence.md). JevSeek selects and describes a contract. The agent uses its normal tools to make any authorized request.
 
 ## From a need to a request
 
@@ -122,7 +134,7 @@ codex mcp add jevseek \
 
 Restart Codex, then run `codex mcp list` or check `/mcp` in a CLI session.
 
-The optional [Codex discovery skill](docs/coding-agents.md#optional-codex-discovery-skill) helps the agent recognize capability-search tasks and use JevSeek when an OpenAPI document or public MCP catalog is available.
+The optional [discovery skill](docs/coding-agents.md#optional-discovery-skill) helps Codex recognize capability-search tasks and use JevSeek when an OpenAPI document or public MCP catalog is available. The same skill also works with Claude Code.
 
 </details>
 
@@ -139,6 +151,8 @@ claude mcp add --scope user \
 ```
 
 Restart Claude Code, then check `/mcp`.
+
+The same optional [discovery skill](docs/coding-agents.md#optional-discovery-skill) can be installed for Claude Code.
 
 </details>
 
