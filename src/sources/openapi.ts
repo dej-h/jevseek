@@ -2,6 +2,7 @@ import { parse as parseYaml } from "yaml";
 import type { JsonValue } from "@typesafe-ai/sdk";
 import type { RankOption } from "../core/candidates.js";
 import { readSourceDocument, type SourceDocument } from "./document.js";
+import { toJsonValue } from "./json.js";
 
 const HTTP_METHODS = new Set([
   "get",
@@ -297,18 +298,13 @@ export function inspectOpenApiDocument(document: SourceDocument, target: string,
   if (!/^3\.[01]\.\d+$/.test(doc.openapi) || !isPlainObject(doc.paths)) {
     throw new Error("not a supported OpenAPI document with paths");
   }
-  const match = /^(GET|PUT|POST|DELETE|OPTIONS|HEAD|PATCH|TRACE) (\/.*)$/.exec(target);
-  if (!match) throw new Error("OpenAPI target must be METHOD /path, for example POST /v1/invoices/create_preview");
-  const [, methodUpper, path] = match;
-  const item = doc.paths[path];
-  const method = methodUpper.toLowerCase();
-  if (!isPlainObject(item) || !isPlainObject(item[method])) {
-    throw new Error(`target not found in current source: ${target}; rediscover the source`);
-  }
-  const contract = buildOperationContract(doc, document.location, path, method, item, item[method], false);
+  const selected = resolveOperationTarget(doc.paths, target,
+    "OpenAPI target must be METHOD /path, for example POST /v1/invoices/create_preview");
+  const contract = buildOperationContract(doc, document.location, selected.path, selected.method,
+    selected.pathItem, selected.operation, false);
   if (part[0] === "references" && part.length > 1 && isPlainObject(contract.references)) {
     const ref = part[1];
-    if (Object.hasOwn(contract.references, ref)) {
+    if (ref !== undefined && Object.hasOwn(contract.references, ref)) {
       contract.references[ref] = toJsonValue(getJsonPointer(doc, ref));
     }
   }
@@ -326,19 +322,12 @@ export function previewOpenApiDocument(document: SourceDocument, target: string)
   if (!isPlainObject(doc) || !isPlainObject(doc.paths)) {
     throw new NotOpenApiError("not an OpenAPI document with paths");
   }
-  const match = /^(GET|PUT|POST|DELETE|OPTIONS|HEAD|PATCH|TRACE) (\/.*)$/.exec(target);
-  if (!match) throw new Error("OpenAPI target must be METHOD /path");
-  const [, methodUpper, path] = match;
-  const item = doc.paths[path];
-  const method = methodUpper.toLowerCase();
-  if (!isPlainObject(item) || !isPlainObject(item[method])) {
-    throw new Error(`target not found in current source: ${target}; rediscover the source`);
-  }
-  const operation = item[method];
+  const { methodUpper, path, pathItem, operation } = resolveOperationTarget(doc.paths, target,
+    "OpenAPI target must be METHOD /path");
   const preview: { [key: string]: JsonValue } = { method: methodUpper, path };
   if (typeof operation.operationId === "string") preview.operationId = operation.operationId;
   if (typeof operation.summary === "string") preview.summary = operation.summary;
-  const parameters = compactParameters(doc, item, operation);
+  const parameters = compactParameters(doc, pathItem, operation);
   if (parameters) preview.parameters = parameters;
   if (operation.requestBody !== undefined) {
     const body = resolveLocalRef(doc, operation.requestBody);
@@ -350,6 +339,30 @@ export function previewOpenApiDocument(document: SourceDocument, target: string)
     }
   }
   return preview;
+}
+
+interface OperationTarget {
+  methodUpper: string;
+  method: string;
+  path: string;
+  pathItem: { [key: string]: unknown };
+  operation: { [key: string]: unknown };
+}
+
+function resolveOperationTarget(
+  paths: { [key: string]: unknown }, target: string, usage: string,
+): OperationTarget {
+  const match = /^(GET|PUT|POST|DELETE|OPTIONS|HEAD|PATCH|TRACE) (\/.*)$/.exec(target);
+  const methodUpper = match?.[1];
+  const path = match?.[2];
+  if (methodUpper === undefined || path === undefined) throw new Error(usage);
+  const pathItem = paths[path];
+  const method = methodUpper.toLowerCase();
+  const operation = isPlainObject(pathItem) ? pathItem[method] : undefined;
+  if (!isPlainObject(pathItem) || !isPlainObject(operation)) {
+    throw new Error(`target not found in current source: ${target}; rediscover the source`);
+  }
+  return { methodUpper, method, path, pathItem, operation };
 }
 
 function buildOperationContract(
@@ -447,37 +460,6 @@ function collectLocalReferenceClosure(
     pending.push(...Object.values(value));
   }
   return { references, warnings: [...new Set(warnings)] };
-}
-
-function toJsonValue(value: unknown, ancestors = new Set<object>()): JsonValue {
-  if (
-    value === null ||
-    typeof value === "string" ||
-    typeof value === "boolean" ||
-    typeof value === "number"
-  ) {
-    return value;
-  }
-  if (typeof value !== "object") {
-    throw new Error(`OpenAPI value is not JSON-compatible: ${typeof value}`);
-  }
-  if (ancestors.has(value)) {
-    throw new Error("OpenAPI document contains a cyclic object value");
-  }
-
-  const nextAncestors = new Set(ancestors);
-  nextAncestors.add(value);
-  if (Array.isArray(value)) {
-    return value.map((item) => toJsonValue(item, nextAncestors));
-  }
-
-  const result: { [key: string]: JsonValue } = {};
-  for (const [key, child] of Object.entries(value)) {
-    if (child !== undefined) {
-      result[key] = toJsonValue(child, nextAncestors);
-    }
-  }
-  return result;
 }
 
 function escapeJsonPointer(value: string): string {

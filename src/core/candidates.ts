@@ -18,7 +18,7 @@ export interface RankOption {
  */
 const CHARS_PER_TOKEN = 2.5;
 
-export function estimateTokens(value: unknown): number {
+export function estimateTokens(value: JsonValue): number {
   return Math.ceil(JSON.stringify(value).length / CHARS_PER_TOKEN);
 }
 
@@ -26,8 +26,24 @@ export function estimateQuestionTokens(option: RankOption): number {
   return estimateTokens(option.content) + QUESTION_OVERHEAD_TOKENS;
 }
 
-function isPlainObject(value: unknown): value is { [key: string]: JsonValue } {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
+function isPlainObject(value: unknown): value is Record<string, unknown> {
+  if (typeof value !== "object" || value === null || Array.isArray(value)) return false;
+  const prototype: unknown = Object.getPrototypeOf(value);
+  return prototype === Object.prototype || prototype === null;
+}
+
+function isJsonValue(value: unknown, ancestors = new Set<object>()): value is JsonValue {
+  if (value === null || typeof value === "string" || typeof value === "boolean") return true;
+  if (typeof value === "number") return Number.isFinite(value);
+  if (typeof value !== "object" || ancestors.has(value)) return false;
+  if (!Array.isArray(value) && !isPlainObject(value)) return false;
+  ancestors.add(value);
+  try {
+    return (Array.isArray(value) ? value : Object.values(value))
+      .every((child) => isJsonValue(child, ancestors));
+  } finally {
+    ancestors.delete(value);
+  }
 }
 
 function isOptionContent(value: unknown): value is OptionContent {
@@ -37,18 +53,19 @@ function isOptionContent(value: unknown): value is OptionContent {
   if (Array.isArray(value)) {
     return value.every((item) => typeof item === "string");
   }
-  return isPlainObject(value);
+  return isPlainObject(value) && isJsonValue(value);
 }
 
 function isRankOption(value: unknown): value is RankOption {
   return (
     isPlainObject(value) &&
     typeof value.id === "string" &&
-    isOptionContent(value.content)
+    isOptionContent(value.content) &&
+    (value.contract === undefined || isJsonValue(value.contract))
   );
 }
 
-/** Accept a list of strings, JSON values, or `{ id, content }` objects. */
+/** Accept strings, string arrays, JSON objects, or explicit `{ id, content }` options. */
 export function normalizeOptions(input: unknown): RankOption[] {
   const list = unwrapOptions(input);
   return list.map((item, index) => {
@@ -82,12 +99,14 @@ export function packBatches(
   const batches: RankOption[][] = [];
   let current: RankOption[] = [];
   let currentTotal = stateTokens;
+  let currentLongest = 0;
 
   const flush = (): void => {
     if (current.length > 0) {
       batches.push(current);
       current = [];
       currentTotal = stateTokens;
+      currentLongest = 0;
     }
   };
 
@@ -99,10 +118,7 @@ export function packBatches(
       );
     }
 
-    const longest = Math.max(
-      ...current.map((item) => estimateQuestionTokens(item)),
-      questionTokens,
-    );
+    const longest = Math.max(currentLongest, questionTokens);
     const nextTotal = currentTotal + questionTokens;
     const fits =
       current.length === 0 ||
@@ -114,6 +130,7 @@ export function packBatches(
     }
     current.push(option);
     currentTotal += questionTokens;
+    currentLongest = Math.max(currentLongest, questionTokens);
   }
   flush();
   return batches;

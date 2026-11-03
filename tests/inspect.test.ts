@@ -55,3 +55,26 @@ test("inspection navigates every reachable local reference and keeps unresolved 
   const last = await inspect(source, "GET /items", { part: ["references", "#/components/schemas/Schema139"] });
   assert.deepEqual(last.value, schemas.Schema139);
 });
+
+test("inspection chunks Unicode text without splitting characters or exceeding its response budget", async (t) => {
+  const dir = await mkdtemp(join(tmpdir(), "jevseek-unicode-inspect-"));
+  t.after(() => rm(dir, { recursive: true, force: true }));
+  const source = join(dir, "api.json");
+  const description = "😀".repeat(15_000);
+  await writeFile(source, JSON.stringify({ openapi: "3.1.0", paths: { "/items": {
+    get: { description },
+  } } }));
+
+  let offset = 0;
+  let reconstructed = "";
+  do {
+    const result = await inspect(source, "GET /items", { part: ["operation", "description"], offset });
+    assert.ok(result.textChunk);
+    assert.ok(Buffer.byteLength(result.textChunk) <= 16 * 1024);
+    reconstructed += result.textChunk;
+    if (result.nextOffset === undefined) break;
+    assert.ok(result.nextOffset > offset);
+    offset = result.nextOffset;
+  } while (true);
+  assert.equal(reconstructed, description);
+});

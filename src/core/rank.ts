@@ -10,11 +10,11 @@ const TOKEN_BUDGET = { total: 48_000, statePlusLongest: 24_000 };
 const DEFAULT_CONCURRENCY = 4;
 
 export interface RankRequest {
-  signal?: AbortSignal;
+  signal?: AbortSignal | undefined;
   need: string;
   options: RankOption[];
-  topK?: number;
-  concurrency?: number;
+  topK?: number | undefined;
+  concurrency?: number | undefined;
 }
 
 export interface RankedOption {
@@ -130,14 +130,15 @@ async function mapPool<T, R>(
   fn: (item: T) => Promise<R>,
 ): Promise<R[]> {
   const results: R[] = new Array(items.length);
-  let next = 0;
+  const pending = items.entries();
   const workerCount = Math.min(limit, items.length);
   await Promise.all(
     Array.from({ length: workerCount }, async () => {
-      while (next < items.length) {
-        const index = next;
-        next += 1;
-        results[index] = await fn(items[index]);
+      while (true) {
+        const entry = pending.next();
+        if (entry.done) return;
+        const [index, item] = entry.value;
+        results[index] = await fn(item);
       }
     }),
   );

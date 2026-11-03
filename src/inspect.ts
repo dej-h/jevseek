@@ -1,15 +1,16 @@
 import type { JsonValue } from "@typesafe-ai/sdk";
-import { readSourceDocument, SourceHttpError, StreamingSourceError } from "./sources/document.js";
-import { inspectOpenApiDocument, NotOpenApiError } from "./sources/openapi.js";
+import { readSourceDocument, SourceHttpError } from "./sources/document.js";
+import { shouldProbeMcp, sourceDetectionError } from "./sources/detection.js";
+import { inspectOpenApiDocument } from "./sources/openapi.js";
 import { AuthenticationRequiredError, loadMcpCatalog } from "./sources/mcp.js";
 
 const VALUE_BUDGET_BYTES = 48 * 1024;
 const CHILD_BUDGET_BYTES = 16 * 1024;
 
 export interface InspectOptions {
-  signal?: AbortSignal;
-  part?: string[];
-  offset?: number;
+  signal?: AbortSignal | undefined;
+  part?: string[] | undefined;
+  offset?: number | undefined;
 }
 
 export interface InspectResult {
@@ -39,10 +40,7 @@ export async function inspect(source: string, target: string, options: InspectOp
     if (error instanceof SourceHttpError && [401, 403].includes(error.status)) {
       throw new AuthenticationRequiredError();
     }
-    const probeMcp = source.startsWith("https://") && (error instanceof NotOpenApiError
-      || error instanceof StreamingSourceError
-      || (error instanceof SourceHttpError && [404, 405, 406, 415].includes(error.status)));
-    if (!probeMcp) throw error;
+    if (!shouldProbeMcp(source, error)) throw error;
     documentError = error;
   }
   signal.throwIfAborted();
@@ -51,7 +49,7 @@ export async function inspect(source: string, target: string, options: InspectOp
     catalog = await loadMcpCatalog(source, signal, target);
   } catch (error) {
     if (error instanceof AuthenticationRequiredError || signal.aborted) throw error;
-    throw new Error(`Source detection failed: ${documentError instanceof Error ? documentError.message : "not OpenAPI"}; MCP: ${error instanceof Error ? error.message : String(error)}`, { cause: error });
+    throw sourceDetectionError(documentError, error);
   }
   const tool = catalog.options.find((option) => option.id === target);
   if (!tool?.contract) throw new Error(`target not found in current source: ${target}; rediscover the source`);
@@ -65,15 +63,17 @@ function project(source: string, target: string, contract: JsonValue, options: I
 
   let selected: JsonValue = contract;
   for (const key of part) {
+    let next: JsonValue | undefined;
     if (Array.isArray(selected) && /^(0|[1-9]\d*)$/.test(key)) {
-      selected = selected[Number(key)] as JsonValue;
+      next = selected[Number(key)];
     } else if (typeof selected === "object" && selected !== null && !Array.isArray(selected)
       && Object.hasOwn(selected, key)) {
-      selected = selected[key] as JsonValue;
+      next = selected[key];
     } else {
       throw new Error(`part not found in current target: ${[...part].join(" / ")}`);
     }
-    if (selected === undefined) throw new Error(`part not found in current target: ${part.join(" / ")}`);
+    if (next === undefined) throw new Error(`part not found in current target: ${part.join(" / ")}`);
+    selected = next;
   }
 
   // The first inspection shows the operation and source reference names, not every definition.
@@ -94,12 +94,10 @@ function project(source: string, target: string, contract: JsonValue, options: I
   }
   if (typeof selected === "string") {
     if (offset >= selected.length) throw new Error("offset exceeds text length");
-    if (offset > 0 && /[\uDC00-\uDFFF]/.test(selected[offset])) {
+    if (offset > 0 && /[\uDC00-\uDFFF]/.test(selected.charAt(offset))) {
       throw new Error("offset must start at a complete Unicode character");
     }
-    let end = Math.min(selected.length, offset + 8000);
-    while (Buffer.byteLength(selected.slice(offset, end)) > CHILD_BUDGET_BYTES) end -= 1;
-    if (end < selected.length && /[\uD800-\uDBFF]/.test(selected[end - 1])) end -= 1;
+    const end = boundedTextEnd(selected, offset);
     return { ...base, textLength: selected.length, textChunk: selected.slice(offset, end),
       ...(end < selected.length ? { nextOffset: end } : {}),
       hint: "Repeat inspect with the same part and nextOffset." };
@@ -108,8 +106,10 @@ function project(source: string, target: string, contract: JsonValue, options: I
     : typeof selected === "object" && selected !== null ? Object.keys(selected) : [];
   const children: string[] = [];
   for (let index = offset; index < keys.length && children.length < 100; index++) {
-    if (Buffer.byteLength(JSON.stringify([...children, keys[index]])) > CHILD_BUDGET_BYTES) break;
-    children.push(keys[index]);
+    const key = keys[index];
+    if (key === undefined) break;
+    if (Buffer.byteLength(JSON.stringify([...children, key])) > CHILD_BUDGET_BYTES) break;
+    children.push(key);
   }
   if (children.length === 0 && offset < keys.length) {
     throw new Error("source field name is too large to inspect within the response budget");
@@ -117,4 +117,16 @@ function project(source: string, target: string, contract: JsonValue, options: I
   return { ...base, children, totalChildren: keys.length,
     ...(offset + children.length < keys.length ? { nextOffset: offset + children.length } : {}),
     hint: "Repeat inspect with part extended by a child name; use nextOffset to list more children." };
+}
+
+function boundedTextEnd(value: string, offset: number): number {
+  let lower = offset;
+  let upper = Math.min(value.length, offset + 8000);
+  while (lower < upper) {
+    const middle = Math.ceil((lower + upper) / 2);
+    if (Buffer.byteLength(value.slice(offset, middle)) <= CHILD_BUDGET_BYTES) lower = middle;
+    else upper = middle - 1;
+  }
+  return lower < value.length && /[\uD800-\uDBFF]/.test(value.charAt(lower - 1))
+    ? lower - 1 : lower;
 }

@@ -11,10 +11,10 @@ export { inspect } from "./inspect.js";
 export type { InspectOptions, InspectResult } from "./inspect.js";
 
 export interface DiscoverOptions {
-  signal?: AbortSignal;
-  topK?: number;
-  concurrency?: number;
-  include?: Partial<OpenApiDescriptorInclude>;
+  signal?: AbortSignal | undefined;
+  topK?: number | undefined;
+  concurrency?: number | undefined;
+  include?: Partial<OpenApiDescriptorInclude> | undefined;
 }
 
 export interface DiscoveredOperation {
@@ -60,26 +60,23 @@ export async function discover(
   const catalog = await loadCatalog(source, options.include, options.signal);
   const started = performance.now();
   let judgedOptions = selectCandidates(catalog.options, need);
+  const rankRequest = {
+    need, topK: options.topK, concurrency: options.concurrency, signal: options.signal,
+  };
   const result: RankResult = catalog.options.length === 0 ? {
     need, model: "not_used", status: "no_confident_match", matches: [],
     usage: { jevRequests: 0, inputTokens: 0, costUsd: 0 },
   } : await rankOptions({
-    need,
+    ...rankRequest,
     options: judgedOptions,
-    topK: options.topK,
-    concurrency: options.concurrency,
-    signal: options.signal,
   });
   let finalResult = result;
   let usage = result.usage;
   if (judgedOptions.length < catalog.options.length
     && (result.status !== "matches" || (result.matches[0]?.score ?? 0) < 0.8)) {
     finalResult = await rankOptions({
-      need,
+      ...rankRequest,
       options: catalog.options,
-      topK: options.topK,
-      concurrency: options.concurrency,
-      signal: options.signal,
     });
     usage = {
       jevRequests: result.usage.jevRequests + finalResult.usage.jevRequests,
