@@ -19,6 +19,7 @@ const SOURCE_HASHES: Record<SourceName, string> = {
   digitalocean: "5f1156a780a769db54abb39183c8b5f1c39a8ba7bf111726f408110965bcaf6f",
   stripe: "2c31317cdff103e4495b5b3501004d9ddc0af61f43b0ab819e2db392eef008f6",
 };
+const SOURCE_NAMES = ["github", "digitalocean", "stripe"] as const;
 
 const [casesPath, githubPath, digitaloceanPath, stripePath] = process.argv.slice(2);
 if (!casesPath || !githubPath || !digitaloceanPath || !stripePath) {
@@ -33,7 +34,7 @@ const sources: Record<SourceName, string> = {
   digitalocean: resolve(digitaloceanPath),
   stripe: resolve(stripePath),
 };
-for (const source of Object.keys(sources) as SourceName[]) {
+for (const source of SOURCE_NAMES) {
   const digest = createHash("sha256").update(await readFile(sources[source])).digest("hex");
   if (digest !== SOURCE_HASHES[source]) {
     throw new Error(`${source} source hash differs from the frozen evaluation snapshot`);
@@ -76,12 +77,14 @@ process.stderr.write(`Accepted ${accepted}/${cases.length}; Jev input tokens ${i
 
 function isDiscoveryCase(value: unknown): value is DiscoveryCase {
   if (typeof value !== "object" || value === null || Array.isArray(value)) return false;
-  const item = value as Partial<DiscoveryCase>;
-  return typeof item.id === "string"
-    && (item.source === "github" || item.source === "digitalocean" || item.source === "stripe")
-    && typeof item.need === "string"
-    && (typeof item.expectedId === "string" || item.expectedId === null)
-    && typeof item.tier === "string"
-    && (item.acceptableIds === undefined || (Array.isArray(item.acceptableIds)
-      && item.acceptableIds.every((id) => typeof id === "string")));
+  if (!("id" in value) || !("source" in value) || !("need" in value)
+    || !("expectedId" in value) || !("tier" in value)) return false;
+  return typeof value.id === "string"
+    && SOURCE_NAMES.some((source) => source === value.source)
+    && typeof value.need === "string"
+    && (typeof value.expectedId === "string" || value.expectedId === null)
+    && typeof value.tier === "string"
+    && (!("acceptableIds" in value) || value.acceptableIds === undefined
+      || (Array.isArray(value.acceptableIds)
+        && value.acceptableIds.every((id: unknown) => typeof id === "string")));
 }

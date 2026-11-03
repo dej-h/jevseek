@@ -46,12 +46,15 @@ export async function judgeBatch(
       state: packingState(need),
       questions,
     },
-    { timeout: 60_000, signal },
+    { timeout: 60_000, ...(signal ? { signal } : {}) },
   );
 
   const perQuestion = Math.ceil(response.usage.input_tokens / options.length);
   const judgments = options.map((option, index) => {
     const answer = response.answers[`opt_${String(index)}`];
+    if (!answer) {
+      throw new Error(`missing judgment for ${option.id}`);
+    }
     if (answer.type !== "noul") {
       throw new Error(`expected noul for ${option.id}, got ${answer.type}`);
     }

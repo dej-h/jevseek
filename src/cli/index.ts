@@ -140,7 +140,11 @@ async function runSelection(command: "rank" | "discover", args: string[]): Promi
     servers: parsed.values.servers,
   };
   if (command === "discover") {
-    const result = await discover(parsed.positionals[1], need, {
+    const source = parsed.positionals[1];
+    if (source === undefined) {
+      throw new Error('usage: jevseek discover "<need>" <source> [--top 5]');
+    }
+    const result = await discover(source, need, {
       topK, include: openApiDescriptorIncludeChanged(include) ? include : undefined,
     });
     console.log(parsed.values.short ? formatShortResult(result) : JSON.stringify(result, null, 2));
@@ -187,11 +191,13 @@ async function main(): Promise<void> {
       const { values, positionals } = parseArgs({ args: rest, allowPositionals: true,
         options: { part: { type: "string", multiple: true }, offset: { type: "string", default: "0" } } });
       if (positionals.length !== 2) throw new Error('usage: jevseek inspect <source> "<METHOD /path-or-tool-name>"');
+      const [source, target] = positionals;
+      if (source === undefined || target === undefined) {
+        throw new Error('usage: jevseek inspect <source> "<METHOD /path-or-tool-name>"');
+      }
       const offset = Number(values.offset);
       if (!Number.isSafeInteger(offset) || offset < 0) throw new Error("--offset must be a non-negative integer");
-      console.log(JSON.stringify(await inspect(positionals[0], positionals[1], {
-        part: values.part, offset,
-      }), null, 2));
+      console.log(JSON.stringify(await inspect(source, target, { part: values.part, offset }), null, 2));
       break;
     }
     case "serve": {

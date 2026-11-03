@@ -1,7 +1,7 @@
 import { createHash } from "node:crypto";
 import { Client, StreamableHTTPClientTransport, type Tool } from "@modelcontextprotocol/client";
-import type { JsonValue } from "@typesafe-ai/sdk";
 import type { RankOption } from "../core/candidates.js";
+import { toJsonValue } from "./json.js";
 
 const MAX_BYTES = 64 * 1024 * 1024;
 const MAX_PAGES = 1000;
@@ -29,7 +29,9 @@ export interface McpCatalog {
 }
 
 /** Enumerate metadata only. Never register handlers for sampling or call target tools. */
-export async function loadMcpCatalog(location: string, signal: AbortSignal, contracts: boolean | string = true): Promise<McpCatalog> {
+export async function loadMcpCatalog(
+  location: string, signal: AbortSignal, contractTarget?: string,
+): Promise<McpCatalog> {
   const started = performance.now();
   const url = new URL(location);
   if (url.protocol !== "https:" || url.username || url.password || url.hash) {
@@ -105,12 +107,12 @@ export async function loadMcpCatalog(location: string, signal: AbortSignal, cont
         bytes: Buffer.byteLength(snapshot) },
       options: tools.map((tool) => ({
         id: tool.name,
-        content: JSON.parse(JSON.stringify({ name: tool.name, title: tool.title, description: tool.description,
-          inputSchema: tool.inputSchema, outputSchema: tool.outputSchema, annotations: tool.annotations })) as Record<string, JsonValue>,
-        ...(contracts === true || contracts === tool.name ? { contract: JSON.parse(JSON.stringify({ tool, invocation: {
+        content: toJsonValue({ name: tool.name, title: tool.title, description: tool.description,
+          inputSchema: tool.inputSchema, outputSchema: tool.outputSchema, annotations: tool.annotations }, "MCP"),
+        ...(contractTarget === tool.name ? { contract: toJsonValue({ tool, invocation: {
           endpoint: url.href, transport: "streamable-http", method: "tools/call", tool: tool.name,
           instructions: "Connect with an MCP client and construct arguments from inputSchema. Establish your own connection; discovery does not grant execution access or share a session. Execution may require authentication.",
-        } })) as JsonValue } : {}),
+        } }, "MCP") } : {}),
       })),
       warningCounts: {},
       timings: { loadMs: loaded - started, parseMs: performance.now() - loaded },

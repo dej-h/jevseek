@@ -13,7 +13,7 @@ interface CandidateDocument {
   option: RankOption;
   terms: Map<string, number>;
   length: number;
-  routeRoot?: string;
+  routeRoot: string | undefined;
 }
 
 /** A cheap, high-recall first pass over source-derived operation labels. */
